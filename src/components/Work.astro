@@ -1,7 +1,8 @@
 ---
 import ListenButton from './ListenButton.astro';
 import ProjectVisual from './ProjectVisual.astro';
-import { copy, type Locale } from '../content/site';
+import ExternalLink from './ExternalLink.astro';
+import { copy, orgs, orgUrl, type Locale } from '../content/site';
 
 interface Props {
   locale: Locale;
@@ -57,6 +58,13 @@ const w = t.work;
                   <ul role="list" class="panel__tags">
                     {p.tags.map((tag) => <li class="chip">{tag}</li>)}
                   </ul>
+                  {p.orgId && (
+                    <p class="panel__link">
+                      <ExternalLink href={orgUrl(p.orgId, `work-${p.id}`)} locale={locale}>
+                        {orgs[p.orgId].domain}
+                      </ExternalLink>
+                    </p>
+                  )}
                 </div>
                 <div class="panel__visual" aria-hidden="true">
                   <ProjectVisual kind={p.visual} />
@@ -216,6 +224,12 @@ const w = t.work;
     margin: 4px 0 0;
   }
 
+  .panel__link {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--ink-2);
+  }
+
   .panel__visual {
     position: relative;
     display: grid;
@@ -233,7 +247,7 @@ const w = t.work;
   @media (min-width: 961px) {
     .deck.is-ready {
       flex-direction: row;
-      height: clamp(520px, 62vh, 640px);
+      height: clamp(620px, 74vh, 700px);
     }
 
     .deck.is-ready .panel {
@@ -313,6 +327,13 @@ const w = t.work;
 
     .deck.is-ready .panel__title {
       display: block;
+    }
+
+    /* Safety net for short viewports or long translations: scroll, never clip. */
+    .deck.is-ready .panel__text {
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
     }
 
     .deck.is-ready .panel__visual {

@@ -17,6 +17,24 @@ export const person = {
 /** Text-to-speech provider behind the narration, credited in the player and footer. */
 export const voiceProvider = { name: 'ElevenLabs', url: 'https://try.elevenlabs.io/x8yskvshd2hd' };
 
+/** Companies linked from the CV. Outbound links are nofollow and carry UTM parameters. */
+export type OrgId = 'rebrandly' | 'sitehost' | 'silverhost';
+export const orgs: Record<OrgId, { name: string; url: string; domain: string }> = {
+  rebrandly: { name: 'Rebrandly', url: 'https://www.rebrandly.com/', domain: 'rebrandly.com' },
+  sitehost: { name: 'SiteHost', url: 'https://sitehost.nz/', domain: 'sitehost.nz' },
+  silverhost: { name: 'Silverhost', url: 'https://www.silverhost.cl/', domain: 'silverhost.cl' },
+};
+
+/** Outbound URL for a company, tagged so the visit is attributed to this site. */
+export function orgUrl(id: OrgId, content: string): string {
+  const url = new URL(orgs[id].url);
+  url.searchParams.set('utm_source', 'gonzalorios.cl');
+  url.searchParams.set('utm_medium', 'referral');
+  url.searchParams.set('utm_campaign', 'portfolio');
+  url.searchParams.set('utm_content', content);
+  return url.toString();
+}
+
 export type SectionId = 'about' | 'skills' | 'work' | 'experience' | 'achievements' | 'contact';
 export const sectionIds: SectionId[] = ['about', 'skills', 'work', 'experience', 'achievements', 'contact'];
 
@@ -61,6 +79,7 @@ export interface Project {
   id: string;
   visual: ProjectVisual;
   kicker: string;
+  orgId?: OrgId;
   title: string;
   summary: string;
   points: string[];
@@ -73,6 +92,7 @@ export interface TimelineItem {
   kind: string;
   role: string;
   org: string;
+  orgId?: OrgId;
   place: string;
   text: string;
 }
@@ -88,6 +108,7 @@ export interface Stat {
 export interface Copy {
   meta: { title: string; description: string };
   skipLink: string;
+  externalLink: string;
   nav: Record<SectionId, string> & { label: string; home: string };
   langSwitch: { label: string; short: string; full: string };
   hero: {
@@ -188,6 +209,7 @@ const en: Copy = {
       'Gonzalo Ríos is Director of AI Platform at Rebrandly. He builds the platform that lets engineers ship AI-generated code to production safely: coding agents, guardrails, automated review and CI/CD gates, on fifteen years of production infrastructure.',
   },
   skipLink: 'Skip to content',
+  externalLink: 'external site, opens in a new tab',
   nav: {
     label: 'Sections',
     home: 'Gonzalo Ríos, home',
@@ -222,7 +244,8 @@ const en: Copy = {
       { label: 'Role', value: 'Director of AI Platform · Rebrandly' },
       { label: 'Focus', value: 'Coding agents · Guardrails · Safe delivery' },
       { label: 'In production since', value: '2011' },
-      { label: 'Worked from', value: 'Chile · New Zealand · Ireland · Spain' },
+      { label: 'Worked from', value: 'Chile · New Zealand · Spain' },
+      { label: 'My team', value: 'USA · Canada · Spain · Italy · Ireland · Ukraine · Pakistan' },
     ],
     quote: 'From bare-metal servers to AI platforms.',
     badge: {
@@ -307,6 +330,7 @@ const en: Copy = {
         id: 'ai-platform',
         visual: 'platform',
         kicker: 'Rebrandly · 2025 – present',
+        orgId: 'rebrandly',
         title: 'AI Platform',
         summary:
           'The paved road for AI-assisted engineering at Rebrandly: coding agents, automated review, guardrails and delivery gates on one platform, so code written with AI can ship to production safely.',
@@ -317,6 +341,7 @@ const en: Copy = {
         id: 'bulk-ingest',
         visual: 'ingest',
         kicker: 'Rebrandly · Lead DevOps',
+        orgId: 'rebrandly',
         title: 'Bulk ingest API',
         summary:
           'A Golang API that writes hundreds of thousands of records into DynamoDB in under a second. It was key to closing deals with strategic customers.',
@@ -327,6 +352,7 @@ const en: Copy = {
         id: 'container-cloud',
         visual: 'containers',
         kicker: 'SiteHost · Auckland',
+        orgId: 'sitehost',
         title: 'Container cloud',
         summary:
           'A custom Docker-based cloud running more than 15,000 containers, with tools to monitor events across thousands of servers.',
@@ -337,6 +363,7 @@ const en: Copy = {
         id: 'terraform-provider',
         visual: 'terraform',
         kicker: 'SiteHost · Auckland',
+        orgId: 'sitehost',
         title: 'Terraform provider v1.0',
         summary:
           'Helped ship version 1.0 of the SiteHost Terraform provider, so staff and customers could deploy VPS servers as code.',
@@ -347,6 +374,7 @@ const en: Copy = {
         id: 'silverhost',
         visual: 'hosting',
         kicker: 'Co-founder · 2011 – 2021',
+        orgId: 'silverhost',
         title: 'Silverhost',
         summary:
           'A Chilean hosting company built for small businesses on a budget: dedicated servers, AWS and DigitalOcean combined, with real-time malware and spam defenses.',
@@ -385,6 +413,7 @@ const en: Copy = {
         kind: 'Founder',
         role: 'DevOps & Co-founder',
         org: 'Silverhost Hosting Chile',
+        orgId: 'silverhost',
         place: 'Las Condes, Chile',
         text: 'Built a hosting company to more than 1,000 active clients, learning sales, negotiation, marketing and SEO along the way.',
       },
@@ -403,6 +432,7 @@ const en: Copy = {
         kind: 'Experience',
         role: 'System Engineer',
         org: 'SiteHost',
+        orgId: 'sitehost',
         place: 'Auckland, New Zealand',
         text: 'Kept a 15,000-container cloud healthy, rolled out a WAF and helped ship the Terraform provider v1.0.',
       },
@@ -412,7 +442,8 @@ const en: Copy = {
         kind: 'Experience',
         role: 'DevOps Engineer',
         org: 'Rebrandly',
-        place: 'Dublin, Ireland',
+        orgId: 'rebrandly',
+        place: 'Remote · USA & Europe',
         text: 'Sped up CI pipelines, introduced auto-scaling and migrated legacy services to Amazon ECS.',
       },
       {
@@ -421,7 +452,8 @@ const en: Copy = {
         kind: 'Experience',
         role: 'Lead DevOps Engineer',
         org: 'Rebrandly',
-        place: 'Dublin, Ireland',
+        orgId: 'rebrandly',
+        place: 'Remote · USA & Europe',
         text: 'Led the team behind critical infrastructure, standardised our processes and built a sub-second bulk ingest API in Go.',
       },
       {
@@ -430,8 +462,9 @@ const en: Copy = {
         kind: 'Experience',
         role: 'Director of AI Platform',
         org: 'Rebrandly',
+        orgId: 'rebrandly',
         place: 'Barcelona, Spain',
-        text: 'Leading the platform that lets engineers ship AI-generated code safely: coding agents, automated review, guardrails and delivery gates.',
+        text: 'Leading a team spread across seven countries and time zones that builds the platform for shipping AI-generated code safely: coding agents, automated review, guardrails and delivery gates.',
       },
     ],
   },
@@ -453,7 +486,7 @@ const en: Copy = {
     learning: [
       { title: 'Ingeniero de Ejecución en Informática', detail: 'Universidad de Ciencias de la Informática · 2011 – 2013' },
       { title: 'Professional Git & GitHub', detail: 'Certification' },
-      { title: 'English, professional working proficiency', detail: 'Ten years working in English across three countries' },
+      { title: 'English, professional working proficiency', detail: 'Ten years working in English with teams across the USA, Europe and Oceania' },
       { title: 'Current focus: AI-assisted engineering', detail: 'Claude, MCP, coding agents and evaluation-driven development' },
     ],
   },
@@ -500,6 +533,7 @@ const es: Copy = {
       'Gonzalo Ríos es Director de Plataforma de IA en Rebrandly. Construye la plataforma que permite a los ingenieros desplegar en producción código creado con IA de forma segura: agentes de código, guardrails, revisión automática y gates de CI/CD, sobre quince años de infraestructura en producción.',
   },
   skipLink: 'Saltar al contenido',
+  externalLink: 'sitio externo, se abre en una pestaña nueva',
   nav: {
     label: 'Secciones',
     home: 'Gonzalo Ríos, inicio',
@@ -534,7 +568,8 @@ const es: Copy = {
       { label: 'Rol', value: 'Director de Plataforma de IA · Rebrandly' },
       { label: 'Foco', value: 'Agentes de código · Guardrails · Despliegue seguro' },
       { label: 'En producción desde', value: '2011' },
-      { label: 'He trabajado desde', value: 'Chile · Nueva Zelanda · Irlanda · España' },
+      { label: 'He trabajado desde', value: 'Chile · Nueva Zelanda · España' },
+      { label: 'Mi equipo', value: 'EE. UU. · Canadá · España · Italia · Irlanda · Ucrania · Pakistán' },
     ],
     quote: 'De servidores bare-metal a plataformas de IA.',
     badge: {
@@ -619,6 +654,7 @@ const es: Copy = {
         id: 'ai-platform',
         visual: 'platform',
         kicker: 'Rebrandly · 2025 – hoy',
+        orgId: 'rebrandly',
         title: 'Plataforma de IA',
         summary:
           'El camino pavimentado para la ingeniería asistida por IA en Rebrandly: agentes de código, revisión automática, guardrails y gates de despliegue en una sola plataforma, para que el código creado con IA llegue a producción de forma segura.',
@@ -629,6 +665,7 @@ const es: Copy = {
         id: 'bulk-ingest',
         visual: 'ingest',
         kicker: 'Rebrandly · Lead DevOps',
+        orgId: 'rebrandly',
         title: 'API de ingesta masiva',
         summary:
           'Una API en Golang que escribe cientos de miles de registros en DynamoDB en menos de un segundo. Fue clave para cerrar acuerdos con clientes estratégicos.',
@@ -639,6 +676,7 @@ const es: Copy = {
         id: 'container-cloud',
         visual: 'containers',
         kicker: 'SiteHost · Auckland',
+        orgId: 'sitehost',
         title: 'Cloud de contenedores',
         summary:
           'Un cloud propio basado en Docker con más de 15.000 contenedores, con herramientas para monitorear eventos en miles de servidores.',
@@ -649,6 +687,7 @@ const es: Copy = {
         id: 'terraform-provider',
         visual: 'terraform',
         kicker: 'SiteHost · Auckland',
+        orgId: 'sitehost',
         title: 'Proveedor de Terraform v1.0',
         summary:
           'Participé en la versión 1.0 del proveedor de Terraform de SiteHost, para que el equipo y los clientes desplegaran servidores VPS como código.',
@@ -659,6 +698,7 @@ const es: Copy = {
         id: 'silverhost',
         visual: 'hosting',
         kicker: 'Cofundador · 2011 – 2021',
+        orgId: 'silverhost',
         title: 'Silverhost',
         summary:
           'Una empresa chilena de hosting para pymes con presupuesto ajustado: servidores dedicados, AWS y DigitalOcean combinados, con defensas en tiempo real contra malware y spam.',
@@ -697,6 +737,7 @@ const es: Copy = {
         kind: 'Fundador',
         role: 'DevOps y Cofundador',
         org: 'Silverhost Hosting Chile',
+        orgId: 'silverhost',
         place: 'Las Condes, Chile',
         text: 'Hice crecer una empresa de hosting a más de 1.000 clientes activos, aprendiendo ventas, negociación, marketing y SEO en el camino.',
       },
@@ -715,6 +756,7 @@ const es: Copy = {
         kind: 'Experiencia',
         role: 'Ingeniero de Sistemas',
         org: 'SiteHost',
+        orgId: 'sitehost',
         place: 'Auckland, Nueva Zelanda',
         text: 'Mantuve sano un cloud de 15.000 contenedores, implementé un WAF y ayudé a lanzar el proveedor de Terraform v1.0.',
       },
@@ -724,7 +766,8 @@ const es: Copy = {
         kind: 'Experiencia',
         role: 'DevOps Engineer',
         org: 'Rebrandly',
-        place: 'Dublín, Irlanda',
+        orgId: 'rebrandly',
+        place: 'Remoto · EE. UU. y Europa',
         text: 'Aceleré los pipelines de CI, introduje auto-scaling y migré servicios legacy a Amazon ECS.',
       },
       {
@@ -733,7 +776,8 @@ const es: Copy = {
         kind: 'Experiencia',
         role: 'Lead DevOps Engineer',
         org: 'Rebrandly',
-        place: 'Dublín, Irlanda',
+        orgId: 'rebrandly',
+        place: 'Remoto · EE. UU. y Europa',
         text: 'Lideré el equipo de la infraestructura crítica, estandaricé nuestros procesos y construí una API de ingesta masiva en Go que responde en menos de un segundo.',
       },
       {
@@ -742,8 +786,9 @@ const es: Copy = {
         kind: 'Experiencia',
         role: 'Director de Plataforma de IA',
         org: 'Rebrandly',
+        orgId: 'rebrandly',
         place: 'Barcelona, España',
-        text: 'Lidero la plataforma que permite a los ingenieros desplegar código creado con IA de forma segura: agentes de código, revisión automática, guardrails y gates de despliegue.',
+        text: 'Lidero un equipo repartido en siete países y zonas horarias que construye la plataforma para desplegar código creado con IA de forma segura: agentes de código, revisión automática, guardrails y gates de despliegue.',
       },
     ],
   },
@@ -765,7 +810,7 @@ const es: Copy = {
     learning: [
       { title: 'Ingeniero de Ejecución en Informática', detail: 'Universidad de Ciencias de la Informática · 2011 – 2013' },
       { title: 'Curso Profesional de Git y GitHub', detail: 'Certificación' },
-      { title: 'Inglés, nivel profesional', detail: 'Diez años trabajando en inglés en tres países' },
+      { title: 'Inglés, nivel profesional', detail: 'Diez años trabajando en inglés con equipos de EE. UU., Europa y Oceanía' },
       { title: 'Foco actual: ingeniería asistida por IA', detail: 'Claude, MCP, agentes de código y desarrollo guiado por evaluaciones' },
     ],
   },

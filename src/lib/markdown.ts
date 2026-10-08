@@ -1,4 +1,4 @@
-import { copy, elements, familyIds, person, homePath, markdownPath, type Locale } from '../content/site';
+import { copy, elements, familyIds, orgs, orgUrl, person, homePath, markdownPath, type Locale } from '../content/site';
 
 /** Renders the full page content as Markdown, from the same source as the HTML. */
 export function renderMarkdown(locale: Locale, site: URL): string {
@@ -47,12 +47,14 @@ export function renderMarkdown(locale: Locale, site: URL): string {
 
   push(`## ${t.nav.work}`, '', t.work.intro, '');
   for (const p of t.work.projects) {
-    push(`### ${p.title}`, '', `*${p.kicker}*`, '', p.summary, '', ...p.points.map((pt) => `- ${pt}`), '', `${p.tags.join(' · ')}`, '');
+    const site = p.orgId ? ['', `[${orgs[p.orgId].domain}](${orgUrl(p.orgId, `markdown-work-${p.id}`)})`] : [];
+    push(`### ${p.title}`, '', `*${p.kicker}*`, '', p.summary, '', ...p.points.map((pt) => `- ${pt}`), '', `${p.tags.join(' · ')}`, ...site, '');
   }
 
   push(`## ${t.nav.experience}`, '', t.experience.intro, '');
   for (const item of [...t.experience.items].reverse()) {
-    push(`### ${item.role} — ${item.org}`, '', `${item.period} · ${item.place} · ${item.kind}`, '', item.text, '');
+    const org = item.orgId ? `[${item.org}](${orgUrl(item.orgId, 'markdown-experience')})` : item.org;
+    push(`### ${item.role} — ${org}`, '', `${item.period} · ${item.place} · ${item.kind}`, '', item.text, '');
   }
 
   push(`## ${t.nav.achievements}`, '');

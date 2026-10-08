@@ -1,0 +1,40 @@
+---
+// Outbound link: opens in a new tab, is marked nofollow and tells every user
+// (icon for sighted users, hidden text for screen readers) that it leaves the site.
+import Icon from './Icon.astro';
+import { copy, type Locale } from '../content/site';
+
+interface Props {
+  href: string;
+  locale: Locale;
+  class?: string;
+}
+const { href, locale, class: className } = Astro.props;
+---
+
+<a class:list={['ext', className]} href={href} target="_blank" rel="nofollow noopener external"
+  ><slot /><Icon name="arrow-up-right" class="ext__icon" /><span class="visually-hidden">{` (${copy[locale].externalLink})`}</span
+  ></a
+>
+
+<style>
+  .ext {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2em;
+    color: inherit;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 0.2em;
+  }
+
+  .ext:hover {
+    color: var(--ink);
+    text-decoration-color: currentColor;
+  }
+
+  .ext :global(.ext__icon) {
+    flex: none;
+    width: 0.95em;
+    height: 0.95em;
+  }
+</style>

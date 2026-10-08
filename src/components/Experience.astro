@@ -1,6 +1,7 @@
 ---
 import ListenButton from './ListenButton.astro';
-import { copy, type Locale } from '../content/site';
+import ExternalLink from './ExternalLink.astro';
+import { copy, orgUrl, type Locale } from '../content/site';
 
 interface Props {
   locale: Locale;
@@ -41,7 +42,14 @@ const items = e.items.map((item, i) => ({ ...item, showYear: i === 0 || e.items[
               </p>
               <h3 class="timeline__role">{item.role}</h3>
               <p class="timeline__org">
-                {item.org} · {item.place}
+                {item.orgId ? (
+                  <ExternalLink href={orgUrl(item.orgId, 'experience')} locale={locale}>
+                    {item.org}
+                  </ExternalLink>
+                ) : (
+                  item.org
+                )}{' '}
+                · {item.place}
               </p>
               <p class="timeline__text">{item.text}</p>
             </article>
