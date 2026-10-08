@@ -2,7 +2,9 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://gonzalorios.cl',
+  // SITE_URL lets a preview (e.g. a tunnel) build absolute URLs such as og:image
+  // that point at itself; production uses the real domain.
+  site: process.env.SITE_URL ?? 'https://gonzalorios.cl',
   trailingSlash: 'ignore',
   build: { format: 'directory' },
   i18n: {

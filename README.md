@@ -20,6 +20,8 @@ Requires Node.js 22.12 or newer.
 | `npm install` | Install dependencies |
 | `npm run dev` | Start the dev server at `http://localhost:4321` |
 | `npm run build` | Build the static site into `dist/` |
+| `SITE_URL=https://… npm run build` | Build with another base URL (canonical, hreflang, `og:image`), e.g. to test social previews through a tunnel. Defaults to `https://gonzalorios.cl` |
+| `public/og/<locale>.jpg` | Open Graph / Twitter cards (1200×630 JPEG, per locale), built from the private repo with `node scripts/build-og.mjs` |
 | `npm run preview` | Serve `dist/` locally with the headers from `public/_headers` (UTF-8 charsets, as in production). Accepts `-- --port <n> --host <ip>` |
 | `npm run check` | Type-check Astro and TypeScript files |
 

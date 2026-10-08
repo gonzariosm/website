@@ -106,7 +106,7 @@ export interface Stat {
 }
 
 export interface Copy {
-  meta: { title: string; description: string };
+  meta: { title: string; description: string; ogTagline: string; ogImageAlt: string };
   skipLink: string;
   externalLink: string;
   nav: Record<SectionId, string> & { label: string; home: string };
@@ -205,8 +205,10 @@ export interface Copy {
 const en: Copy = {
   meta: {
     title: 'Gonzalo Ríos — Director of AI Platform',
+    ogTagline: 'I lead the platform that lets engineers ship AI-written code to production, safely.',
+    ogImageAlt: 'Illustrated 3D avatar of Gonzalo wearing a Rebrandly t-shirt. gonzalorios.cl, Barcelona.',
     description:
-      'Gonzalo Ríos is Director of AI Platform at Rebrandly. He builds the platform that lets engineers ship AI-generated code to production safely: coding agents, guardrails, automated review and CI/CD gates, on fifteen years of production infrastructure.',
+      'Director of AI Platform at Rebrandly. I build the platform that lets engineers ship AI-written code to production safely, backed by 15 years in infrastructure.',
   },
   skipLink: 'Skip to content',
   externalLink: 'external site, opens in a new tab',
@@ -529,8 +531,10 @@ const en: Copy = {
 const es: Copy = {
   meta: {
     title: 'Gonzalo Ríos — Director de Plataforma de IA',
+    ogTagline: 'Lidero la plataforma que permite llevar a producción, de forma segura, el código creado con IA.',
+    ogImageAlt: 'Avatar 3D ilustrado de Gonzalo con una polera de Rebrandly. gonzalorios.cl, Barcelona.',
     description:
-      'Gonzalo Ríos es Director de Plataforma de IA en Rebrandly. Construye la plataforma que permite a los ingenieros desplegar en producción código creado con IA de forma segura: agentes de código, guardrails, revisión automática y gates de CI/CD, sobre quince años de infraestructura en producción.',
+      'Director de Plataforma de IA en Rebrandly. Construyo la plataforma que permite llevar a producción, de forma segura, el código creado con IA. 15 años en infraestructura.',
   },
   skipLink: 'Saltar al contenido',
   externalLink: 'sitio externo, se abre en una pestaña nueva',

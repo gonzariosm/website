@@ -15,13 +15,21 @@ const t = copy[locale];
 const title = Astro.props.title ?? t.meta.title;
 const description = Astro.props.description ?? t.meta.description;
 const site = Astro.site ?? new URL(person.site);
-const canonical = new URL(homePath(locale), site).href;
+// Canonical URLs always point at production. A preview build (SITE_URL set to
+// another origin, e.g. a tunnel) keeps its own og:url / og:image so social
+// previews work, but is marked noindex so it never competes with the real site.
+const production = new URL(person.site);
+const isPreview = site.origin !== production.origin;
+const canonical = new URL(homePath(locale), production).href;
 const alternates = [
-  { hreflang: 'en', href: new URL(homePath('en'), site).href },
-  { hreflang: 'es', href: new URL(homePath('es'), site).href },
-  { hreflang: 'x-default', href: new URL(homePath('en'), site).href },
+  { hreflang: 'en', href: new URL(homePath('en'), production).href },
+  { hreflang: 'es', href: new URL(homePath('es'), production).href },
+  { hreflang: 'x-default', href: new URL(homePath('en'), production).href },
 ];
 const otherLocale: Locale = locale === 'en' ? 'es' : 'en';
+// Social card per locale (built by scripts/build-og.mjs in the private repo).
+const ogImage = new URL(`/og/${locale}.jpg`, site).href;
+const ogImageAlt = `${person.name}: ${t.hero.titleLines.join(' ')} ${t.meta.ogTagline} ${t.meta.ogImageAlt}`;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -35,6 +43,7 @@ const jsonLd = {
       address: { '@type': 'PostalAddress', addressLocality: 'Barcelona', addressCountry: 'ES' },
       email: `mailto:${person.email}`,
       url: site.href,
+      image: new URL('/avatar/face-320.webp', site).href,
       sameAs: [person.linkedin, person.github],
       knowsLanguage: ['es', 'en'],
       knowsAbout: ['AI platforms', 'AI-assisted software engineering', 'Coding agents', 'LLM evaluation', 'Model Context Protocol', 'Platform engineering', 'DevOps', 'Site Reliability Engineering', 'AWS', 'Kubernetes', 'Terraform'],
@@ -59,7 +68,8 @@ const jsonLd = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={person.name} />
-    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    {(noindex || isPreview) && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={canonical} />}
     {!noindex && alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     {!noindex && <link rel="alternate" type="text/markdown" href={markdownPath(locale)} title="Markdown" />}
     <meta name="color-scheme" content="light dark" />
@@ -71,14 +81,21 @@ const jsonLd = {
     <meta property="og:site_name" content={person.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={new URL(homePath(locale), site).href} />
     <meta property="og:locale" content={ogLocale[locale]} />
     <meta property="og:locale:alternate" content={ogLocale[otherLocale]} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="profile:first_name" content="Gonzalo" />
     <meta property="profile:last_name" content="Ríos" />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <script is:inline>
       document.documentElement.classList.add('js');
