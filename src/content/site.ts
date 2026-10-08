@@ -87,6 +87,8 @@ export interface Project {
 }
 
 export interface TimelineItem {
+  /** Stable id, shared by both locales; links the item to its CV details in resume.ts. */
+  id: string;
   year: string;
   period: string;
   kind: string;
@@ -187,6 +189,22 @@ export interface Copy {
     copied: string;
     linkedin: string;
     location: string;
+  };
+  cv: {
+    title: string;
+    lead: string;
+    pdf: string;
+    json: string;
+    latex: string;
+    summary: string;
+    experience: string;
+    projects: string;
+    skills: string;
+    education: string;
+    languages: string;
+    certifications: string;
+    present: string;
+    languageList: { language: string; fluency: string }[];
   };
   footer: { rights: string; markdown: string; madeWith: string; love: string; byAgents: string; top: string };
   voice: {
@@ -392,6 +410,7 @@ const en: Copy = {
     intro: 'From a school data center in Santiago to leading an AI platform in Europe.',
     items: [
       {
+        id: 'valle-central',
         year: '2011',
         period: 'Oct 2011 – Jul 2012',
         kind: 'Experience',
@@ -401,6 +420,7 @@ const en: Copy = {
         text: 'Installed and ran web, database, DNS, firewall and VoIP services for a national education institute.',
       },
       {
+        id: 'ucinf',
         year: '2011',
         period: '2011 – 2013',
         kind: 'Education',
@@ -410,6 +430,7 @@ const en: Copy = {
         text: 'Systems engineering degree, studied while running production systems.',
       },
       {
+        id: 'silverhost',
         year: '2011',
         period: 'Aug 2011 – Aug 2021',
         kind: 'Founder',
@@ -420,6 +441,7 @@ const en: Copy = {
         text: 'Built a hosting company to more than 1,000 active clients, learning sales, negotiation, marketing and SEO along the way.',
       },
       {
+        id: 'agencia-blue',
         year: '2012',
         period: 'Jul 2012 – Feb 2014',
         kind: 'Experience',
@@ -429,6 +451,7 @@ const en: Copy = {
         text: 'Mentored the team, moved the agency into custom development with Symfony and brought DevOps into delivery.',
       },
       {
+        id: 'sitehost',
         year: '2021',
         period: 'Aug 2021 – May 2023',
         kind: 'Experience',
@@ -439,6 +462,7 @@ const en: Copy = {
         text: 'Kept a 15,000-container cloud healthy, rolled out a WAF and helped ship the Terraform provider v1.0.',
       },
       {
+        id: 'rebrandly-devops',
         year: '2023',
         period: 'Jun 2023 – Apr 2024',
         kind: 'Experience',
@@ -449,6 +473,7 @@ const en: Copy = {
         text: 'Sped up CI pipelines, introduced auto-scaling and migrated legacy services to Amazon ECS.',
       },
       {
+        id: 'rebrandly-lead',
         year: '2024',
         period: 'Apr 2024 – Oct 2025',
         kind: 'Experience',
@@ -459,6 +484,7 @@ const en: Copy = {
         text: 'Led the team behind critical infrastructure, standardised our processes and built a sub-second bulk ingest API in Go.',
       },
       {
+        id: 'rebrandly-director',
         year: '2025',
         period: 'Oct 2025 – present',
         kind: 'Experience',
@@ -502,6 +528,25 @@ const en: Copy = {
     copied: 'Email address copied',
     linkedin: 'LinkedIn',
     location: 'Barcelona · Central European Time',
+  },
+  cv: {
+    title: 'Take the CV with you',
+    lead: 'The same CV as this page, in the format you need.',
+    pdf: 'Download CV',
+    json: 'JSON Resume',
+    latex: 'LaTeX source',
+    summary: 'Summary',
+    experience: 'Experience',
+    projects: 'Selected projects',
+    skills: 'Skills',
+    education: 'Education',
+    languages: 'Languages',
+    certifications: 'Certifications',
+    present: 'Present',
+    languageList: [
+      { language: 'Spanish', fluency: 'Native' },
+      { language: 'English', fluency: 'Professional working proficiency' },
+    ],
   },
   footer: {
     rights: 'Gonzalo Ríos',
@@ -718,6 +763,7 @@ const es: Copy = {
     intro: 'Del data center de un instituto en Santiago a liderar una plataforma de IA en Europa.',
     items: [
       {
+        id: 'valle-central',
         year: '2011',
         period: 'oct. 2011 – jul. 2012',
         kind: 'Experiencia',
@@ -727,6 +773,7 @@ const es: Copy = {
         text: 'Instalé y operé servicios web, de bases de datos, DNS, firewall y VoIP para un instituto educativo nacional.',
       },
       {
+        id: 'ucinf',
         year: '2011',
         period: '2011 – 2013',
         kind: 'Educación',
@@ -736,6 +783,7 @@ const es: Copy = {
         text: 'Ingeniería en sistemas, estudiada mientras operaba sistemas en producción.',
       },
       {
+        id: 'silverhost',
         year: '2011',
         period: 'ago. 2011 – ago. 2021',
         kind: 'Fundador',
@@ -746,6 +794,7 @@ const es: Copy = {
         text: 'Hice crecer una empresa de hosting a más de 1.000 clientes activos, aprendiendo ventas, negociación, marketing y SEO en el camino.',
       },
       {
+        id: 'agencia-blue',
         year: '2012',
         period: 'jul. 2012 – feb. 2014',
         kind: 'Experiencia',
@@ -755,6 +804,7 @@ const es: Copy = {
         text: 'Formé al equipo, llevé a la agencia al desarrollo a medida con Symfony e incorporé DevOps a la entrega.',
       },
       {
+        id: 'sitehost',
         year: '2021',
         period: 'ago. 2021 – may. 2023',
         kind: 'Experiencia',
@@ -765,6 +815,7 @@ const es: Copy = {
         text: 'Mantuve sano un cloud de 15.000 contenedores, implementé un WAF y ayudé a lanzar el proveedor de Terraform v1.0.',
       },
       {
+        id: 'rebrandly-devops',
         year: '2023',
         period: 'jun. 2023 – abr. 2024',
         kind: 'Experiencia',
@@ -775,6 +826,7 @@ const es: Copy = {
         text: 'Aceleré los pipelines de CI, introduje auto-scaling y migré servicios legacy a Amazon ECS.',
       },
       {
+        id: 'rebrandly-lead',
         year: '2024',
         period: 'abr. 2024 – oct. 2025',
         kind: 'Experiencia',
@@ -785,6 +837,7 @@ const es: Copy = {
         text: 'Lideré el equipo de la infraestructura crítica, estandaricé nuestros procesos y construí una API de ingesta masiva en Go que responde en menos de un segundo.',
       },
       {
+        id: 'rebrandly-director',
         year: '2025',
         period: 'oct. 2025 – hoy',
         kind: 'Experiencia',
@@ -828,6 +881,25 @@ const es: Copy = {
     copied: 'Dirección de email copiada',
     linkedin: 'LinkedIn',
     location: 'Barcelona · Hora de Europa Central',
+  },
+  cv: {
+    title: 'Llévate el CV',
+    lead: 'El mismo CV de esta página, en el formato que necesites.',
+    pdf: 'Descargar CV',
+    json: 'JSON Resume',
+    latex: 'Fuente LaTeX',
+    summary: 'Resumen',
+    experience: 'Experiencia',
+    projects: 'Proyectos destacados',
+    skills: 'Skills',
+    education: 'Educación',
+    languages: 'Idiomas',
+    certifications: 'Certificaciones',
+    present: 'Actualidad',
+    languageList: [
+      { language: 'Español', fluency: 'Nativo' },
+      { language: 'Inglés', fluency: 'Profesional' },
+    ],
   },
   footer: {
     rights: 'Gonzalo Ríos',

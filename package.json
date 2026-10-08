@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "node scripts/preview.mjs",
     "check": "astro check",
+    "cv": "astro build && node scripts/build-cv.mjs && astro build",
     "astro": "astro"
   },
   "dependencies": {

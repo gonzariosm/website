@@ -1,4 +1,5 @@
 import { copy, elements, familyIds, orgs, orgUrl, person, homePath, markdownPath, type Locale } from '../content/site';
+import { cvFiles } from '../content/resume';
 
 /** Renders the full page content as Markdown, from the same source as the HTML. */
 export function renderMarkdown(locale: Locale, site: URL): string {
@@ -64,6 +65,10 @@ export function renderMarkdown(locale: Locale, site: URL): string {
   }
   push('', `### ${t.achievements.learningEyebrow}`, '');
   for (const l of t.achievements.learning) push(`- **${l.title}** — ${l.detail}`);
+
+  const files = cvFiles(locale);
+  const abs = (p: string) => new URL(p, site).href;
+  push('', `## ${t.cv.title}`, '', t.cv.lead, '', `- [${t.cv.pdf} (PDF)](${abs(files.pdf)})`, `- [${t.cv.json}](${abs(files.json)})`, `- [${t.cv.latex}](${abs(files.tex)})`);
 
   push('', `## ${t.nav.contact}`, '', `${t.contact.title} ${t.contact.accent}`, '', t.contact.body, '', `- <mailto:${person.email}>`, `- <${person.linkedin}>`, `- ${t.contact.location}`, '');
 

@@ -24,6 +24,7 @@ Requires Node.js 22.12 or newer.
 | `public/og/<locale>.jpg` | Open Graph / Twitter cards (1200×630 JPEG, per locale), built from the private repo with `node scripts/build-og.mjs` |
 | `npm run preview` | Serve `dist/` locally with the headers from `public/_headers` (UTF-8 charsets, as in production). Accepts `-- --port <n> --host <ip>` |
 | `npm run check` | Type-check Astro and TypeScript files |
+| `npm run cv` | Build, compile the LaTeX CVs to PDF with Tectonic (`brew install tectonic`) into `public/cv/`, and build again. Run after any content change; the build warns when a PDF is stale |
 
 ## Project layout
 
@@ -36,6 +37,8 @@ Requires Node.js 22.12 or newer.
 | `src/pages/` | Routes: `/`, `/es/`, Markdown twins, `sitemap.xml`, `robots.txt`, `llms.txt`, `404` |
 | `public/audio/<locale>/` | Generated narration: `<clip>.webm`, `<clip>.mp3`, `<clip>.json` (word timings) |
 | `public/avatar/` | Generated avatar layers: `figure`, `talk` (mouth), `blink` (eyes) and `face` (badge photo) WebP files, built from private sources |
+| `src/content/resume.ts` | CV-only details (ISO dates, highlights, education) used by JSON Resume, LaTeX and PDF |
+| `public/cv/` | Compiled PDF CVs per locale and `manifest.json` (hash of the LaTeX each PDF came from) |
 
 ## Voice narration
 
