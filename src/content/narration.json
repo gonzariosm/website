@@ -6,7 +6,7 @@
     "work": "Some things I've built. Right now, the platform that lets Rebrandly ship AI-written code safely. Before that: a Go API that writes hundreds of thousands of records in under a second, [impressed] a cloud with more than fifteen thousand containers... and a hosting company with over a thousand clients. Each one with strong opinions about uptime. [laughs]",
     "experience": "Fifteen years in production, across three continents. From a school data center in Santiago... [playfully] to leading an AI platform with a team spread across seven countries. Which means somebody, somewhere, is always awake. Usually me. [laughs]",
     "achievements": "Some numbers I'm proud of. [chuckles] But my favourite one is invisible: all the incidents that never happened. You're welcome. [laughs]",
-    "contact": "If your team writes code with AI, and you'd like it to reach production in one piece, [warmly] let's talk. My inbox is open... and I promise I reply faster than a CI pipeline. [laughs]"
+    "contact": "If your team writes code with AI, and you'd like it to reach production in one piece, [warmly] let's talk. My inbox is open, and I promise no chatbot will answer you. [laughs] Well... probably."
   },
   "es": {
     "intro": "[cheerfully] ¡Hola! Soy Gonzalo Ríos, Director de Plataforma de inteligencia artificial en Rebrandly, desde Barcelona. ¿Mi trabajo? Que el código que escribe la inteligencia artificial no tumbe producción. [laughs] Por ahora, vamos bien. Llevo quince años manteniendo servidores con vida, así que... acompáñame con el scroll y te muestro todo.",
@@ -15,6 +15,6 @@
     "work": "Algunas cosas que he construido. Hoy, la plataforma que permite a Rebrandly desplegar código creado con inteligencia artificial de forma segura. Antes: una api en Go que escribe cientos de miles de registros en menos de un segundo, [impressed] un cloud con más de quince mil contenedores... y una empresa de hosting con más de mil clientes. Cada uno con opiniones muy firmes sobre el uptime. [laughs]",
     "experience": "Quince años en producción, en tres continentes. Desde el data center de un instituto en Santiago... [playfully] hasta liderar una plataforma de inteligencia artificial con un equipo repartido en siete países. O sea, siempre hay alguien despierto. Normalmente, yo. [laughs]",
     "achievements": "Algunos números de los que estoy orgulloso. [chuckles] Pero mi favorito es invisible: todos los incidentes que nunca ocurrieron. De nada. [laughs]",
-    "contact": "Si tu equipo escribe código con inteligencia artificial y quieres que llegue a producción enterito, [warmly] hablemos. Mi correo está abierto... y prometo responder más rápido que un pipeline de CI. [laughs]"
+    "contact": "Si tu equipo escribe código con inteligencia artificial y quieres que llegue a producción enterito, [warmly] hablemos. Mi correo está abierto, y te prometo que no te va a responder un chatbot. [laughs] Bueno... probablemente."
   }
 }
