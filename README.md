@@ -20,7 +20,7 @@ Requires Node.js 22.12 or newer.
 | `npm install` | Install dependencies |
 | `npm run dev` | Start the dev server at `http://localhost:4321` |
 | `npm run build` | Build the static site into `dist/` |
-| `npm run preview` | Serve the production build locally |
+| `npm run preview` | Serve `dist/` locally with the headers from `public/_headers` (UTF-8 charsets, as in production). Accepts `-- --port <n> --host <ip>` |
 | `npm run check` | Type-check Astro and TypeScript files |
 
 ## Project layout
