@@ -1,20 +1,20 @@
 {
   "en": {
-    "intro": "Hi, I'm Gonzalo Ríos, Director of AI Platform at Rebrandly, based in Barcelona. I lead the platform that lets our engineers ship code written with AI to production, safely, built on fifteen years of running infrastructure. Scroll with me, and I'll show you around.",
+    "intro": "[warmly] Hi, I'm Gonzalo Ríos, Director of AI Platform at Rebrandly, based in Barcelona. I lead the platform that lets our engineers ship code written with AI to production, safely, built on fifteen years of running infrastructure. Scroll with me, and I'll show you around.",
     "about": "I started as a systems engineer in Santiago, co-founded a hosting company, ran a container cloud in New Zealand, and led DevOps in Ireland. All of that led here: making sure the code AI agents write is reviewed, tested and safe before it reaches production.",
     "skills": "This is my stack, as a periodic table. It starts with AI: Claude, MCP, coding agents and evals. Underneath sit the foundations that keep every deploy safe: Go, Terraform, Docker, Kubernetes and AWS.",
     "work": "Today I lead the platform that lets Rebrandly ship AI-written code safely. Before that, I built a Go API that writes hundreds of thousands of records in under a second, a cloud with more than fifteen thousand containers, and a hosting company with over a thousand clients.",
     "experience": "Fifteen years in production, across three continents. From a school data center in Chile, to leading an AI platform in Europe.",
-    "achievements": "Some numbers I'm proud of. But the one I care about most is the one nobody sees: the incidents that never happened.",
-    "contact": "If your team writes code with AI and needs it to reach production safely, let's talk. My inbox is open."
+    "achievements": "Some numbers I'm proud of. [chuckles] But the one I care about most is the one nobody sees: the incidents that never happened.",
+    "contact": "If your team writes code with AI and needs it to reach production safely, let's talk. [warmly] My inbox is open."
   },
   "es": {
-    "intro": "Hola, soy Gonzalo Ríos, Director de Plataforma de IA en Rebrandly, desde Barcelona. Lidero la plataforma que permite a nuestros ingenieros desplegar en producción código creado con IA, de forma segura, sobre quince años de infraestructura. Acompáñame con el scroll y te muestro todo.",
+    "intro": "[warmly] Hola, soy Gonzalo Ríos, Director de Plataforma de IA en Rebrandly, desde Barcelona. Lidero la plataforma que permite a nuestros ingenieros desplegar en producción código creado con IA, de forma segura, sobre quince años de infraestructura. Acompáñame con el scroll y te muestro todo.",
     "about": "Empecé como ingeniero de sistemas en Santiago, cofundé una empresa de hosting, operé un cloud de contenedores en Nueva Zelanda y lideré DevOps en Irlanda. Todo eso me trajo hasta aquí: asegurar que el código que escriben los agentes de IA llegue a producción revisado, probado y seguro.",
     "skills": "Este es mi stack, como una tabla periódica. Empieza por la IA: Claude, MCP, agentes de código y evals. Debajo están las bases que mantienen seguro cada despliegue: Go, Terraform, Docker, Kubernetes y AWS.",
     "work": "Hoy lidero la plataforma que permite a Rebrandly desplegar código creado con IA de forma segura. Antes construí una API en Go que escribe cientos de miles de registros en menos de un segundo, un cloud con más de quince mil contenedores, y una empresa de hosting con más de mil clientes.",
     "experience": "Quince años en producción, en tres continentes. Desde el data center de un instituto en Chile, hasta liderar una plataforma de IA en Europa.",
-    "achievements": "Algunos números de los que estoy orgulloso. Pero el que más me importa es el que nadie ve: los incidentes que nunca ocurrieron.",
-    "contact": "Si tu equipo escribe código con IA y necesita llevarlo a producción de forma segura, hablemos. Mi correo está abierto."
+    "achievements": "Algunos números de los que estoy orgulloso. [chuckles] Pero el que más me importa es el que nadie ve: los incidentes que nunca ocurrieron.",
+    "contact": "Si tu equipo escribe código con IA y necesita llevarlo a producción de forma segura, hablemos. [warmly] Mi correo está abierto."
   }
 }
