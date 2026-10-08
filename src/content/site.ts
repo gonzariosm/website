@@ -469,7 +469,7 @@ const en: Copy = {
         role: 'DevOps Engineer',
         org: 'Rebrandly',
         orgId: 'rebrandly',
-        place: 'Remote · USA & Europe',
+        place: 'Remote · HQ in Dublin, Ireland',
         text: 'Sped up CI pipelines, introduced auto-scaling and migrated legacy services to Amazon ECS.',
       },
       {
@@ -480,7 +480,7 @@ const en: Copy = {
         role: 'Lead DevOps Engineer',
         org: 'Rebrandly',
         orgId: 'rebrandly',
-        place: 'Remote · USA & Europe',
+        place: 'Remote · HQ in Dublin, Ireland',
         text: 'Led the team behind critical infrastructure, standardised our processes and built a sub-second bulk ingest API in Go.',
       },
       {
@@ -491,7 +491,7 @@ const en: Copy = {
         role: 'Director of AI Platform',
         org: 'Rebrandly',
         orgId: 'rebrandly',
-        place: 'Barcelona, Spain',
+        place: 'Remote from Barcelona · HQ in Dublin',
         text: 'Leading a team spread across seven countries and time zones that builds the platform for shipping AI-generated code safely: coding agents, automated review, guardrails and delivery gates.',
       },
     ],
@@ -822,7 +822,7 @@ const es: Copy = {
         role: 'DevOps Engineer',
         org: 'Rebrandly',
         orgId: 'rebrandly',
-        place: 'Remoto · EE. UU. y Europa',
+        place: 'Remoto · sede en Dublín, Irlanda',
         text: 'Aceleré los pipelines de CI, introduje auto-scaling y migré servicios legacy a Amazon ECS.',
       },
       {
@@ -833,7 +833,7 @@ const es: Copy = {
         role: 'Lead DevOps Engineer',
         org: 'Rebrandly',
         orgId: 'rebrandly',
-        place: 'Remoto · EE. UU. y Europa',
+        place: 'Remoto · sede en Dublín, Irlanda',
         text: 'Lideré el equipo de la infraestructura crítica, estandaricé nuestros procesos y construí una API de ingesta masiva en Go que responde en menos de un segundo.',
       },
       {
@@ -844,7 +844,7 @@ const es: Copy = {
         role: 'Director de Plataforma de IA',
         org: 'Rebrandly',
         orgId: 'rebrandly',
-        place: 'Barcelona, España',
+        place: 'Remoto desde Barcelona · sede en Dublín',
         text: 'Lidero un equipo repartido en siete países y zonas horarias que construye la plataforma para desplegar código creado con IA de forma segura: agentes de código, revisión automática, guardrails y gates de despliegue.',
       },
     ],
