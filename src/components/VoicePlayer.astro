@@ -1,0 +1,209 @@
+---
+import Icon from './Icon.astro';
+import { copy, type Locale } from '../content/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = copy[locale].voice;
+---
+
+<div
+  class="player"
+  role="region"
+  aria-label={t.player}
+  data-player
+  data-locale={locale}
+  data-label-play={t.play}
+  data-label-pause={t.pause}
+  data-label-unavailable={t.unavailable}
+  hidden
+>
+  <button type="button" class="player__toggle" data-player-toggle aria-label={t.pause}>
+    <Icon name="pause" class="player__icon-pause" />
+    <Icon name="play" class="player__icon-play" />
+  </button>
+  <div class="player__body">
+    <p class="player__title">
+      <span class="player__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span data-player-title></span>
+    </p>
+    <p class="player__caption" aria-hidden="true" data-player-caption></p>
+    <span class="player__progress" aria-hidden="true"><span data-player-progress></span></span>
+  </div>
+  <button type="button" class="player__close" data-player-close aria-label={t.stop}>
+    <Icon name="close" />
+  </button>
+</div>
+<p class="visually-hidden" role="status" data-player-status></p>
+
+<style>
+  .player {
+    position: fixed;
+    left: 50%;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: min(560px, calc(100vw - 32px));
+    padding: 10px 10px 10px 10px;
+    border-radius: 22px;
+    background: color-mix(in srgb, var(--surface-2) 82%, transparent);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-2);
+    backdrop-filter: blur(22px) saturate(1.6);
+    -webkit-backdrop-filter: blur(22px) saturate(1.6);
+    translate: -50% 0;
+    transition:
+      transform 0.5s var(--ease-out),
+      opacity 0.4s var(--ease-out);
+  }
+
+  .player[hidden] {
+    display: none;
+  }
+
+  .player.is-entering {
+    transform: translateY(24px) scale(0.96);
+    opacity: 0;
+  }
+
+  .player__toggle,
+  .player__close {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+  }
+
+  .player__toggle {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .player__close {
+    background: transparent;
+    color: var(--muted);
+  }
+
+  .player__close:hover {
+    background: var(--faint);
+    color: var(--ink);
+  }
+
+  .player__toggle :global(svg),
+  .player__close :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .player :global(.player__icon-play) {
+    display: none;
+  }
+
+  .player.is-paused :global(.player__icon-play) {
+    display: block;
+  }
+
+  .player.is-paused :global(.player__icon-pause) {
+    display: none;
+  }
+
+  .player__body {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: 4px;
+  }
+
+  .player__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .player__eq {
+    display: inline-flex;
+    align-items: end;
+    gap: 2px;
+    height: 10px;
+  }
+
+  .player__eq i {
+    width: 2px;
+    height: 100%;
+    background: currentColor;
+    border-radius: 1px;
+    transform-origin: bottom;
+    transform: scaleY(0.3);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .player:not(.is-paused) .player__eq i {
+      animation: eq 0.9s ease-in-out infinite;
+    }
+    .player__eq i:nth-child(2) {
+      animation-delay: -0.3s !important;
+    }
+    .player__eq i:nth-child(3) {
+      animation-delay: -0.6s !important;
+    }
+    .player__eq i:nth-child(4) {
+      animation-delay: -0.15s !important;
+    }
+  }
+
+  @keyframes eq {
+    0%,
+    100% {
+      transform: scaleY(0.3);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
+  .player__caption {
+    min-height: 1.45em;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+
+  .player__caption :global(.w) {
+    color: var(--muted);
+    transition: color 0.15s linear;
+  }
+
+  .player__caption :global(.w.is-spoken) {
+    color: var(--ink);
+  }
+
+  .player__progress {
+    display: block;
+    height: 2px;
+    margin-top: 4px;
+    border-radius: 2px;
+    background: var(--line);
+    overflow: hidden;
+  }
+
+  .player__progress span {
+    display: block;
+    height: 100%;
+    background: var(--ink);
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+  }
+</style>

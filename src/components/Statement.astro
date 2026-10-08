@@ -1,0 +1,55 @@
+---
+import { copy, type Locale } from '../content/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const words = copy[locale].statement.split(' ');
+---
+
+<section class="statement" data-statement>
+  <div class="container">
+    <p class="statement__text" data-statement-text>
+      {
+        words.map((w, i) => (
+          <>
+            <span class="statement__word">{w}</span>
+            {i < words.length - 1 ? ' ' : ''}
+          </>
+        ))
+      }
+    </p>
+  </div>
+</section>
+
+<style>
+  .statement {
+    display: grid;
+    align-items: center;
+    min-height: 100svh;
+    padding-block: 96px;
+  }
+
+  .statement__text {
+    max-width: 22ch;
+    margin-inline: auto;
+    font-weight: 600;
+    font-size: clamp(2rem, 5.6vw, 4.75rem);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .js .statement__word {
+    opacity: 0.14;
+    transition: opacity 0.2s linear;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js .statement__word {
+      opacity: 1;
+    }
+  }
+</style>

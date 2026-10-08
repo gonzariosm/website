@@ -1,0 +1,298 @@
+---
+// Abstract avatar placeholder. It will be replaced by a real illustrated
+// avatar later; until then it breathes, blinks, follows the pointer with its
+// eyes and lip-syncs to the voice narration via the --level custom property.
+interface Props {
+  class?: string;
+  badge?: boolean;
+}
+const { class: className, badge = true } = Astro.props;
+---
+
+<svg
+  class:list={['avatar', className]}
+  viewBox="0 0 320 600"
+  aria-hidden="true"
+  focusable="false"
+  data-avatar
+>
+  <defs>
+    <radialGradient id="av-head" cx="0.38" cy="0.34" r="0.75">
+      <stop offset="0" class="av-stop-head-hi"></stop>
+      <stop offset="1" class="av-stop-head-lo"></stop>
+    </radialGradient>
+    <linearGradient id="av-shirt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" class="av-stop-shirt-hi"></stop>
+      <stop offset="1" class="av-stop-shirt-lo"></stop>
+    </linearGradient>
+    <linearGradient id="av-legs" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" class="av-stop-legs-hi"></stop>
+      <stop offset="1" class="av-stop-legs-lo"></stop>
+    </linearGradient>
+    <filter id="av-soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8"></feGaussianBlur>
+    </filter>
+  </defs>
+
+  <ellipse class="av-shadow" cx="160" cy="578" rx="96" ry="12" filter="url(#av-soft)"></ellipse>
+
+  <g class="av-body">
+    <g class="av-legs">
+      <rect x="114" y="336" width="42" height="226" rx="21" fill="url(#av-legs)"></rect>
+      <rect x="164" y="336" width="42" height="226" rx="21" fill="url(#av-legs)"></rect>
+      <ellipse class="av-shoe" cx="133" cy="562" rx="28" ry="11"></ellipse>
+      <ellipse class="av-shoe" cx="189" cy="562" rx="28" ry="11"></ellipse>
+    </g>
+
+    <g class="av-arm av-arm--left">
+      <rect x="70" y="206" width="32" height="150" rx="16" fill="url(#av-shirt)"></rect>
+      <circle class="av-hand" cx="86" cy="362" r="14"></circle>
+    </g>
+    <g class="av-arm av-arm--right">
+      <rect x="218" y="206" width="32" height="150" rx="16" fill="url(#av-shirt)"></rect>
+      <circle class="av-hand" cx="234" cy="362" r="14"></circle>
+    </g>
+
+    <rect x="92" y="192" width="136" height="172" rx="58" fill="url(#av-shirt)"></rect>
+    <path class="av-collar" d="M136 196 L160 226 L184 196" fill="none" stroke-width="3" stroke-linecap="round"></path>
+
+    {
+      badge && (
+        <g class="av-badge">
+          <path class="av-lanyard" d="M138 200 L150 262 M182 200 L170 262" fill="none" stroke-width="4" stroke-linecap="round" />
+          <rect class="av-badge-card" x="136" y="258" width="48" height="64" rx="7" />
+          <rect class="av-badge-top" x="136" y="258" width="48" height="14" rx="7" />
+          <circle class="av-badge-photo" cx="160" cy="290" r="9" />
+          <rect class="av-badge-line" x="146" y="306" width="28" height="3" rx="1.5" />
+        </g>
+      )
+    }
+
+    <rect class="av-neck" x="146" y="166" width="28" height="34" rx="12"></rect>
+
+    <g class="av-head">
+      <g class="av-rings">
+        <circle class="av-ring av-ring--1" cx="160" cy="112" r="80"></circle>
+        <circle class="av-ring av-ring--2" cx="160" cy="112" r="98"></circle>
+      </g>
+      <circle cx="160" cy="112" r="62" fill="url(#av-head)"></circle>
+      <path class="av-hair" d="M98 106 C98 64 126 46 160 46 C200 46 224 70 222 108 C210 86 190 74 160 74 C132 74 110 86 98 106 Z"></path>
+      <g class="av-face" data-avatar-face>
+        <g class="av-eyes">
+          <ellipse class="av-eye" cx="139" cy="117" rx="5" ry="6"></ellipse>
+          <ellipse class="av-eye" cx="181" cy="117" rx="5" ry="6"></ellipse>
+        </g>
+        <path class="av-smile" d="M147 141 Q160 151 173 141" fill="none" stroke-width="3.5" stroke-linecap="round"></path>
+        <ellipse class="av-mouth" cx="160" cy="145" rx="11" ry="9"></ellipse>
+      </g>
+    </g>
+  </g>
+</svg>
+
+<style>
+  .avatar {
+    --level: 0;
+    --talk: 0;
+    overflow: visible;
+    width: 100%;
+    height: auto;
+  }
+
+  .av-stop-head-hi {
+    stop-color: #f5ecdf;
+  }
+  .av-stop-head-lo {
+    stop-color: #cdbfa8;
+  }
+  .av-stop-shirt-hi {
+    stop-color: #ffffff;
+  }
+  .av-stop-shirt-lo {
+    stop-color: #ddd5c6;
+  }
+  .av-stop-legs-hi {
+    stop-color: #2b3554;
+  }
+  .av-stop-legs-lo {
+    stop-color: #151a2a;
+  }
+
+  .av-shadow {
+    fill: var(--ink);
+    opacity: 0.18;
+  }
+
+  .av-shoe {
+    fill: #f4f1ea;
+    stroke: rgba(22, 27, 40, 0.18);
+  }
+
+  .av-hand {
+    fill: #e4d7c3;
+  }
+
+  .av-neck {
+    fill: #dccdb6;
+  }
+
+  .av-collar {
+    stroke: rgba(22, 27, 40, 0.18);
+  }
+
+  .av-hair {
+    fill: #1b2030;
+  }
+
+  .av-eye {
+    fill: #1b2030;
+  }
+
+  .av-smile {
+    stroke: #1b2030;
+    opacity: calc(1 - var(--talk));
+    transition: opacity 0.2s;
+  }
+
+  .av-mouth {
+    fill: #1b2030;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scaleY(calc(0.08 + var(--level) * 0.92)) scaleX(calc(0.8 + var(--level) * 0.2));
+    opacity: var(--talk);
+  }
+
+  .av-ring {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.5;
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: calc(var(--talk) * (0.12 + var(--level) * 0.4));
+    transform: scale(calc(0.96 + var(--level) * 0.1));
+  }
+
+  .av-ring--2 {
+    opacity: calc(var(--talk) * (0.06 + var(--level) * 0.25));
+    transform: scale(calc(0.94 + var(--level) * 0.16));
+  }
+
+  .av-lanyard {
+    stroke: var(--accent);
+  }
+  .av-badge-card {
+    fill: #fbf8f2;
+    stroke: rgba(22, 27, 40, 0.2);
+  }
+  .av-badge-top {
+    fill: #1c2540;
+  }
+  .av-badge-photo {
+    fill: #cdbfa8;
+  }
+  .av-badge-line {
+    fill: rgba(22, 27, 40, 0.3);
+  }
+
+  .av-face {
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .av-eyes {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .av-stop-shirt-hi {
+      stop-color: #f2ede3;
+    }
+    .av-stop-shirt-lo {
+      stop-color: #bdb4a4;
+    }
+    .av-stop-legs-hi {
+      stop-color: #3a4566;
+    }
+    .av-stop-legs-lo {
+      stop-color: #1f2638;
+    }
+    .av-hair {
+      fill: #0b0c10;
+    }
+    .av-shadow {
+      fill: #000;
+      opacity: 0.5;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .av-body {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      animation: av-breathe 5.5s var(--ease-in-out) infinite;
+    }
+
+    .av-eyes {
+      animation: av-blink 6s infinite;
+    }
+
+    .av-arm--left {
+      transform-box: fill-box;
+      transform-origin: 50% 4%;
+      animation: av-sway 5.5s var(--ease-in-out) infinite;
+    }
+
+    .av-arm--right {
+      transform-box: fill-box;
+      transform-origin: 50% 4%;
+      animation: av-sway 5.5s var(--ease-in-out) infinite reverse;
+    }
+
+    .av-badge {
+      transform-box: fill-box;
+      transform-origin: 50% 0%;
+      animation: av-swing 4s var(--ease-in-out) infinite;
+    }
+  }
+
+  @keyframes av-breathe {
+    0%,
+    100% {
+      transform: scale(1, 1);
+    }
+    50% {
+      transform: scale(1.006, 1.012);
+    }
+  }
+
+  @keyframes av-blink {
+    0%,
+    46%,
+    50%,
+    100% {
+      transform: scaleY(1);
+    }
+    48% {
+      transform: scaleY(0.1);
+    }
+  }
+
+  @keyframes av-sway {
+    0%,
+    100% {
+      transform: rotate(1.5deg);
+    }
+    50% {
+      transform: rotate(-1deg);
+    }
+  }
+
+  @keyframes av-swing {
+    0%,
+    100% {
+      transform: rotate(-2deg);
+    }
+    50% {
+      transform: rotate(2deg);
+    }
+  }
+</style>

@@ -1,0 +1,527 @@
+---
+import Icon from './Icon.astro';
+import ListenButton from './ListenButton.astro';
+import { copy, person, type Locale } from '../content/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = copy[locale].about;
+const nav = copy[locale].nav;
+const bars = [3, 1, 2, 1, 3, 2, 1, 1, 3, 1, 2, 3, 1, 2, 1, 3, 1, 1, 2, 3, 1, 2, 1, 3, 2, 1, 3, 1, 2, 1, 1, 3];
+---
+
+<section id="about" class="section about" aria-labelledby="about-title" data-section="about">
+  <div class="container about__grid">
+    <div class="about__copy">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>{t.eyebrow}</span>
+        <h2 id="about-title" class="title" data-reveal>
+          {t.title} <span class="accent">{t.accent}</span>
+        </h2>
+      </div>
+      {t.body.map((p) => <p class="lead about__p" data-reveal>{p}</p>)}
+      <div class="about__actions" data-reveal>
+        <ListenButton locale={locale} clip="about" sectionTitle={nav.about} />
+        <a class="btn btn--ghost" href={person.linkedin} rel="me noopener" target="_blank">
+          LinkedIn <Icon name="arrow-up-right" />
+          <span class="visually-hidden">{locale === 'en' ? '(opens in a new tab)' : '(se abre en una pestaña nueva)'}</span>
+        </a>
+        <a class="btn btn--ghost" href={person.github} rel="me noopener" target="_blank">
+          GitHub <Icon name="arrow-up-right" />
+          <span class="visually-hidden">{locale === 'en' ? '(opens in a new tab)' : '(se abre en una pestaña nueva)'}</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="badge" data-badge>
+      <div class="badge__hang" data-badge-hang>
+        <svg class="badge__strap" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <rect x="12" y="0" width="16" height="400" rx="2"></rect>
+          <text x="20" y="200" transform="rotate(90 20 200)" text-anchor="middle">GONZALO RÍOS · PLATFORM · GONZALO RÍOS</text>
+        </svg>
+        <span class="badge__clip" aria-hidden="true"></span>
+        <div class="badge__card" data-badge-card>
+          <div class="badge__face badge__face--front" data-badge-front>
+            <div class="badge__top">
+              <span class="badge__logo" aria-hidden="true">GR</span>
+              <span>
+                <strong>{t.badge.front}</strong>
+                <small>{t.badge.sub}</small>
+              </span>
+            </div>
+            <div class="badge__photo" aria-hidden="true">
+              <svg viewBox="0 0 100 110" focusable="false">
+                <circle cx="50" cy="44" r="26" class="bp-head"></circle>
+                <path class="bp-hair" d="M24 41 C24 24 36 16 50 16 C66 16 76 26 76 42 C70 33 62 29 50 29 C38 29 30 33 24 41 Z"></path>
+                <circle cx="41" cy="46" r="2.4" class="bp-eye"></circle>
+                <circle cx="59" cy="46" r="2.4" class="bp-eye"></circle>
+                <path d="M43 56 Q50 61 57 56" class="bp-smile"></path>
+                <rect x="18" y="74" width="64" height="44" rx="22" class="bp-body"></rect>
+              </svg>
+            </div>
+            <p class="badge__name">{person.name}</p>
+            <p class="badge__role">{t.badge.role}</p>
+            <dl class="badge__fields">
+              {
+                t.badge.fields.map((f) => (
+                  <div>
+                    <dt>{f.label}</dt>
+                    <dd>{f.value}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+            <div class="badge__barcode" aria-hidden="true">
+              {bars.map((w) => <i style={`--w:${w}`}></i>)}
+            </div>
+          </div>
+          <div class="badge__face badge__face--back" data-badge-back>
+            <p class="badge__back-title">{t.badge.backTitle}</p>
+            <ul role="list" class="badge__checks">
+              {
+                t.badge.back.map((item) => (
+                  <li>
+                    <span class="badge__tick" aria-hidden="true">
+                      <Icon name="check" />
+                    </span>
+                    <span>
+                      <strong>{item.title}</strong>
+                      <small>{item.detail}</small>
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="badge__sign" aria-hidden="true">Gonzalo</p>
+          </div>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="badge__flip"
+        data-badge-flip
+        data-label-front={t.badge.flip}
+        data-label-back={t.badge.flipBack}
+        aria-pressed="false"
+        hidden
+      >
+        <Icon name="flip" />
+        <span data-badge-flip-label>{t.badge.flip}</span>
+      </button>
+    </div>
+
+    <aside class="facts" aria-labelledby="facts-title">
+      <h3 id="facts-title" class="eyebrow" data-reveal>{t.factsTitle}</h3>
+      <dl class="facts__list">
+        {
+          t.facts.map((f) => (
+            <div class="facts__row" data-reveal>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <blockquote class="facts__quote" data-reveal>
+        <p>“{t.quote}”</p>
+      </blockquote>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .about {
+    overflow: clip;
+  }
+
+  .about__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.8fr) minmax(0, 0.9fr);
+    gap: clamp(32px, 4vw, 64px);
+    align-items: start;
+  }
+
+  .about__copy {
+    display: grid;
+    gap: 22px;
+    align-content: start;
+  }
+
+  .about__copy .section-head {
+    margin-bottom: 8px;
+  }
+
+  .about__p + .about__p {
+    color: var(--muted);
+  }
+
+  .about__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  /* ---- Badge ---- */
+  .badge {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 20px;
+    margin-top: calc(-1 * clamp(72px, 9vw, 128px));
+  }
+
+  .badge__hang {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    transform-origin: 50% 0;
+    will-change: transform;
+  }
+
+  .badge__strap {
+    width: 26px;
+    height: clamp(140px, 18vw, 220px);
+  }
+
+  .badge__strap rect {
+    fill: var(--accent);
+  }
+
+  .badge__strap text {
+    fill: var(--accent-ink);
+    font-family: var(--font-mono);
+    font-size: 7px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+  }
+
+  .badge__clip {
+    width: 30px;
+    height: 22px;
+    margin-top: -2px;
+    border-radius: 6px 6px 10px 10px;
+    background: linear-gradient(#d9cfbd, #b8ab94);
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .badge__card {
+    position: relative;
+    display: grid;
+    gap: 12px;
+    width: min(280px, 72vw);
+    margin-top: -4px;
+  }
+
+  /* 3D flip only once the badge script is ready; without it both faces are listed. */
+  .badge.is-ready .badge__card {
+    display: block;
+    aspect-ratio: 0.66;
+    transform-style: preserve-3d;
+    transition: transform 0.9s var(--ease-out);
+  }
+
+  .badge__card.is-flipped {
+    transform: rotateY(180deg);
+  }
+
+  .badge__face--front {
+    min-height: 400px;
+  }
+
+  .badge.is-ready .badge__face {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+  }
+
+  .badge__face {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 22px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-2);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+  }
+
+  .badge__face::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 44px;
+    height: 7px;
+    translate: -50% 0;
+    border-radius: 999px;
+    background: var(--bg-2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+  }
+
+  .badge__face--back {
+    padding: 40px 24px 22px;
+    gap: 14px;
+  }
+
+  .badge.is-ready .badge__face--back {
+    transform: rotateY(180deg);
+  }
+
+  .badge__top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 28px 18px 14px;
+    background: #1c2540;
+    color: #f7f3ea;
+  }
+
+  .badge__top strong {
+    display: block;
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .badge__top small {
+    display: block;
+    font-size: 0.6875rem;
+    opacity: 0.7;
+  }
+
+  .badge__logo {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(247, 243, 234, 0.4);
+    font-size: 0.6875rem;
+    font-weight: 700;
+  }
+
+  .badge__photo {
+    width: 46%;
+    margin: 16px auto 10px;
+    border-radius: 14px;
+    border: 2px solid var(--line-strong);
+    background: linear-gradient(160deg, var(--glow), var(--bg-2));
+    overflow: hidden;
+  }
+
+  .badge__photo svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .bp-head {
+    fill: #e9dcc8;
+  }
+  .bp-hair,
+  .bp-eye {
+    fill: #1b2030;
+  }
+  .bp-smile {
+    fill: none;
+    stroke: #1b2030;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .bp-body {
+    fill: #fbfaf7;
+  }
+
+  .badge__name {
+    text-align: center;
+    font-weight: 650;
+    font-size: 1.0625rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .badge__role {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .badge__fields {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin: auto 18px 0;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line-strong);
+  }
+
+  .badge__fields dt {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .badge__fields dd {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .badge__barcode {
+    display: flex;
+    gap: 2px;
+    height: 26px;
+    margin: 12px 18px 16px;
+  }
+
+  .badge__barcode i {
+    flex: var(--w) 0 0;
+    background: var(--ink);
+    opacity: 0.85;
+  }
+
+  .badge__back-title {
+    font-weight: 650;
+    font-size: 1.125rem;
+  }
+
+  .badge__checks {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+  }
+
+  .badge__checks li {
+    display: flex;
+    gap: 10px;
+    align-items: start;
+  }
+
+  .badge__checks strong {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .badge__checks small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .badge__tick {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .badge__tick :global(svg) {
+    width: 12px;
+    height: 12px;
+    stroke-width: 2.5;
+  }
+
+  .badge__sign {
+    margin-top: auto;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--ink-2);
+  }
+
+  .badge__flip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    font-size: 0.8125rem;
+    font-weight: 550;
+  }
+
+  .badge__flip[hidden] {
+    display: none;
+  }
+
+  .badge__flip :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ---- Facts ---- */
+  .facts {
+    display: grid;
+    gap: 18px;
+    padding-top: 12px;
+  }
+
+  .facts__list {
+    display: grid;
+  }
+
+  .facts__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.875rem;
+  }
+
+  .facts__row dt {
+    color: var(--muted);
+  }
+
+  .facts__row dd {
+    text-align: right;
+    font-weight: 500;
+  }
+
+  .facts__quote {
+    margin-top: 12px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    line-height: 1.2;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 1080px) {
+    .about__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .about__copy {
+      grid-column: 1 / -1;
+    }
+
+    .badge {
+      margin-top: 0;
+    }
+
+    .badge__strap {
+      height: 80px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .about__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

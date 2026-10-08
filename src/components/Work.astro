@@ -1,0 +1,323 @@
+---
+import ListenButton from './ListenButton.astro';
+import ProjectVisual from './ProjectVisual.astro';
+import { copy, type Locale } from '../content/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = copy[locale];
+const w = t.work;
+---
+
+<section id="work" class="section work" aria-labelledby="work-title" data-section="work">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-head__row">
+        <span class="eyebrow" data-reveal>{w.eyebrow}</span>
+        <div data-reveal><ListenButton locale={locale} clip="work" sectionTitle={t.nav.work} /></div>
+      </div>
+      <h2 id="work-title" class="title" data-reveal>
+        {w.title} <span class="accent">{w.accent}</span>
+      </h2>
+      <p class="lead" data-reveal>{w.intro}</p>
+    </div>
+
+    <ul role="list" class="deck" data-deck data-reveal>
+      {
+        w.projects.map((p, i) => (
+          <li class="panel" data-panel>
+            <h3 class="panel__heading">
+              <button
+                type="button"
+                class="panel__toggle"
+                id={`panel-btn-${p.id}`}
+                aria-expanded="true"
+                aria-controls={`panel-${p.id}`}
+                data-panel-toggle
+              >
+                <span class="panel__index" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span class="panel__label">{p.title}</span>
+              </button>
+            </h3>
+            <div class="panel__body" id={`panel-${p.id}`} role="region" aria-labelledby={`panel-btn-${p.id}`}>
+              <div class="panel__content">
+                <div class="panel__text">
+                  <p class="panel__kicker">{p.kicker}</p>
+                  <p class="panel__title" aria-hidden="true">
+                    {p.title}
+                  </p>
+                  <p class="panel__summary">{p.summary}</p>
+                  <ul class="panel__points">
+                    {p.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                  <ul role="list" class="panel__tags">
+                    {p.tags.map((tag) => <li class="chip">{tag}</li>)}
+                  </ul>
+                </div>
+                <div class="panel__visual" aria-hidden="true">
+                  <ProjectVisual kind={p.visual} />
+                </div>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* Base (no JS): every project is listed and expanded. JS adds .is-ready and
+     turns the list into an accordion (stacked on small screens, a horizontal
+     deck on desktop). */
+  .deck {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .panel {
+    position: relative;
+    min-width: 0;
+    border-radius: var(--radius-l);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition:
+      flex-basis 0.7s var(--ease-out),
+      flex-grow 0.7s var(--ease-out),
+      background-color 0.5s var(--ease-out),
+      box-shadow 0.5s var(--ease-out);
+  }
+
+  .panel.is-open {
+    background: var(--surface-2);
+    box-shadow: var(--shadow-2);
+  }
+
+  .panel__heading {
+    position: relative;
+    font: inherit;
+  }
+
+  .panel__toggle {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    min-height: 64px;
+    padding: 16px 20px;
+    border: 0;
+    background: none;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .panel__toggle:focus-visible {
+    outline-offset: -4px;
+    border-radius: var(--radius-l);
+  }
+
+  .panel__index {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .panel__label {
+    font-weight: 600;
+    font-size: 1.0625rem;
+    letter-spacing: -0.01em;
+  }
+
+  .panel__body {
+    display: grid;
+    grid-template-rows: 1fr;
+  }
+
+  .deck.is-ready .panel__body {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      grid-template-rows 0.6s var(--ease-out),
+      opacity 0.4s var(--ease-out),
+      visibility 0s linear 0.6s;
+  }
+
+  .deck.is-ready .panel.is-open .panel__body {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      grid-template-rows 0.6s var(--ease-out),
+      opacity 0.5s var(--ease-out) 0.1s,
+      visibility 0s;
+  }
+
+  .panel__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0 20px 20px;
+  }
+
+  .panel__text {
+    display: grid;
+    align-content: start;
+    gap: 16px;
+  }
+
+  .panel__kicker {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .panel__title {
+    display: none;
+    font-weight: 650;
+    font-size: clamp(2rem, 3.2vw, 2.75rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .panel__summary {
+    color: var(--ink-2);
+    max-width: 46ch;
+  }
+
+  .panel__points {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding-left: 18px;
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+  }
+
+  .panel__points li::marker {
+    color: var(--muted);
+  }
+
+  .panel__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 4px 0 0;
+  }
+
+  .panel__visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 10;
+    max-height: 380px;
+    border-radius: var(--radius-m);
+    background:
+      radial-gradient(60% 60% at 70% 30%, color-mix(in srgb, var(--glow) 70%, transparent), transparent 70%), var(--bg);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  /* Desktop: horizontal deck with vertical labels on collapsed panels. */
+  @media (min-width: 961px) {
+    .deck.is-ready {
+      flex-direction: row;
+      height: clamp(520px, 62vh, 640px);
+    }
+
+    .deck.is-ready .panel {
+      flex: 0 0 76px;
+    }
+
+    .deck.is-ready .panel.is-open {
+      flex: 1 1 auto;
+    }
+
+    .deck.is-ready .panel__heading {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+    }
+
+    .deck.is-ready .panel.is-open .panel__heading {
+      inset: 0 auto auto 0;
+    }
+
+    .deck.is-ready .panel__toggle {
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding: 24px 0;
+    }
+
+    .deck.is-ready .panel.is-open .panel__toggle {
+      flex-direction: row;
+      width: auto;
+      height: auto;
+      min-height: 0;
+      padding: 24px 28px;
+      pointer-events: none;
+    }
+
+    .deck.is-ready .panel__label {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      white-space: nowrap;
+    }
+
+    .deck.is-ready .panel.is-open .panel__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    .deck.is-ready .panel__body,
+    .deck.is-ready .panel.is-open .panel__body {
+      position: absolute;
+      inset: 0;
+      display: block;
+    }
+
+    .deck.is-ready .panel__body {
+      transition:
+        opacity 0.4s var(--ease-out),
+        visibility 0s linear 0.4s;
+    }
+
+    .deck.is-ready .panel.is-open .panel__body {
+      transition:
+        opacity 0.6s var(--ease-out) 0.25s,
+        visibility 0s;
+    }
+
+    .deck.is-ready .panel__content {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: 32px;
+      height: 100%;
+      min-width: 760px;
+      padding: 72px 28px 28px;
+    }
+
+    .deck.is-ready .panel__title {
+      display: block;
+    }
+
+    .deck.is-ready .panel__visual {
+      aspect-ratio: auto;
+      max-height: none;
+    }
+  }
+</style>

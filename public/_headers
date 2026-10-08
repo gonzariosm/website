@@ -1,0 +1,30 @@
+# Response headers for static hosts that support this file (Cloudflare Pages,
+# Netlify). Astro's static build does not emit endpoint headers, so text
+# formats need an explicit UTF-8 content type here.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/*.html
+  Content-Type: text/html; charset=utf-8
+
+/
+  Content-Type: text/html; charset=utf-8
+
+/es/
+  Content-Type: text/html; charset=utf-8
+
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+
+/audio/*
+  Cache-Control: public, max-age=31536000, immutable

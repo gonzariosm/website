@@ -1,0 +1,211 @@
+---
+import ListenButton from './ListenButton.astro';
+import { copy, type Locale } from '../content/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = copy[locale];
+const a = t.achievements;
+const nf = new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'es-CL');
+---
+
+<section id="achievements" class="section achievements" aria-labelledby="achievements-title" data-section="achievements">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-head__row">
+        <span class="eyebrow" data-reveal>{a.eyebrow}</span>
+        <div data-reveal><ListenButton locale={locale} clip="achievements" sectionTitle={t.nav.achievements} /></div>
+      </div>
+      <h2 id="achievements-title" class="title" data-reveal>
+        {a.title} <span class="accent">{a.accent}</span>
+      </h2>
+    </div>
+
+    <ul role="list" class="stats">
+      {
+        a.stats.map((s) => {
+          const final = `${s.prefix ?? ''}${nf.format(s.value)}${s.suffix ?? ''}`;
+          return (
+            <li class="stat" data-reveal>
+              <p class="stat__value">
+                <span class="visually-hidden">{final}</span>
+                <span aria-hidden="true">
+                  {s.prefix && <span class="stat__affix">{s.prefix}</span>}
+                  <span data-count={s.value} data-locale={locale === 'en' ? 'en-US' : 'es-CL'}>
+                    {nf.format(s.value)}
+                  </span>
+                  {s.suffix && <span class="stat__affix">{s.suffix}</span>}
+                </span>
+              </p>
+              <p class="stat__label">{s.label}</p>
+              <p class="stat__context">{s.context}</p>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <div class="learning">
+      <div class="learning__head">
+        <span class="eyebrow" data-reveal>{a.learningEyebrow}</span>
+        <h3 class="title learning__title" data-reveal>
+          {a.learningTitle} <span class="accent">{a.learningAccent}</span>
+        </h3>
+      </div>
+      <ol role="list" class="learning__list">
+        {
+          a.learning.map((item, i) => (
+            <li class="learning__row" data-reveal>
+              <span class="learning__num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="learning__text">
+                <strong>{item.title}</strong>
+                <small>{item.detail}</small>
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+  }
+
+  .stat {
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    padding: clamp(22px, 3vw, 32px);
+    border-radius: var(--radius-l);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    transition:
+      transform 0.4s var(--ease-out),
+      box-shadow 0.4s var(--ease-out);
+  }
+
+  .stat:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-2);
+  }
+
+  .stat__value {
+    font-weight: 700;
+    font-size: clamp(2.75rem, 5.4vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat__affix {
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .stat__label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  .stat__context {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .learning {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(32px, 5vw, 80px);
+    margin-top: clamp(96px, 12vw, 160px);
+  }
+
+  .learning__head {
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+
+  .learning__list {
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .learning__row {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 22px 16px;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    transition:
+      background-color 0.35s var(--ease-out),
+      color 0.35s var(--ease-out),
+      border-radius 0.35s var(--ease-out),
+      transform 0.35s var(--ease-out);
+  }
+
+  .learning__row:hover {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-radius: var(--radius-s);
+    transform: scale(1.015);
+  }
+
+  .learning__row:hover small,
+  .learning__row:hover .learning__num {
+    color: inherit;
+    opacity: 0.75;
+  }
+
+  .learning__num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .learning__text {
+    display: grid;
+    gap: 2px;
+  }
+
+  .learning__text strong {
+    font-weight: 550;
+    font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+    letter-spacing: -0.02em;
+  }
+
+  .learning__text small {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 860px) {
+    .stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .learning {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

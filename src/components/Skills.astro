@@ -1,0 +1,473 @@
+---
+import ListenButton from './ListenButton.astro';
+import { copy, elements, familyIds, type Locale } from '../content/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = copy[locale];
+const s = t.skills;
+const first = elements[0]!;
+---
+
+<section id="skills" class="section skills" aria-labelledby="skills-title" data-section="skills">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-head__row">
+        <span class="eyebrow" data-reveal>{s.eyebrow}</span>
+        <div data-reveal><ListenButton locale={locale} clip="skills" sectionTitle={t.nav.skills} /></div>
+      </div>
+      <h2 id="skills-title" class="title" data-reveal>
+        {s.title} <span class="accent">{s.accent}</span>
+      </h2>
+      <p class="lead" data-reveal>{s.intro}</p>
+    </div>
+
+    <div class="skills__filters" role="group" aria-label={s.filterLabel} data-reveal>
+      <button type="button" class="skills__filter" data-family="all" aria-pressed="true">{s.all}</button>
+      {
+        familyIds.map((f) => (
+          <button type="button" class="skills__filter" data-family={f} aria-pressed="false">
+            <span class="skills__dot" data-dot={f} aria-hidden="true" />
+            {s.families[f]}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="skills__layout">
+      <ul role="list" class="skills__grid" data-skills-grid>
+        {
+          elements.map((el, i) => (
+            <li>
+              <button
+                type="button"
+                class="tile"
+                data-tile
+                data-family={el.family}
+                data-symbol={el.symbol}
+                data-name={el.name}
+                data-family-label={s.families[el.family]}
+                data-note={t.elementNotes[el.symbol]}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                aria-controls="skills-detail"
+              >
+                <span class="tile__num" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span class="tile__sym" aria-hidden="true">
+                  {el.symbol}
+                </span>
+                <span class="tile__name">{el.name}</span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+
+      <aside class="detail" id="skills-detail" aria-live="polite" data-skills-detail>
+        <p class="detail__hint">{s.hint}</p>
+        <div class="detail__card">
+          <span class="detail__num" data-detail-num aria-hidden="true">01</span>
+          <span class="detail__sym" data-detail-sym aria-hidden="true">{first.symbol}</span>
+          <p class="detail__name" data-detail-name>{first.name}</p>
+          <p class="detail__family" data-detail-family>{s.families[first.family]}</p>
+          <p class="detail__note" data-detail-note>{t.elementNotes[first.symbol]}</p>
+        </div>
+      </aside>
+    </div>
+
+    <details class="skills__all">
+      <summary>{s.asList}</summary>
+      <div class="skills__all-grid">
+        {
+          familyIds.map((f) => (
+            <section aria-labelledby={`fam-${f}`}>
+              <h3 id={`fam-${f}`} class="skills__all-title">
+                <span class="skills__dot" data-dot={f} aria-hidden="true" />
+                {s.families[f]}
+              </h3>
+              <dl>
+                {elements
+                  .filter((el) => el.family === f)
+                  .map((el) => (
+                    <div>
+                      <dt>{el.name}</dt>
+                      <dd>{t.elementNotes[el.symbol]}</dd>
+                    </div>
+                  ))}
+              </dl>
+            </section>
+          ))
+        }
+      </div>
+    </details>
+  </div>
+</section>
+
+<style>
+  .skills {
+    --fam-languages: #c9a227;
+    --fam-cloud: #e07a3f;
+    --fam-containers: #3f7fe0;
+    --fam-automation: #8a5cd6;
+    --fam-data: #2f9e7a;
+    --fam-ai: #d6457a;
+  }
+
+  .skills__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .skills__filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-2);
+    transition:
+      background-color 0.3s var(--ease-out),
+      color 0.3s var(--ease-out),
+      border-color 0.3s var(--ease-out);
+  }
+
+  .skills__filter:hover {
+    border-color: var(--line-strong);
+  }
+
+  .skills__filter[aria-pressed='true'] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .skills__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+  }
+
+  [data-dot='languages'] {
+    background: var(--fam-languages);
+  }
+  [data-dot='cloud'] {
+    background: var(--fam-cloud);
+  }
+  [data-dot='containers'] {
+    background: var(--fam-containers);
+  }
+  [data-dot='automation'] {
+    background: var(--fam-automation);
+  }
+  [data-dot='data'] {
+    background: var(--fam-data);
+  }
+  [data-dot='ai'] {
+    background: var(--fam-ai);
+  }
+
+  .skills__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+    gap: clamp(24px, 3vw, 48px);
+    align-items: start;
+  }
+
+  .skills__grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    perspective: 1200px;
+  }
+
+  .tile {
+    --fam: var(--fam-languages);
+    position: relative;
+    display: grid;
+    align-content: space-between;
+    width: 100%;
+    aspect-ratio: 1;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    text-align: left;
+    overflow: hidden;
+    transition:
+      transform 0.35s var(--ease-out),
+      opacity 0.35s var(--ease-out),
+      background-color 0.35s var(--ease-out),
+      color 0.35s var(--ease-out),
+      box-shadow 0.35s var(--ease-out),
+      filter 0.35s var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tile::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--fam);
+  }
+
+  .tile[data-family='cloud'] {
+    --fam: var(--fam-cloud);
+  }
+  .tile[data-family='containers'] {
+    --fam: var(--fam-containers);
+  }
+  .tile[data-family='automation'] {
+    --fam: var(--fam-automation);
+  }
+  .tile[data-family='data'] {
+    --fam: var(--fam-data);
+  }
+  .tile[data-family='ai'] {
+    --fam: var(--fam-ai);
+  }
+
+  .tile:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-1);
+  }
+
+  .tile[aria-pressed='true'] {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-2);
+  }
+
+  .tile[aria-pressed='true'] .tile__num,
+  .tile[aria-pressed='true'] .tile__name {
+    color: inherit;
+  }
+
+  /* Dimmed tiles stay readable (WCAG AA): only decoration fades. */
+  .tile.is-dim {
+    background: transparent;
+    border-style: dashed;
+    box-shadow: none;
+  }
+
+  .tile.is-dim::before {
+    opacity: 0.25;
+  }
+
+  .tile.is-dim .tile__sym {
+    color: var(--muted);
+  }
+
+  .tile__num {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: var(--muted);
+  }
+
+  .tile__sym {
+    font-weight: 650;
+    font-size: clamp(1.125rem, 2.2vw, 1.875rem);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .tile__name {
+    font-size: 0.625rem;
+    line-height: 1.2;
+    color: var(--ink-2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .detail {
+    position: sticky;
+    top: 110px;
+    display: grid;
+    gap: 12px;
+  }
+
+  .detail__hint {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .detail__card {
+    display: grid;
+    gap: 6px;
+    padding: 24px;
+    border-radius: var(--radius-l);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-2);
+  }
+
+  .detail__num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .detail__sym {
+    font-weight: 700;
+    font-size: 5rem;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+
+  .detail__name {
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+
+  .detail__family {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .detail__note {
+    margin-top: 8px;
+    color: var(--ink-2);
+    font-size: 0.9375rem;
+  }
+
+  .skills__all {
+    margin-top: 40px;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+
+  .skills__all summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    font-weight: 550;
+    font-size: 0.9375rem;
+    cursor: pointer;
+  }
+
+  .skills__all-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+    margin-top: 24px;
+  }
+
+  .skills__all-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  .skills__all dl {
+    display: grid;
+    gap: 12px;
+  }
+
+  .skills__all dt {
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+
+  .skills__all dd {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 1080px) {
+    .skills__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .detail {
+      position: sticky;
+      top: auto;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      z-index: 5;
+    }
+
+    .detail__hint {
+      display: none;
+    }
+
+    .detail__card {
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto auto;
+      column-gap: 16px;
+      row-gap: 2px;
+      padding: 14px 16px;
+      border-radius: var(--radius-m);
+      background: color-mix(in srgb, var(--surface-2) 88%, transparent);
+      backdrop-filter: blur(18px) saturate(1.5);
+      -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    }
+
+    .detail__num {
+      display: none;
+    }
+
+    .detail__sym {
+      grid-row: 1 / span 3;
+      align-self: center;
+      font-size: 2.75rem;
+    }
+
+    .detail__name {
+      font-size: 1rem;
+    }
+
+    .detail__note {
+      margin-top: 2px;
+      font-size: 0.8125rem;
+      line-height: 1.45;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .skills__filters {
+      flex-wrap: nowrap;
+      margin-inline: calc(-1 * var(--gutter));
+      padding-inline: var(--gutter);
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+    }
+
+    .skills__filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .skills__filter {
+      flex: none;
+      scroll-snap-align: start;
+    }
+
+    .skills__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+
+  }
+</style>

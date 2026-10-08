@@ -1,0 +1,228 @@
+---
+import ListenButton from './ListenButton.astro';
+import { copy, type Locale } from '../content/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = copy[locale];
+const e = t.experience;
+const items = e.items.map((item, i) => ({ ...item, showYear: i === 0 || e.items[i - 1]!.year !== item.year }));
+---
+
+<section id="experience" class="section experience" aria-labelledby="experience-title" data-section="experience">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-head__row">
+        <span class="eyebrow" data-reveal>{e.eyebrow}</span>
+        <div data-reveal><ListenButton locale={locale} clip="experience" sectionTitle={t.nav.experience} /></div>
+      </div>
+      <h2 id="experience-title" class="title" data-reveal>
+        {e.title} <span class="accent">{e.accent}</span>
+      </h2>
+      <p class="lead" data-reveal>{e.intro}</p>
+    </div>
+
+    <div class="timeline-wrap" data-timeline>
+    <span class="timeline__line" aria-hidden="true"><span data-timeline-fill></span></span>
+    <ol role="list" class="timeline">
+      {
+        items.map((item) => (
+          <li class="timeline__item" data-timeline-item>
+            <p class:list={['timeline__year', { 'is-repeat': !item.showYear }]} aria-hidden="true">
+              {item.year}
+            </p>
+            <span class="timeline__dot" aria-hidden="true" />
+            <article class="timeline__card">
+              <p class="timeline__meta">
+                <span class="timeline__kind">{item.kind}</span>
+                <span>{item.period}</span>
+              </p>
+              <h3 class="timeline__role">{item.role}</h3>
+              <p class="timeline__org">
+                {item.org} · {item.place}
+              </p>
+              <p class="timeline__text">{item.text}</p>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline-wrap {
+    position: relative;
+  }
+
+  .timeline {
+    position: relative;
+    display: grid;
+    gap: clamp(20px, 3vw, 40px);
+    margin: 0;
+  }
+
+  .timeline__line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    translate: -50% 0;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .timeline__line span {
+    display: block;
+    height: 100%;
+    background: var(--ink);
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+
+  .timeline__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    align-items: center;
+  }
+
+  .timeline__year {
+    grid-column: 1;
+    justify-self: end;
+    padding-right: clamp(16px, 3vw, 40px);
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  .timeline__year.is-repeat {
+    opacity: 0;
+  }
+
+  .timeline__dot {
+    grid-column: 2;
+    justify-self: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--ink);
+    z-index: 1;
+  }
+
+  .timeline__card {
+    grid-column: 3;
+    display: grid;
+    gap: 6px;
+    padding: 22px 24px;
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+
+  .timeline__item:nth-child(odd of .timeline__item) .timeline__year {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: start;
+    padding: 0 0 0 clamp(16px, 3vw, 40px);
+  }
+
+  .timeline__item:nth-child(odd of .timeline__item) .timeline__card {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .timeline__item:nth-child(odd of .timeline__item) .timeline__dot {
+    grid-row: 1;
+  }
+
+  .timeline__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .timeline__kind {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--faint);
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+  }
+
+  .timeline__role {
+    font-weight: 600;
+    font-size: 1.375rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .timeline__org {
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+  }
+
+  .timeline__text {
+    margin-top: 4px;
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 860px) {
+    .timeline__line {
+      left: 7px;
+      translate: none;
+    }
+
+    .timeline__item,
+    .timeline__item:nth-child(odd of .timeline__item) {
+      grid-template-columns: 16px 1fr;
+      column-gap: 18px;
+      align-items: start;
+    }
+
+    .timeline__item .timeline__year,
+    .timeline__item:nth-child(odd of .timeline__item) .timeline__year {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: start;
+      padding: 0 0 10px;
+      font-size: 2.75rem;
+    }
+
+    .timeline__item .timeline__year.is-repeat {
+      display: none;
+    }
+
+    .timeline__item .timeline__dot,
+    .timeline__item:nth-child(odd of .timeline__item) .timeline__dot {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      margin-top: 14px;
+    }
+
+    .timeline__item .timeline__card,
+    .timeline__item:nth-child(odd of .timeline__item) .timeline__card {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .timeline__item:has(.is-repeat) .timeline__card {
+      grid-row: 1;
+    }
+  }
+</style>

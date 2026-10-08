@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import { copy } from '../content/site';
+const en = copy.en.notFound;
+const es = copy.es.notFound;
+---
+
+<Base locale="en" title={`404 — ${en.title}`} description={en.body} noindex>
+  <main id="main" class="nf container">
+    <p class="nf__code" aria-hidden="true">404</p>
+    <section aria-labelledby="nf-en">
+      <h1 id="nf-en" class="title">{en.title}</h1>
+      <p class="lead">{en.body}</p>
+      <a class="btn" href="/">{en.back}</a>
+    </section>
+    <section lang="es" aria-labelledby="nf-es">
+      <h2 id="nf-es" class="title nf__alt">{es.title}</h2>
+      <p class="lead">{es.body}</p>
+      <a class="btn btn--ghost" href="/es/" hreflang="es">{es.back}</a>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .nf {
+    display: grid;
+    gap: 48px;
+    align-content: center;
+    min-height: 100svh;
+    padding-block: 80px;
+  }
+
+  .nf section {
+    display: grid;
+    gap: 16px;
+    justify-items: start;
+  }
+
+  .nf__code {
+    font-weight: 800;
+    font-size: clamp(6rem, 22vw, 16rem);
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+    opacity: 0.08;
+  }
+
+  .nf__alt {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+  }
+</style>

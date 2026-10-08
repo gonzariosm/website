@@ -1,0 +1,138 @@
+---
+import Icon from './Icon.astro';
+import { copy, type Locale } from '../content/site';
+import { clipDuration, formatDuration } from '../lib/voice';
+
+interface Props {
+  locale: Locale;
+  clip: string;
+  label?: string;
+  variant?: 'pill' | 'hero';
+  sectionTitle: string;
+}
+const { locale, clip, label, variant = 'pill', sectionTitle } = Astro.props;
+const t = copy[locale].voice;
+const duration = formatDuration(clipDuration(locale, clip));
+---
+
+<button
+  type="button"
+  class:list={['listen', `listen--${variant}`]}
+  data-voice-clip={clip}
+  data-voice-title={sectionTitle}
+  aria-pressed="false"
+>
+  <span class="listen__icon" aria-hidden="true">
+    <Icon name="play" class="listen__play" />
+    <Icon name="pause" class="listen__pause" />
+  </span>
+  <span class="listen__label">{label ?? t.listenSection}</span>
+  {duration && <span class="listen__time">{duration}</span>}
+</button>
+
+<style>
+  .listen {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    padding: 0 16px 0 6px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 0.875rem;
+    font-weight: 550;
+    transition:
+      border-color 0.25s var(--ease-out),
+      transform 0.25s var(--ease-out),
+      box-shadow 0.25s var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .listen:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-1);
+  }
+
+  .listen:active {
+    transform: scale(0.97);
+  }
+
+  .listen__icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .listen__icon :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .listen :global(.listen__pause) {
+    display: none;
+  }
+
+  .listen[aria-pressed='true'] :global(.listen__play) {
+    display: none;
+  }
+
+  .listen[aria-pressed='true'] :global(.listen__pause) {
+    display: block;
+  }
+
+  .listen__time {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .listen--hero {
+    min-height: 56px;
+    padding: 0 22px 0 8px;
+    gap: 14px;
+    font-size: 0.9375rem;
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  }
+
+  .listen--hero .listen__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .listen--hero .listen__icon::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    opacity: 0.35;
+    animation: listen-pulse 2.4s var(--ease-out) infinite;
+  }
+
+  .listen--hero[aria-pressed='true'] .listen__icon::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  @keyframes listen-pulse {
+    0% {
+      transform: scale(0.85);
+      opacity: 0.5;
+    }
+    80%,
+    100% {
+      transform: scale(1.35);
+      opacity: 0;
+    }
+  }
+</style>
