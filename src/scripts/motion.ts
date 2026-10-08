@@ -103,7 +103,7 @@ function badgeDrop() {
       yPercent: 0,
       opacity: 1,
       duration: 1.6,
-      ease: 'elastic.out(1, 0.55)',
+      ease: 'back.out(1.4)',
       scrollTrigger: { trigger: badge, start: 'top 80%', once: true },
       onStart: () => badge.dispatchEvent(new Event('badge:drop')),
     },

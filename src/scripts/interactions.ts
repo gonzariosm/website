@@ -188,7 +188,12 @@ export function initBadge() {
 
   if (reducedMotion()) return;
 
-  // Damped spring: the badge swings with horizontal pointer velocity.
+  // Heavy, well-damped spring: a slow, small sway driven by pointer velocity.
+  // Low stiffness gives a ~1.5 s period; the angle is capped so continuous
+  // mouse movement can never build up into a jitter.
+  const STIFFNESS = 0.008;
+  const DAMPING = 0.95;
+  const MAX_ANGLE = 3;
   let angle = 0;
   let velocity = 0;
   let lastX: number | null = null;
@@ -201,9 +206,9 @@ export function initBadge() {
   io.observe(badge);
 
   function step() {
-    velocity += -0.06 * angle;
-    velocity *= 0.9;
-    angle += velocity;
+    velocity += -STIFFNESS * angle;
+    velocity *= DAMPING;
+    angle = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, angle + velocity));
     hang.style.rotate = `${angle.toFixed(3)}deg`;
     if (Math.abs(angle) > 0.01 || Math.abs(velocity) > 0.01) requestAnimationFrame(step);
     else {
@@ -218,7 +223,7 @@ export function initBadge() {
       if (!visible || e.pointerType !== 'mouse') return;
       if (lastX !== null) {
         const dx = e.clientX - lastX;
-        velocity += Math.max(-1.2, Math.min(1.2, dx * 0.035));
+        velocity += Math.max(-0.08, Math.min(0.08, dx * 0.002));
         if (!running) {
           running = true;
           requestAnimationFrame(step);
@@ -230,7 +235,7 @@ export function initBadge() {
   );
 
   badge.addEventListener('badge:drop', () => {
-    velocity += 3;
+    velocity += 0.35;
     if (!running) {
       running = true;
       requestAnimationFrame(step);
