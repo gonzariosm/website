@@ -283,7 +283,7 @@ export function initMagnetic() {
 
 export function initAvatarGaze() {
   if (reducedMotion() || !finePointer()) return;
-  const face = document.querySelector<SVGGElement>('[data-avatar-face]');
+  const face = document.querySelector<HTMLElement>('[data-avatar-face]');
   if (!face) return;
   let raf = 0;
   window.addEventListener(
@@ -293,7 +293,7 @@ export function initAvatarGaze() {
       raf = requestAnimationFrame(() => {
         const x = (e.clientX / window.innerWidth - 0.5) * 2;
         const y = (e.clientY / window.innerHeight - 0.5) * 2;
-        face.style.transform = `translate(${(x * 7).toFixed(2)}px, ${(y * 5).toFixed(2)}px)`;
+        face.style.transform = `rotateY(${(x * 9).toFixed(2)}deg) rotateX(${(-y * 3).toFixed(2)}deg)`;
       });
     },
     { passive: true },

@@ -49,7 +49,7 @@ export function initVoice() {
   const captionEl = player.querySelector<HTMLElement>('[data-player-caption]')!;
   const progressEl = player.querySelector<HTMLElement>('[data-player-progress]')!;
   const statusEl = document.querySelector<HTMLElement>('[data-player-status]')!;
-  const avatars = [...document.querySelectorAll<SVGElement>('[data-avatar]')];
+  const avatars = [...document.querySelectorAll<HTMLElement>('[data-avatar]')];
 
   const audio = new Audio();
   audio.preload = 'none';
@@ -88,7 +88,12 @@ export function initVoice() {
     }
   }
 
+  // Lip-sync and voice rings are decorative motion: keep the avatar still when
+  // the visitor prefers reduced motion.
+  const stillAvatar = window.matchMedia('(prefers-reduced-motion: reduce)');
+
   function setAvatar(talk: number, lvl: number) {
+    if (stillAvatar.matches) talk = lvl = 0;
     for (const a of avatars) {
       a.style.setProperty('--talk', String(talk));
       a.style.setProperty('--level', lvl.toFixed(3));

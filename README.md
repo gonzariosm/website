@@ -33,6 +33,7 @@ Requires Node.js 22.12 or newer.
 | `src/scripts/` | Client code: `voice.ts` (narration, captions, lip-sync), `interactions.ts`, `motion.ts` |
 | `src/pages/` | Routes: `/`, `/es/`, Markdown twins, `sitemap.xml`, `robots.txt`, `llms.txt`, `404` |
 | `public/audio/<locale>/` | Generated narration: `<clip>.webm`, `<clip>.mp3`, `<clip>.json` (word timings) |
+| `public/avatar/` | Generated avatar layers: `figure`, `talk` (mouth), `blink` (eyes) and `face` (badge photo) WebP files, built from private sources |
 
 ## Voice narration
 
