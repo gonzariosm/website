@@ -224,7 +224,7 @@ const en: Copy = {
   hero: {
     eyebrow: 'Gonzalo Ríos',
     titleLines: ['Director of', 'AI Platform.'],
-    lead: "I lead the platform that lets Rebrandly's engineers ship code written with AI to production safely, backed by fifteen years of running infrastructure.",
+    lead: "I lead the platform that lets Rebrandly's engineers ship AI-written code to production safely. I've been keeping servers alive for fifteen years.",
     ctaWork: 'Explore my work',
     ctaTalk: "Let's talk",
     listen: 'Hear my intro',
@@ -548,7 +548,7 @@ const es: Copy = {
   hero: {
     eyebrow: 'Gonzalo Ríos',
     titleLines: ['Director de', 'Plataforma IA.'],
-    lead: 'Lidero la plataforma que permite a los ingenieros de Rebrandly desplegar en producción código creado con IA de forma segura, con quince años de infraestructura como base.',
+    lead: 'Lidero la plataforma que permite a los ingenieros de Rebrandly llevar a producción, de forma segura, el código creado con IA. Llevo quince años manteniendo servidores con vida.',
     ctaWork: 'Ver mi trabajo',
     ctaTalk: 'Hablemos',
     listen: 'Escucha mi intro',
