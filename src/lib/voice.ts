@@ -1,6 +1,7 @@
 import type { Locale } from '../content/site';
 
 interface ClipData {
+  hash: string;
   text: string;
   duration: number;
   words: { w: string; s: number; e: number }[];
@@ -11,6 +12,11 @@ const clips = import.meta.glob<ClipData>('../../public/audio/*/*.json', { eager:
 
 export function clipDuration(locale: Locale, clip: string): number | undefined {
   return clips[`../../public/audio/${locale}/${clip}.json`]?.duration;
+}
+
+/** Content hash of a clip, used to version its URLs so cached audio never outlives a script change. */
+export function clipVersion(locale: Locale, clip: string): string | undefined {
+  return clips[`../../public/audio/${locale}/${clip}.json`]?.hash.slice(0, 12);
 }
 
 export function formatDuration(seconds: number | undefined): string {

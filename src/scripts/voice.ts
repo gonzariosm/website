@@ -183,10 +183,15 @@ export function initVoice() {
     window.setTimeout(() => (label.textContent = original), 3500);
   }
 
-  async function load(clip: string): Promise<ClipData> {
+  /** Audio is cached as immutable, so URLs carry the clip's content hash. */
+  function clipUrl(clip: string, extension: string, version?: string): string {
+    return `/audio/${locale}/${clip}.${extension}${version ? `?v=${version}` : ''}`;
+  }
+
+  async function load(clip: string, version?: string): Promise<ClipData> {
     const cached = cache.get(clip);
     if (cached) return cached;
-    const res = await fetch(`/audio/${locale}/${clip}.json`);
+    const res = await fetch(clipUrl(clip, 'json', version));
     if (!res.ok) throw new Error(`clip ${clip}: ${res.status}`);
     const data = (await res.json()) as ClipData;
     cache.set(clip, data);
@@ -211,10 +216,10 @@ export function initVoice() {
     currentButton = button;
     loading = true;
     try {
-      const data = await load(clip);
+      const data = await load(clip, button.dataset.voiceVersion);
       if (request !== generation) return;
       titleEl.textContent = button.dataset.voiceTitle ?? '';
-      audio.src = `/audio/${locale}/${clip}.${ext}`;
+      audio.src = clipUrl(clip, ext, button.dataset.voiceVersion);
       showPlayer();
       chunks = chunk(data.words, maxChars());
       chunkIndex = -1;
