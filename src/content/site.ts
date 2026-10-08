@@ -14,6 +14,9 @@ export const person = {
   site: 'https://gonzalorios.cl',
 };
 
+/** Text-to-speech provider behind the narration, credited in the player and footer. */
+export const voiceProvider = { name: 'ElevenLabs', url: 'https://try.elevenlabs.io/x8yskvshd2hd' };
+
 export type SectionId = 'about' | 'skills' | 'work' | 'experience' | 'achievements' | 'contact';
 export const sectionIds: SectionId[] = ['about', 'skills', 'work', 'experience', 'achievements', 'contact'];
 
@@ -173,6 +176,7 @@ export interface Copy {
     listenSection: string;
     captions: string;
     unavailable: string;
+    credit: string;
   };
   notFound: { title: string; body: string; back: string };
 }
@@ -181,7 +185,7 @@ const en: Copy = {
   meta: {
     title: 'Gonzalo Ríos — Director of AI Platform',
     description:
-      'Gonzalo Ríos is Director of AI Platform at Rebrandly. He leads the platform that lets product teams ship AI safely, with agents, evals and guardrails built on fifteen years of production infrastructure.',
+      'Gonzalo Ríos is Director of AI Platform at Rebrandly. He builds the platform that lets engineers ship AI-generated code to production safely: coding agents, guardrails, automated review and CI/CD gates, on fifteen years of production infrastructure.',
   },
   skipLink: 'Skip to content',
   nav: {
@@ -198,7 +202,7 @@ const en: Copy = {
   hero: {
     eyebrow: 'Gonzalo Ríos',
     titleLines: ['Director of', 'AI Platform.'],
-    lead: 'I lead the platform that lets every team at Rebrandly ship AI safely, backed by fifteen years of running infrastructure in production.',
+    lead: "I lead the platform that lets Rebrandly's engineers ship code written with AI to production safely, backed by fifteen years of running infrastructure.",
     ctaWork: 'Explore my work',
     ctaTalk: "Let's talk",
     listen: 'Hear my intro',
@@ -209,14 +213,14 @@ const en: Copy = {
     title: "Hi, I'm",
     accent: 'Gonzalo.',
     body: [
-      'Director of AI Platform at Rebrandly. I lead the platform that turns models into products: shared agent tooling, evals before every release, guardrails and cost visibility, so each team can ship AI without rebuilding the plumbing.',
+      'Director of AI Platform at Rebrandly. My team builds the paved road for AI-assisted engineering: coding agents with the right context and permissions, automated review, guardrails and CI/CD gates, so code written with AI reaches production as safely as any other.',
       'I got here through fifteen years of DevOps and SRE. Docker, Kubernetes, Terraform and AWS are still my daily tools, and I write Go and Python to automate everything that should not need a human.',
     ],
     factsTitle: 'Quick facts',
     facts: [
       { label: 'Based in', value: 'Barcelona, Spain' },
       { label: 'Role', value: 'Director of AI Platform · Rebrandly' },
-      { label: 'Focus', value: 'AI agents · Evals · Guardrails' },
+      { label: 'Focus', value: 'Coding agents · Guardrails · Safe delivery' },
       { label: 'In production since', value: '2011' },
       { label: 'Worked from', value: 'Chile · New Zealand · Ireland · Spain' },
     ],
@@ -232,7 +236,7 @@ const en: Copy = {
       ],
       backTitle: 'What I am',
       back: [
-        { title: 'AI platform leader', detail: 'Agents · evals · guardrails' },
+        { title: 'AI platform leader', detail: 'Coding agents · guardrails · CI/CD' },
         { title: 'Team lead', detail: 'Standards, mentoring, delivery' },
         { title: 'Platform engineer', detail: 'Docker · Kubernetes · Terraform' },
         { title: 'Builder', detail: 'Go APIs at enterprise scale' },
@@ -243,7 +247,7 @@ const en: Copy = {
     },
   },
   statement:
-    'Shipping AI should feel boring: measured, secure and always on, so product teams spend their time on what it does, not on how it runs.',
+    'Code written with AI should ship like any other: reviewed, tested, secure and reversible, so teams move faster without gambling with production.',
   skills: {
     eyebrow: 'Skills',
     title: 'The periodic table of',
@@ -281,16 +285,16 @@ const en: Copy = {
     Ng: 'Web serving and reverse proxying, everywhere.',
     Tf: 'Infrastructure as code, and co-author of a Terraform provider v1.0.',
     An: 'Configuration management for fleets of servers.',
-    Gh: 'CI/CD pipelines that turn merges into deploys.',
+    Gh: 'The CI/CD gates every change passes, whether a person or an agent wrote it.',
     Gl: 'Pipelines that cut deployment times dramatically.',
     Ch: 'Analytics at scale. One of my top skills.',
     Kf: 'Streaming events between services. One of my top skills.',
     Dy: 'Single-digit-millisecond storage for high-volume APIs.',
     My: 'The relational workhorse behind countless sites.',
-    Cl: 'The model I build with every day, from product features to internal agents. One of my top skills.',
-    Mc: 'One secure interface between models, internal tools and company data.',
-    Ag: 'Agent workflows that do real work, with a human in the loop where it matters.',
-    Ev: 'No AI feature ships without evals: quality is measured before users see it.',
+    Cl: 'The model behind our coding agents and internal tooling. One of my top skills.',
+    Mc: 'Giving coding agents safe, scoped access to internal tools and data.',
+    Ag: 'Coding agents that open real pull requests, with humans reviewing what ships.',
+    Ev: 'Measuring what agents produce before it reaches production.',
   },
   work: {
     eyebrow: 'Work',
@@ -305,9 +309,9 @@ const en: Copy = {
         kicker: 'Rebrandly · 2025 – present',
         title: 'AI Platform',
         summary:
-          'The paved road for AI at Rebrandly: models, agents, evaluations and guardrails behind one platform, so every team can ship AI features safely and measure them in production.',
-        points: ['Shared agent tooling and MCP servers', 'Evals as a release gate', 'Guardrails, cost and usage visibility'],
-        tags: ['Claude', 'MCP', 'AWS', 'Go', 'Python'],
+          'The paved road for AI-assisted engineering at Rebrandly: coding agents, automated review, guardrails and delivery gates on one platform, so code written with AI can ship to production safely.',
+        points: ['Coding agents with scoped context and permissions', 'Automated review and quality gates in CI/CD', 'Guardrails, audit trail and cost visibility'],
+        tags: ['Claude', 'MCP', 'GitHub Actions', 'AWS', 'Go'],
       },
       {
         id: 'bulk-ingest',
@@ -427,7 +431,7 @@ const en: Copy = {
         role: 'Director of AI Platform',
         org: 'Rebrandly',
         place: 'Barcelona, Spain',
-        text: 'Leading the platform that brings AI into every product team: agent tooling, evaluations, guardrails and the infrastructure underneath.',
+        text: 'Leading the platform that lets engineers ship AI-generated code safely: coding agents, automated review, guardrails and delivery gates.',
       },
     ],
   },
@@ -450,14 +454,14 @@ const en: Copy = {
       { title: 'Ingeniero de Ejecución en Informática', detail: 'Universidad de Ciencias de la Informática · 2011 – 2013' },
       { title: 'Professional Git & GitHub', detail: 'Certification' },
       { title: 'English, professional working proficiency', detail: 'Ten years working in English across three countries' },
-      { title: 'Current focus: AI agents and evals', detail: 'Claude, MCP and evaluation-driven development' },
+      { title: 'Current focus: AI-assisted engineering', detail: 'Claude, MCP, coding agents and evaluation-driven development' },
     ],
   },
   contact: {
     eyebrow: 'Contact',
-    title: "Let's ship AI that's",
-    accent: 'reliable.',
-    body: 'Open to conversations about AI platforms, agents in production and platform engineering leadership.',
+    title: "Let's ship AI-written code,",
+    accent: 'safely.',
+    body: 'Open to conversations about AI-assisted engineering, coding agents in production and platform engineering leadership.',
     email: 'Write me an email',
     copy: 'Copy email address',
     copied: 'Email address copied',
@@ -480,6 +484,7 @@ const en: Copy = {
     listenSection: 'Listen to this section',
     captions: 'Captions',
     unavailable: 'Narration is not available right now.',
+    credit: 'AI voice powered by',
   },
   notFound: {
     title: 'This page took the day off.',
@@ -492,7 +497,7 @@ const es: Copy = {
   meta: {
     title: 'Gonzalo Ríos — Director de Plataforma de IA',
     description:
-      'Gonzalo Ríos es Director de Plataforma de IA en Rebrandly. Lidera la plataforma que permite a los equipos de producto lanzar IA de forma segura, con agentes, evals y guardrails sobre quince años de infraestructura en producción.',
+      'Gonzalo Ríos es Director de Plataforma de IA en Rebrandly. Construye la plataforma que permite a los ingenieros desplegar en producción código creado con IA de forma segura: agentes de código, guardrails, revisión automática y gates de CI/CD, sobre quince años de infraestructura en producción.',
   },
   skipLink: 'Saltar al contenido',
   nav: {
@@ -509,7 +514,7 @@ const es: Copy = {
   hero: {
     eyebrow: 'Gonzalo Ríos',
     titleLines: ['Director de', 'Plataforma IA.'],
-    lead: 'Lidero la plataforma que permite a cada equipo de Rebrandly lanzar IA de forma segura, con quince años de infraestructura en producción como base.',
+    lead: 'Lidero la plataforma que permite a los ingenieros de Rebrandly desplegar en producción código creado con IA de forma segura, con quince años de infraestructura como base.',
     ctaWork: 'Ver mi trabajo',
     ctaTalk: 'Hablemos',
     listen: 'Escucha mi intro',
@@ -520,14 +525,14 @@ const es: Copy = {
     title: 'Hola, soy',
     accent: 'Gonzalo.',
     body: [
-      'Director de Plataforma de IA en Rebrandly. Lidero la plataforma que convierte modelos en producto: herramientas de agentes compartidas, evals antes de cada lanzamiento, guardrails y visibilidad de costos, para que cada equipo lance IA sin reconstruir la base.',
+      'Director de Plataforma de IA en Rebrandly. Mi equipo construye el camino pavimentado para la ingeniería asistida por IA: agentes de código con el contexto y los permisos justos, revisión automática, guardrails y gates de CI/CD, para que el código creado con IA llegue a producción tan seguro como cualquier otro.',
       'Llegué aquí tras quince años de DevOps y SRE. Docker, Kubernetes, Terraform y AWS siguen siendo mis herramientas diarias, y escribo Go y Python para automatizar todo lo que no debería necesitar a una persona.',
     ],
     factsTitle: 'En corto',
     facts: [
       { label: 'Vivo en', value: 'Barcelona, España' },
       { label: 'Rol', value: 'Director de Plataforma de IA · Rebrandly' },
-      { label: 'Foco', value: 'Agentes de IA · Evals · Guardrails' },
+      { label: 'Foco', value: 'Agentes de código · Guardrails · Despliegue seguro' },
       { label: 'En producción desde', value: '2011' },
       { label: 'He trabajado desde', value: 'Chile · Nueva Zelanda · Irlanda · España' },
     ],
@@ -543,7 +548,7 @@ const es: Copy = {
       ],
       backTitle: 'Lo que soy',
       back: [
-        { title: 'Líder de plataforma IA', detail: 'Agentes · evals · guardrails' },
+        { title: 'Líder de plataforma IA', detail: 'Agentes de código · guardrails · CI/CD' },
         { title: 'Líder de equipo', detail: 'Estándares, mentoría, entrega' },
         { title: 'Ingeniero de plataforma', detail: 'Docker · Kubernetes · Terraform' },
         { title: 'Constructor', detail: 'APIs en Go a escala enterprise' },
@@ -554,7 +559,7 @@ const es: Copy = {
     },
   },
   statement:
-    'Lanzar IA debería ser aburrido: medido, seguro y siempre disponible, para que los equipos de producto se ocupen de lo que hace, no de cómo corre.',
+    'El código creado con IA debería desplegarse como cualquier otro: revisado, probado, seguro y reversible, para que los equipos avancen más rápido sin apostar con producción.',
   skills: {
     eyebrow: 'Skills',
     title: 'La tabla periódica de',
@@ -592,16 +597,16 @@ const es: Copy = {
     Ng: 'Servidor web y proxy inverso, en todas partes.',
     Tf: 'Infraestructura como código, y coautor de un proveedor de Terraform v1.0.',
     An: 'Gestión de configuración para flotas de servidores.',
-    Gh: 'Pipelines de CI/CD que convierten un merge en un deploy.',
+    Gh: 'Los gates de CI/CD que pasa cada cambio, lo haya escrito una persona o un agente.',
     Gl: 'Pipelines que redujeron drásticamente los tiempos de despliegue.',
     Ch: 'Analítica a escala. Una de mis principales skills.',
     Kf: 'Streaming de eventos entre servicios. Una de mis principales skills.',
     Dy: 'Almacenamiento con latencia de milisegundos para APIs de alto volumen.',
     My: 'El caballo de batalla relacional detrás de incontables sitios.',
-    Cl: 'El modelo con el que construyo a diario, de funcionalidades de producto a agentes internos. Una de mis principales skills.',
-    Mc: 'Una interfaz segura entre modelos, herramientas internas y datos de la empresa.',
-    Ag: 'Flujos de agentes que hacen trabajo real, con una persona en el circuito donde importa.',
-    Ev: 'Ninguna funcionalidad de IA sale sin evals: la calidad se mide antes de que la vean los usuarios.',
+    Cl: 'El modelo detrás de nuestros agentes de código y herramientas internas. Una de mis principales skills.',
+    Mc: 'Dar a los agentes de código acceso seguro y acotado a herramientas y datos internos.',
+    Ag: 'Agentes de código que abren pull requests reales, con personas revisando lo que se despliega.',
+    Ev: 'Medir lo que producen los agentes antes de que llegue a producción.',
   },
   work: {
     eyebrow: 'Proyectos',
@@ -616,9 +621,9 @@ const es: Copy = {
         kicker: 'Rebrandly · 2025 – hoy',
         title: 'Plataforma de IA',
         summary:
-          'El camino pavimentado para la IA en Rebrandly: modelos, agentes, evaluaciones y guardrails en una sola plataforma, para que cada equipo lance funcionalidades de IA de forma segura y las mida en producción.',
-        points: ['Herramientas de agentes y servidores MCP compartidos', 'Evals como requisito para lanzar', 'Guardrails, visibilidad de costos y uso'],
-        tags: ['Claude', 'MCP', 'AWS', 'Go', 'Python'],
+          'El camino pavimentado para la ingeniería asistida por IA en Rebrandly: agentes de código, revisión automática, guardrails y gates de despliegue en una sola plataforma, para que el código creado con IA llegue a producción de forma segura.',
+        points: ['Agentes de código con contexto y permisos acotados', 'Revisión automática y quality gates en CI/CD', 'Guardrails, trazabilidad y visibilidad de costos'],
+        tags: ['Claude', 'MCP', 'GitHub Actions', 'AWS', 'Go'],
       },
       {
         id: 'bulk-ingest',
@@ -738,7 +743,7 @@ const es: Copy = {
         role: 'Director de Plataforma de IA',
         org: 'Rebrandly',
         place: 'Barcelona, España',
-        text: 'Lidero la plataforma que lleva la IA a cada equipo de producto: herramientas de agentes, evaluaciones, guardrails y la infraestructura que los sostiene.',
+        text: 'Lidero la plataforma que permite a los ingenieros desplegar código creado con IA de forma segura: agentes de código, revisión automática, guardrails y gates de despliegue.',
       },
     ],
   },
@@ -761,14 +766,14 @@ const es: Copy = {
       { title: 'Ingeniero de Ejecución en Informática', detail: 'Universidad de Ciencias de la Informática · 2011 – 2013' },
       { title: 'Curso Profesional de Git y GitHub', detail: 'Certificación' },
       { title: 'Inglés, nivel profesional', detail: 'Diez años trabajando en inglés en tres países' },
-      { title: 'Foco actual: agentes de IA y evals', detail: 'Claude, MCP y desarrollo guiado por evaluaciones' },
+      { title: 'Foco actual: ingeniería asistida por IA', detail: 'Claude, MCP, agentes de código y desarrollo guiado por evaluaciones' },
     ],
   },
   contact: {
     eyebrow: 'Contacto',
-    title: 'Lancemos IA',
-    accent: 'confiable.',
-    body: 'Abierto a conversar sobre plataformas de IA, agentes en producción y liderazgo en ingeniería de plataformas.',
+    title: 'Despleguemos código con IA',
+    accent: 'de forma segura.',
+    body: 'Abierto a conversar sobre ingeniería asistida por IA, agentes de código en producción y liderazgo en ingeniería de plataformas.',
     email: 'Escríbeme un email',
     copy: 'Copiar dirección de email',
     copied: 'Dirección de email copiada',
@@ -791,6 +796,7 @@ const es: Copy = {
     listenSection: 'Escuchar esta sección',
     captions: 'Subtítulos',
     unavailable: 'La narración no está disponible ahora.',
+    credit: 'Voz con IA de',
   },
   notFound: {
     title: 'Esta página se tomó el día libre.',

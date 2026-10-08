@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { copy, markdownPath, homePath, type Locale } from '../content/site';
+import { copy, voiceProvider, markdownPath, homePath, type Locale } from '../content/site';
 
 interface Props {
   locale: Locale;
@@ -20,6 +20,10 @@ const year = new Date().getFullYear();
       <span class="visually-hidden">{t.footer.love}</span>
       {t.footer.byAgents}
     </p>
+    <p class="footer__made">
+      {copy[locale].voice.credit}
+      <a href={voiceProvider.url} rel="sponsored noopener" class="footer__credit-link">{voiceProvider.name}</a>
+    </p>
     <ul role="list" class="footer__links">
       <li><a href={markdownPath(locale)} type="text/markdown">{t.footer.markdown}</a></li>
       <li>
@@ -35,6 +39,11 @@ const year = new Date().getFullYear();
     padding-block: 32px max(32px, env(safe-area-inset-bottom));
     border-top: 1px solid var(--line);
     font-size: 0.8125rem;
+  }
+
+  /* Keep the footer clear of the fixed voice player while it is open. */
+  :global(body:has([data-player]:not([hidden]))) .footer {
+    padding-bottom: max(128px, env(safe-area-inset-bottom));
   }
 
   .footer__inner {
@@ -76,6 +85,11 @@ const year = new Date().getFullYear();
     24% {
       transform: scale(1.08);
     }
+  }
+
+  .footer__credit-link {
+    color: var(--ink-2);
+    text-decoration-color: var(--line-strong);
   }
 
   .footer__links {

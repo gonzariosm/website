@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { copy, type Locale } from '../content/site';
+import { copy, voiceProvider, type Locale } from '../content/site';
 
 interface Props {
   locale: Locale;
@@ -27,7 +27,8 @@ const t = copy[locale].voice;
   <div class="player__body">
     <p class="player__title">
       <span class="player__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      <span data-player-title></span>
+      <span class="player__name" data-player-title></span>
+      <span class="player__credit"><span class="player__credit-prefix">{t.credit} </span>{voiceProvider.name}</span>
     </p>
     <p class="player__caption" aria-hidden="true" data-player-caption></p>
     <span class="player__progress" aria-hidden="true"><span data-player-progress></span></span>
@@ -130,6 +131,26 @@ const t = copy[locale].voice;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
+  }
+
+  .player__name {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .player__credit {
+    flex: none;
+    margin-left: auto;
+    letter-spacing: 0.06em;
+    text-transform: none;
+  }
+
+  @media (max-width: 520px) {
+    .player__credit-prefix {
+      display: none;
+    }
   }
 
   .player__eq {
