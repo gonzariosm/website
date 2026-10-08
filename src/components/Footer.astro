@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { copy, markdownPath, homePath, type Locale } from '../content/site';
 
 interface Props {
@@ -13,7 +14,12 @@ const year = new Date().getFullYear();
 <footer class="footer">
   <div class="container footer__inner">
     <p>© {year} {t.footer.rights}</p>
-    <p class="footer__muted">{t.footer.built}</p>
+    <p class="footer__made">
+      {t.footer.madeWith}
+      <Icon name="heart" class="footer__heart" />
+      <span class="visually-hidden">{t.footer.love}</span>
+      {t.footer.byAgents}
+    </p>
     <ul role="list" class="footer__links">
       <li><a href={markdownPath(locale)} type="text/markdown">{t.footer.markdown}</a></li>
       <li>
@@ -38,8 +44,38 @@ const year = new Date().getFullYear();
     gap: 12px 24px;
   }
 
-  .footer__muted {
+  .footer__made {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
     color: var(--muted);
+  }
+
+  .footer__made :global(.footer__heart) {
+    width: 1.15em;
+    height: 1.15em;
+    color: #d6457a;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .footer__made :global(.footer__heart) {
+      animation: heartbeat 1.6s var(--ease-out) infinite;
+      transform-origin: 50% 60%;
+    }
+  }
+
+  @keyframes heartbeat {
+    0%,
+    40%,
+    100% {
+      transform: scale(1);
+    }
+    12% {
+      transform: scale(1.22);
+    }
+    24% {
+      transform: scale(1.08);
+    }
   }
 
   .footer__links {

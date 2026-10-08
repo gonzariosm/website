@@ -18,10 +18,14 @@ export type SectionId = 'about' | 'skills' | 'work' | 'experience' | 'achievemen
 export const sectionIds: SectionId[] = ['about', 'skills', 'work', 'experience', 'achievements', 'contact'];
 
 export type FamilyId = 'languages' | 'cloud' | 'containers' | 'automation' | 'data' | 'ai';
-export const familyIds: FamilyId[] = ['languages', 'cloud', 'containers', 'automation', 'data', 'ai'];
+export const familyIds: FamilyId[] = ['ai', 'languages', 'cloud', 'containers', 'automation', 'data'];
 
 /** Periodic-table elements. Notes are localized below in `elementNotes`. */
 export const elements: { symbol: string; name: string; family: FamilyId }[] = [
+  { symbol: 'Cl', name: 'Claude', family: 'ai' },
+  { symbol: 'Mc', name: 'MCP', family: 'ai' },
+  { symbol: 'Ag', name: 'AI agents', family: 'ai' },
+  { symbol: 'Ev', name: 'LLM evals', family: 'ai' },
   { symbol: 'Go', name: 'Golang', family: 'languages' },
   { symbol: 'Py', name: 'Python', family: 'languages' },
   { symbol: 'Ph', name: 'PHP', family: 'languages' },
@@ -46,10 +50,6 @@ export const elements: { symbol: string; name: string; family: FamilyId }[] = [
   { symbol: 'Kf', name: 'Apache Kafka', family: 'data' },
   { symbol: 'Dy', name: 'DynamoDB', family: 'data' },
   { symbol: 'My', name: 'MySQL', family: 'data' },
-  { symbol: 'Cl', name: 'Claude', family: 'ai' },
-  { symbol: 'Mc', name: 'MCP', family: 'ai' },
-  { symbol: 'Ag', name: 'AI agents', family: 'ai' },
-  { symbol: 'Ev', name: 'LLM evals', family: 'ai' },
 ];
 
 export type ProjectVisual = 'platform' | 'ingest' | 'containers' | 'terraform' | 'hosting';
@@ -164,7 +164,7 @@ export interface Copy {
     linkedin: string;
     location: string;
   };
-  footer: { rights: string; markdown: string; built: string; top: string };
+  footer: { rights: string; markdown: string; madeWith: string; love: string; byAgents: string; top: string };
   voice: {
     player: string;
     play: string;
@@ -179,9 +179,9 @@ export interface Copy {
 
 const en: Copy = {
   meta: {
-    title: 'Gonzalo Ríos — Director of AI Platform & Lead DevOps Engineer',
+    title: 'Gonzalo Ríos — Director of AI Platform',
     description:
-      'Gonzalo Ríos designs, automates and runs cloud infrastructure and AI platforms. Fifteen years across DevOps, SRE and cloud architecture, from Chile to New Zealand to Ireland.',
+      'Gonzalo Ríos is Director of AI Platform at Rebrandly. He leads the platform that lets product teams ship AI safely, with agents, evals and guardrails built on fifteen years of production infrastructure.',
   },
   skipLink: 'Skip to content',
   nav: {
@@ -197,8 +197,8 @@ const en: Copy = {
   langSwitch: { label: 'Leer en español', short: 'ES', full: 'Español' },
   hero: {
     eyebrow: 'Gonzalo Ríos',
-    titleLines: ['AI Platforms', '& DevOps.'],
-    lead: 'Director of AI Platform at Rebrandly. Fifteen years designing, automating and running the infrastructure that keeps products online.',
+    titleLines: ['Director of', 'AI Platform.'],
+    lead: 'I lead the platform that lets every team at Rebrandly ship AI safely, backed by fifteen years of running infrastructure in production.',
     ctaWork: 'Explore my work',
     ctaTalk: "Let's talk",
     listen: 'Hear my intro',
@@ -209,46 +209,46 @@ const en: Copy = {
     title: "Hi, I'm",
     accent: 'Gonzalo.',
     body: [
-      'Lead DevOps engineer turned Director of AI Platform. I design, build and maintain highly scalable, highly available cloud infrastructure, and lately the platform that lets teams ship AI safely.',
-      'I work daily with Docker, Kubernetes, Terraform, Ansible and AWS, and I write Go, Python, PHP and Bash to automate everything that should not need a human.',
+      'Director of AI Platform at Rebrandly. I lead the platform that turns models into products: shared agent tooling, evals before every release, guardrails and cost visibility, so each team can ship AI without rebuilding the plumbing.',
+      'I got here through fifteen years of DevOps and SRE. Docker, Kubernetes, Terraform and AWS are still my daily tools, and I write Go and Python to automate everything that should not need a human.',
     ],
     factsTitle: 'Quick facts',
     facts: [
       { label: 'Based in', value: 'Barcelona, Spain' },
       { label: 'Role', value: 'Director of AI Platform · Rebrandly' },
+      { label: 'Focus', value: 'AI agents · Evals · Guardrails' },
       { label: 'In production since', value: '2011' },
       { label: 'Worked from', value: 'Chile · New Zealand · Ireland · Spain' },
-      { label: 'Languages', value: 'Spanish (native) · English (professional)' },
     ],
     quote: 'From bare-metal servers to AI platforms.',
     badge: {
-      front: 'Engineer ID',
+      front: 'Staff ID',
       sub: 'Portfolio · 2026',
-      role: 'AI Platform · DevOps',
+      role: 'Director · AI Platform',
       fields: [
         { label: 'ID no.', value: 'GR-2011' },
-        { label: 'Dept.', value: 'Platform' },
+        { label: 'Dept.', value: 'AI Platform' },
         { label: 'Uptime', value: '99.99%' },
       ],
       backTitle: 'What I am',
       back: [
-        { title: 'Platform leader', detail: 'Director of AI Platform' },
-        { title: 'DevOps engineer', detail: 'Docker · Kubernetes · Terraform' },
+        { title: 'AI platform leader', detail: 'Agents · evals · guardrails' },
+        { title: 'Team lead', detail: 'Standards, mentoring, delivery' },
+        { title: 'Platform engineer', detail: 'Docker · Kubernetes · Terraform' },
         { title: 'Builder', detail: 'Go APIs at enterprise scale' },
         { title: 'Founder', detail: 'Silverhost, ten years' },
-        { title: 'Lifelong learner', detail: 'AI agents, evals, MCP' },
       ],
       flip: 'Flip the badge',
       flipBack: 'Flip the badge back',
     },
   },
   statement:
-    'I make infrastructure boring: fast, secure and always on, so the people building the product never have to think about it.',
+    'Shipping AI should feel boring: measured, secure and always on, so product teams spend their time on what it does, not on how it runs.',
   skills: {
     eyebrow: 'Skills',
     title: 'The periodic table of',
     accent: 'my stack.',
-    intro: 'Twenty-eight elements in six families. Pick a family to light it up, or select a tile to read about it.',
+    intro: 'Twenty-eight elements in six families, from the AI layer down to the metal. Pick a family to light it up, or select a tile to read about it.',
     filterLabel: 'Filter by family',
     all: 'All',
     families: {
@@ -287,16 +287,16 @@ const en: Copy = {
     Kf: 'Streaming events between services. One of my top skills.',
     Dy: 'Single-digit-millisecond storage for high-volume APIs.',
     My: 'The relational workhorse behind countless sites.',
-    Cl: 'Building with Anthropic Claude. One of my top skills.',
-    Mc: 'Connecting models to tools and internal data.',
-    Ag: 'Designing agent workflows that do real work.',
-    Ev: 'Measuring AI quality before it reaches users.',
+    Cl: 'The model I build with every day, from product features to internal agents. One of my top skills.',
+    Mc: 'One secure interface between models, internal tools and company data.',
+    Ag: 'Agent workflows that do real work, with a human in the loop where it matters.',
+    Ev: 'No AI feature ships without evals: quality is measured before users see it.',
   },
   work: {
     eyebrow: 'Work',
     title: "Things I've",
     accent: 'built.',
-    intro: 'Five systems from fifteen years in production. Open a panel to see more.',
+    intro: 'From the AI platform I lead today back to the systems that taught me how to run production. Open a panel to see more.',
     open: 'Show project',
     projects: [
       {
@@ -305,8 +305,8 @@ const en: Copy = {
         kicker: 'Rebrandly · 2025 – present',
         title: 'AI Platform',
         summary:
-          'The platform that lets every team at Rebrandly ship AI features safely: models, agents, evaluations and guardrails behind one paved road.',
-        points: ['Shared agent tooling', 'Evaluation before release', 'Cost and usage visibility'],
+          'The paved road for AI at Rebrandly: models, agents, evaluations and guardrails behind one platform, so every team can ship AI features safely and measure them in production.',
+        points: ['Shared agent tooling and MCP servers', 'Evals as a release gate', 'Guardrails, cost and usage visibility'],
         tags: ['Claude', 'MCP', 'AWS', 'Go', 'Python'],
       },
       {
@@ -355,7 +355,7 @@ const en: Copy = {
     eyebrow: 'Experience',
     title: 'Fifteen years,',
     accent: 'in production.',
-    intro: 'From a school data center in Santiago to platform leadership in Europe.',
+    intro: 'From a school data center in Santiago to leading an AI platform in Europe.',
     items: [
       {
         year: '2011',
@@ -427,7 +427,7 @@ const en: Copy = {
         role: 'Director of AI Platform',
         org: 'Rebrandly',
         place: 'Barcelona, Spain',
-        text: 'Leading the platform that brings AI into every team, safely and at scale.',
+        text: 'Leading the platform that brings AI into every product team: agent tooling, evaluations, guardrails and the infrastructure underneath.',
       },
     ],
   },
@@ -450,14 +450,14 @@ const en: Copy = {
       { title: 'Ingeniero de Ejecución en Informática', detail: 'Universidad de Ciencias de la Informática · 2011 – 2013' },
       { title: 'Professional Git & GitHub', detail: 'Certification' },
       { title: 'English, professional working proficiency', detail: 'Ten years working in English across three countries' },
-      { title: 'Now learning: AI agents and evals', detail: 'Claude, MCP and evaluation-driven development' },
+      { title: 'Current focus: AI agents and evals', detail: 'Claude, MCP and evaluation-driven development' },
     ],
   },
   contact: {
     eyebrow: 'Contact',
-    title: "Let's build something",
+    title: "Let's ship AI that's",
     accent: 'reliable.',
-    body: 'Open to conversations about platform engineering, AI infrastructure and DevOps leadership.',
+    body: 'Open to conversations about AI platforms, agents in production and platform engineering leadership.',
     email: 'Write me an email',
     copy: 'Copy email address',
     copied: 'Email address copied',
@@ -467,7 +467,9 @@ const en: Copy = {
   footer: {
     rights: 'Gonzalo Ríos',
     markdown: 'Read this page as Markdown',
-    built: 'Built with Astro. No trackers.',
+    madeWith: 'Made with',
+    love: 'love',
+    byAgents: 'by my agents',
     top: 'Back to top',
   },
   voice: {
@@ -488,9 +490,9 @@ const en: Copy = {
 
 const es: Copy = {
   meta: {
-    title: 'Gonzalo Ríos — Director de Plataforma de IA y Lead DevOps Engineer',
+    title: 'Gonzalo Ríos — Director de Plataforma de IA',
     description:
-      'Gonzalo Ríos diseña, automatiza y opera infraestructura cloud y plataformas de IA. Quince años en DevOps, SRE y arquitectura cloud, de Chile a Nueva Zelanda e Irlanda.',
+      'Gonzalo Ríos es Director de Plataforma de IA en Rebrandly. Lidera la plataforma que permite a los equipos de producto lanzar IA de forma segura, con agentes, evals y guardrails sobre quince años de infraestructura en producción.',
   },
   skipLink: 'Saltar al contenido',
   nav: {
@@ -506,8 +508,8 @@ const es: Copy = {
   langSwitch: { label: 'Read in English', short: 'EN', full: 'English' },
   hero: {
     eyebrow: 'Gonzalo Ríos',
-    titleLines: ['Plataformas IA', 'y DevOps.'],
-    lead: 'Director de Plataforma de IA en Rebrandly. Quince años diseñando, automatizando y operando la infraestructura que mantiene los productos en línea.',
+    titleLines: ['Director de', 'Plataforma IA.'],
+    lead: 'Lidero la plataforma que permite a cada equipo de Rebrandly lanzar IA de forma segura, con quince años de infraestructura en producción como base.',
     ctaWork: 'Ver mi trabajo',
     ctaTalk: 'Hablemos',
     listen: 'Escucha mi intro',
@@ -518,46 +520,46 @@ const es: Copy = {
     title: 'Hola, soy',
     accent: 'Gonzalo.',
     body: [
-      'Lead DevOps convertido en Director de Plataforma de IA. Diseño, construyo y mantengo infraestructura cloud altamente escalable y disponible, y últimamente la plataforma que permite a los equipos llevar IA a producción de forma segura.',
-      'Trabajo a diario con Docker, Kubernetes, Terraform, Ansible y AWS, y escribo Go, Python, PHP y Bash para automatizar todo lo que no debería necesitar a una persona.',
+      'Director de Plataforma de IA en Rebrandly. Lidero la plataforma que convierte modelos en producto: herramientas de agentes compartidas, evals antes de cada lanzamiento, guardrails y visibilidad de costos, para que cada equipo lance IA sin reconstruir la base.',
+      'Llegué aquí tras quince años de DevOps y SRE. Docker, Kubernetes, Terraform y AWS siguen siendo mis herramientas diarias, y escribo Go y Python para automatizar todo lo que no debería necesitar a una persona.',
     ],
     factsTitle: 'En corto',
     facts: [
       { label: 'Vivo en', value: 'Barcelona, España' },
       { label: 'Rol', value: 'Director de Plataforma de IA · Rebrandly' },
+      { label: 'Foco', value: 'Agentes de IA · Evals · Guardrails' },
       { label: 'En producción desde', value: '2011' },
       { label: 'He trabajado desde', value: 'Chile · Nueva Zelanda · Irlanda · España' },
-      { label: 'Idiomas', value: 'Español (nativo) · Inglés (profesional)' },
     ],
     quote: 'De servidores bare-metal a plataformas de IA.',
     badge: {
       front: 'Credencial',
       sub: 'Portafolio · 2026',
-      role: 'Plataforma IA · DevOps',
+      role: 'Director · Plataforma IA',
       fields: [
         { label: 'N.º ID', value: 'GR-2011' },
-        { label: 'Área', value: 'Plataforma' },
+        { label: 'Área', value: 'Plataforma IA' },
         { label: 'Uptime', value: '99,99 %' },
       ],
       backTitle: 'Lo que soy',
       back: [
-        { title: 'Líder de plataforma', detail: 'Director de Plataforma de IA' },
-        { title: 'Ingeniero DevOps', detail: 'Docker · Kubernetes · Terraform' },
+        { title: 'Líder de plataforma IA', detail: 'Agentes · evals · guardrails' },
+        { title: 'Líder de equipo', detail: 'Estándares, mentoría, entrega' },
+        { title: 'Ingeniero de plataforma', detail: 'Docker · Kubernetes · Terraform' },
         { title: 'Constructor', detail: 'APIs en Go a escala enterprise' },
         { title: 'Fundador', detail: 'Silverhost, diez años' },
-        { title: 'Aprendiz constante', detail: 'Agentes de IA, evals, MCP' },
       ],
       flip: 'Voltear la credencial',
       flipBack: 'Volver a voltear la credencial',
     },
   },
   statement:
-    'Hago que la infraestructura sea aburrida: rápida, segura y siempre disponible, para que quienes construyen el producto nunca tengan que pensar en ella.',
+    'Lanzar IA debería ser aburrido: medido, seguro y siempre disponible, para que los equipos de producto se ocupen de lo que hace, no de cómo corre.',
   skills: {
     eyebrow: 'Skills',
     title: 'La tabla periódica de',
     accent: 'mi stack.',
-    intro: 'Veintiocho elementos en seis familias. Elige una familia para iluminarla, o selecciona un elemento para leer sobre él.',
+    intro: 'Veintiocho elementos en seis familias, desde la capa de IA hasta el metal. Elige una familia para iluminarla, o selecciona un elemento para leer sobre él.',
     filterLabel: 'Filtrar por familia',
     all: 'Todas',
     families: {
@@ -596,16 +598,16 @@ const es: Copy = {
     Kf: 'Streaming de eventos entre servicios. Una de mis principales skills.',
     Dy: 'Almacenamiento con latencia de milisegundos para APIs de alto volumen.',
     My: 'El caballo de batalla relacional detrás de incontables sitios.',
-    Cl: 'Construyendo con Anthropic Claude. Una de mis principales skills.',
-    Mc: 'Conectar modelos con herramientas y datos internos.',
-    Ag: 'Diseñar flujos de agentes que hacen trabajo real.',
-    Ev: 'Medir la calidad de la IA antes de que llegue a los usuarios.',
+    Cl: 'El modelo con el que construyo a diario, de funcionalidades de producto a agentes internos. Una de mis principales skills.',
+    Mc: 'Una interfaz segura entre modelos, herramientas internas y datos de la empresa.',
+    Ag: 'Flujos de agentes que hacen trabajo real, con una persona en el circuito donde importa.',
+    Ev: 'Ninguna funcionalidad de IA sale sin evals: la calidad se mide antes de que la vean los usuarios.',
   },
   work: {
     eyebrow: 'Proyectos',
     title: 'Cosas que he',
     accent: 'construido.',
-    intro: 'Cinco sistemas de quince años en producción. Abre un panel para ver más.',
+    intro: 'Desde la plataforma de IA que lidero hoy hasta los sistemas que me enseñaron a operar producción. Abre un panel para ver más.',
     open: 'Ver proyecto',
     projects: [
       {
@@ -614,8 +616,8 @@ const es: Copy = {
         kicker: 'Rebrandly · 2025 – hoy',
         title: 'Plataforma de IA',
         summary:
-          'La plataforma que permite a cada equipo de Rebrandly lanzar funcionalidades de IA de forma segura: modelos, agentes, evaluaciones y guardrails en un solo camino pavimentado.',
-        points: ['Herramientas de agentes compartidas', 'Evaluación antes de lanzar', 'Visibilidad de costos y uso'],
+          'El camino pavimentado para la IA en Rebrandly: modelos, agentes, evaluaciones y guardrails en una sola plataforma, para que cada equipo lance funcionalidades de IA de forma segura y las mida en producción.',
+        points: ['Herramientas de agentes y servidores MCP compartidos', 'Evals como requisito para lanzar', 'Guardrails, visibilidad de costos y uso'],
         tags: ['Claude', 'MCP', 'AWS', 'Go', 'Python'],
       },
       {
@@ -664,7 +666,7 @@ const es: Copy = {
     eyebrow: 'Experiencia',
     title: 'Quince años,',
     accent: 'en producción.',
-    intro: 'Del data center de un instituto en Santiago a liderar plataforma en Europa.',
+    intro: 'Del data center de un instituto en Santiago a liderar una plataforma de IA en Europa.',
     items: [
       {
         year: '2011',
@@ -736,7 +738,7 @@ const es: Copy = {
         role: 'Director de Plataforma de IA',
         org: 'Rebrandly',
         place: 'Barcelona, España',
-        text: 'Lidero la plataforma que lleva la IA a cada equipo, de forma segura y a escala.',
+        text: 'Lidero la plataforma que lleva la IA a cada equipo de producto: herramientas de agentes, evaluaciones, guardrails y la infraestructura que los sostiene.',
       },
     ],
   },
@@ -759,14 +761,14 @@ const es: Copy = {
       { title: 'Ingeniero de Ejecución en Informática', detail: 'Universidad de Ciencias de la Informática · 2011 – 2013' },
       { title: 'Curso Profesional de Git y GitHub', detail: 'Certificación' },
       { title: 'Inglés, nivel profesional', detail: 'Diez años trabajando en inglés en tres países' },
-      { title: 'Aprendiendo ahora: agentes de IA y evals', detail: 'Claude, MCP y desarrollo guiado por evaluaciones' },
+      { title: 'Foco actual: agentes de IA y evals', detail: 'Claude, MCP y desarrollo guiado por evaluaciones' },
     ],
   },
   contact: {
     eyebrow: 'Contacto',
-    title: 'Construyamos algo',
+    title: 'Lancemos IA',
     accent: 'confiable.',
-    body: 'Abierto a conversar sobre ingeniería de plataformas, infraestructura de IA y liderazgo DevOps.',
+    body: 'Abierto a conversar sobre plataformas de IA, agentes en producción y liderazgo en ingeniería de plataformas.',
     email: 'Escríbeme un email',
     copy: 'Copiar dirección de email',
     copied: 'Dirección de email copiada',
@@ -776,7 +778,9 @@ const es: Copy = {
   footer: {
     rights: 'Gonzalo Ríos',
     markdown: 'Leer esta página en Markdown',
-    built: 'Hecho con Astro. Sin trackers.',
+    madeWith: 'Hecho con',
+    love: 'amor',
+    byAgents: 'por mis agentes',
     top: 'Volver arriba',
   },
   voice: {
