@@ -326,31 +326,116 @@ button {
   transform: translateY(24px);
 }
 
-.js [data-hero-line],
-.js .hero__word span,
-.js [data-hero-stage] {
-  opacity: 0;
+/* Hero entrance in pure CSS, so it starts with the HTML instead of waiting
+   for the motion module. The avatar is the LCP element: it only moves (never
+   starts invisible), so it counts as painted from the first frame.
+   Only elements GSAP never transforms are animated here. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__word span {
+    animation: hero-letter 1.6s var(--ease-out) backwards;
+  }
+  .hero__word span:nth-child(2) {
+    animation-delay: 0.05s;
+  }
+  .hero__word span:nth-child(3) {
+    animation-delay: 0.10s;
+  }
+  .hero__word span:nth-child(4) {
+    animation-delay: 0.15s;
+  }
+  .hero__word span:nth-child(5) {
+    animation-delay: 0.20s;
+  }
+  .hero__word span:nth-child(6) {
+    animation-delay: 0.25s;
+  }
+  .hero__word span:nth-child(7) {
+    animation-delay: 0.30s;
+  }
+  .hero__word span:nth-child(8) {
+    animation-delay: 0.35s;
+  }
+  .hero__word span:nth-child(9) {
+    animation-delay: 0.40s;
+  }
+  .hero__word span:nth-child(10) {
+    animation-delay: 0.45s;
+  }
+  .hero__word span:nth-child(11) {
+    animation-delay: 0.50s;
+  }
+  .hero__word span:nth-child(12) {
+    animation-delay: 0.55s;
+  }
+
+  /* The avatar inside the stage, not the stage itself: GSAP owns the stage's
+     transform (scroll parallax and its -50% centring). */
+  .hero__avatar {
+    animation: hero-stage 1.6s var(--ease-out) 0.15s backwards;
+  }
+
+  .hero__mask > [data-hero-line] {
+    animation: hero-mask 1.3s var(--ease-out) 0.35s backwards;
+  }
+
+  .hero__mask + .hero__mask > [data-hero-line] {
+    animation-delay: 0.45s;
+  }
+
+  .hero__eyebrow,
+  .hero__lead,
+  .hero__ctas,
+  .hero__side {
+    animation: hero-line 1.1s var(--ease-out) 0.5s backwards;
+  }
+
+  .hero__lead {
+    animation-delay: 0.58s;
+  }
+
+  .hero__ctas {
+    animation-delay: 0.66s;
+  }
+
+  .hero__side {
+    animation-delay: 0.74s;
+  }
 }
 
-.js .hero__mask > [data-hero-line] {
-  opacity: 0;
+@keyframes hero-letter {
+  from {
+    opacity: 0;
+    transform: translateY(60%);
+  }
+}
+
+@keyframes hero-stage {
+  from {
+    transform: translateY(80px) scale(0.96);
+  }
+}
+
+@keyframes hero-mask {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+@keyframes hero-line {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
 }
 
 /* Failsafe: if motion never initialises, show everything. */
-.reveal-all [data-reveal],
-.reveal-all [data-hero-line],
-.reveal-all .hero__word span,
-.reveal-all [data-hero-stage] {
+.reveal-all [data-reveal] {
   opacity: 1 !important;
   transform: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js [data-reveal],
-  .js [data-hero-line],
-  .js .hero__word span,
-  .js [data-hero-stage],
-  .js .hero__mask > [data-hero-line] {
+  .js [data-reveal] {
     opacity: 1;
     transform: none;
   }

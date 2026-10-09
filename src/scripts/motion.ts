@@ -13,7 +13,7 @@ export function initMotion() {
   });
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
-    heroIntro();
+    // The hero entrance is pure CSS (global.css), so it never waits for this module.
     reveals();
     statement();
     badgeDrop();
@@ -25,33 +25,10 @@ export function initMotion() {
   });
 
   mm.add('(prefers-reduced-motion: reduce)', () => {
-    gsap.set('[data-reveal], [data-hero-line], .hero__word span, [data-hero-stage]', { clearProps: 'all', opacity: 1 });
+    gsap.set('[data-reveal]', { clearProps: 'all', opacity: 1 });
     document.querySelectorAll<HTMLElement>('.statement__word').forEach((w) => (w.style.opacity = '1'));
     finalCounters();
   });
-}
-
-function heroIntro() {
-  const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-  tl.fromTo(
-    '.hero__word span',
-    { yPercent: 60, opacity: 0 },
-    { yPercent: 0, opacity: 1, duration: 1.6, stagger: 0.05 },
-    0,
-  )
-    .fromTo('[data-hero-stage]', { y: 80, opacity: 0, scale: 0.96 }, { y: 0, opacity: 1, scale: 1, duration: 1.6 }, 0.15)
-    .fromTo(
-      '.hero__mask > [data-hero-line]',
-      { yPercent: 110, y: 0 },
-      { yPercent: 0, y: 0, opacity: 1, duration: 1.3, stagger: 0.1 },
-      0.35,
-    )
-    .fromTo(
-      '[data-hero-line]:not(.hero__mask > *)',
-      { y: 24, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.1, stagger: 0.08 },
-      0.5,
-    );
 }
 
 function heroScroll() {
@@ -60,7 +37,9 @@ function heroScroll() {
   const trigger = { trigger: hero, start: 'top top', end: 'bottom top', scrub: true };
   gsap.to('[data-hero-word]', { yPercent: 35, xPercent: -6, ease: 'none', scrollTrigger: trigger });
   gsap.to('[data-hero-copy]', { y: -60, opacity: 0, ease: 'none', scrollTrigger: { ...trigger, end: '60% top' } });
-  gsap.to('[data-hero-stage]', { y: -40, scale: 1.04, ease: 'none', scrollTrigger: trigger });
+  // Explicit start values: the CSS entrance may still be running when this is
+  // created, and GSAP would otherwise capture a mid-animation transform.
+  gsap.fromTo('[data-hero-stage]', { y: 0, scale: 1 }, { y: -40, scale: 1.04, ease: 'none', scrollTrigger: trigger });
 }
 
 function reveals() {
