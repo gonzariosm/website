@@ -11,9 +11,13 @@
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
   },
-  // Production domain. Kept in config so every deploy (including Workers
-  // Builds) preserves it. www redirects to the apex via a zone Redirect Rule.
-  "routes": [{ "pattern": "gonzalorios.cl", "custom_domain": true }],
+  // Production domains. Kept in config so every deploy (including Workers
+  // Builds) preserves them. www is attached so it resolves and has a
+  // certificate; a zone Redirect Rule (www -> apex, 301) runs before the Worker.
+  "routes": [
+    { "pattern": "gonzalorios.cl", "custom_domain": true },
+    { "pattern": "www.gonzalorios.cl", "custom_domain": true }
+  ],
   "observability": { "enabled": false },
   "workers_dev": true,
   "preview_urls": true
