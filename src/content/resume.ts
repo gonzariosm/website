@@ -141,6 +141,16 @@ export const certificates: Localized<{ name: string }[]> = {
   es: [{ name: 'Curso Profesional de Git y GitHub' }],
 };
 
+/**
+ * Branded short links (Rebrandly, links.gonzalorios.cl) for the CV downloads,
+ * so each format's clicks are measured. They redirect to cvFiles() below.
+ */
+export const cvLinks = (locale: Locale) => ({
+  pdf: `https://links.gonzalorios.cl/cv-pdf-${locale}`,
+  json: `https://links.gonzalorios.cl/cv-json-${locale}`,
+  tex: `https://links.gonzalorios.cl/cv-latex-${locale}`,
+});
+
 /** Public file names of the downloadable CV, per locale. */
 export const cvFiles = (locale: Locale) => ({
   pdf: `/cv/gonzalo-rios-cv-${locale}.pdf`,

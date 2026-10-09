@@ -4,7 +4,7 @@
 import { createHash } from 'node:crypto';
 import { statSync } from 'node:fs';
 import { join } from 'node:path';
-import { cvFiles } from '../content/resume';
+import { cvFiles, cvLinks } from '../content/resume';
 import type { Locale } from '../content/site';
 import { renderLatex } from './latex';
 import { buildResume } from './resume';
@@ -25,5 +25,6 @@ export function cvDownloads(locale: Locale) {
     warned.add(locale);
     console.warn(`[cv] ${files.pdf} is missing or out of date with the CV content. Run \`npm run cv\`.`);
   }
-  return { ...files, pdfKb: bytes ? Math.max(1, Math.round(bytes / 1024)) : undefined, pdfPages: pages || undefined };
+  // Links shown to visitors go through the short links; sizes come from the real files.
+  return { ...cvLinks(locale), pdfKb: bytes ? Math.max(1, Math.round(bytes / 1024)) : undefined, pdfPages: pages || undefined };
 }

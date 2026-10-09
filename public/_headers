@@ -34,6 +34,9 @@
 /*.tex
   Content-Type: text/x-tex; charset=utf-8
 
+/cv/*.pdf
+  Content-Disposition: attachment
+
 /sitemap.xml
   Content-Type: application/xml; charset=utf-8
 
