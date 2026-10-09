@@ -23,6 +23,8 @@ export function renderMarkdown(locale: Locale, site: URL): string {
     '',
     `### ${t.about.title} ${t.about.accent}`,
     '',
+    `*${t.about.aka}*`,
+    '',
     ...t.about.body.flatMap((p) => [p, '']),
     `**${t.about.factsTitle}**`,
     '',

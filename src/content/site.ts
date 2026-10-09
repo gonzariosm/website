@@ -8,6 +8,8 @@ export const defaultLocale: Locale = 'en';
 export const person = {
   name: 'Gonzalo Ríos',
   firstName: 'Gonzalo',
+  /** What friends call him; the giant word in the hero and the "aka" lines. */
+  nickname: 'Gonzalito',
   email: 'contacto@gonzalorios.cl',
   linkedin: 'https://www.linkedin.com/in/gonzariosm',
   github: 'https://github.com/gonzariosm',
@@ -126,6 +128,7 @@ export interface Copy {
     eyebrow: string;
     title: string;
     accent: string;
+    aka: string;
     body: string[];
     factsTitle: string;
     facts: { label: string; value: string }[];
@@ -257,7 +260,7 @@ const en: Copy = {
   },
   langSwitch: { label: 'Leer en español', short: 'ES', full: 'Español' },
   hero: {
-    eyebrow: 'Gonzalo Ríos',
+    eyebrow: 'Gonzalo Ríos · aka Gonzalito',
     titleLines: ['Director of', 'AI Platform.'],
     lead: "I lead the platform that lets Rebrandly's engineers ship AI-written code to production safely. I've been keeping servers alive for fifteen years.",
     ctaWork: 'Explore my work',
@@ -269,6 +272,7 @@ const en: Copy = {
     eyebrow: 'About',
     title: "Hi, I'm",
     accent: 'Gonzalo.',
+    aka: 'aka Gonzalito',
     body: [
       'Director of AI Platform at Rebrandly. My team builds the paved road for AI-assisted engineering: coding agents with the right context and permissions, automated review, guardrails and CI/CD gates, so code written with AI reaches production as safely as any other.',
       'I got here through fifteen years of DevOps and SRE. Docker, Kubernetes, Terraform and AWS are still my daily tools, and I write Go and Python to automate everything that should not need a human.',
@@ -619,7 +623,7 @@ const es: Copy = {
   },
   langSwitch: { label: 'Read in English', short: 'EN', full: 'English' },
   hero: {
-    eyebrow: 'Gonzalo Ríos',
+    eyebrow: 'Gonzalo Ríos · aka Gonzalito',
     titleLines: ['Director de', 'Plataforma IA.'],
     lead: 'Lidero la plataforma que permite a los ingenieros de Rebrandly llevar a producción, de forma segura, el código creado con IA. Llevo quince años manteniendo servidores con vida.',
     ctaWork: 'Ver mi trabajo',
@@ -631,6 +635,7 @@ const es: Copy = {
     eyebrow: 'Sobre mí',
     title: 'Hola, soy',
     accent: 'Gonzalo.',
+    aka: 'aka Gonzalito',
     body: [
       'Director de Plataforma de IA en Rebrandly. Mi equipo construye el camino pavimentado para la ingeniería asistida por IA: agentes de código con el contexto y los permisos justos, revisión automática, guardrails y gates de CI/CD, para que el código creado con IA llegue a producción tan seguro como cualquier otro.',
       'Llegué aquí tras quince años de DevOps y SRE. Docker, Kubernetes, Terraform y AWS siguen siendo mis herramientas diarias, y escribo Go y Python para automatizar todo lo que no debería necesitar a una persona.',

@@ -2,7 +2,7 @@
 import Avatar from './Avatar.astro';
 import Icon from './Icon.astro';
 import ListenButton from './ListenButton.astro';
-import { copy, type Locale } from '../content/site';
+import { copy, person, type Locale } from '../content/site';
 
 interface Props {
   locale: Locale;
@@ -14,7 +14,7 @@ const t = copy[locale];
 <section id="top" class="hero" aria-labelledby="hero-title" data-hero>
   <div class="hero__glow" aria-hidden="true"></div>
   <p class="hero__word" aria-hidden="true" data-hero-word>
-    {'GONZALO'.split('').map((ch) => <span>{ch}</span>)}
+    {person.nickname.toUpperCase().split('').map((ch) => <span>{ch}</span>)}
   </p>
 
   <div class="hero__stage" data-hero-stage>
@@ -82,7 +82,8 @@ const t = copy[locale];
     display: flex;
     justify-content: center;
     font-weight: 800;
-    font-size: clamp(5rem, 24vw, 26rem);
+    /* Sized for the nine letters of GONZALITO, edge to edge. */
+    font-size: clamp(4rem, 18.5vw, 21rem);
     line-height: 0.8;
     letter-spacing: -0.06em;
     color: var(--ink);
