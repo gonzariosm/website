@@ -303,9 +303,14 @@ const cv = cvDownloads(locale);
   .cv__alt {
     font-size: 0.8125rem;
     color: var(--muted);
+    white-space: nowrap;
   }
 
   .cv__alt a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2em;
+    white-space: nowrap;
     color: var(--ink-2);
     text-decoration-color: var(--line-strong);
     text-underline-offset: 0.25em;
@@ -316,15 +321,19 @@ const cv = cvDownloads(locale);
   }
 
   .cv__alt a :global(svg) {
+    display: inline-block;
+    align-self: center;
     width: 0.85em;
     height: 0.85em;
-    margin-left: 0.15em;
-    vertical-align: -0.05em;
+    flex: none;
   }
 
   @media (max-width: 720px) {
+    .cv__alt {
+      white-space: normal;
+    }
+
     .cv__alt a {
-      display: inline-block;
       padding-block: 12px;
     }
 
