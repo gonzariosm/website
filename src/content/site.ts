@@ -217,7 +217,16 @@ export interface Copy {
     unavailable: string;
     credit: string;
   };
-  notFound: { title: string; body: string; back: string };
+  notFound: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    back: string;
+    /** `{s}` is replaced with the seconds left. */
+    countdown: string;
+    stay: string;
+    stayed: string;
+  };
 }
 
 const en: Copy = {
@@ -567,9 +576,13 @@ const en: Copy = {
     credit: 'AI voice powered by',
   },
   notFound: {
-    title: 'This page took the day off.',
-    body: 'The address you followed does not exist, or it moved.',
-    back: 'Go to the home page',
+    eyebrow: 'Error 404',
+    title: 'This page shipped without a code review.',
+    body: 'It does not exist, or it moved and forgot to tell anyone. Not even my AI agents could find it, and they looked everywhere. Twice.',
+    back: 'Take me home now',
+    countdown: 'Rolling you back to the home page in {s} seconds.',
+    stay: 'Stay here',
+    stayed: 'Rollback cancelled. Enjoy the void.',
   },
 };
 
@@ -920,9 +933,13 @@ const es: Copy = {
     credit: 'Voz con IA de',
   },
   notFound: {
-    title: 'Esta página se tomó el día libre.',
-    body: 'La dirección que seguiste no existe o se movió.',
-    back: 'Ir a la página de inicio',
+    eyebrow: 'Error 404',
+    title: 'Esta página salió a producción sin code review.',
+    body: 'No existe, o se movió y no le avisó a nadie. Ni mis agentes de IA la encontraron, y buscaron en todas partes. Dos veces.',
+    back: 'Llévame al inicio',
+    countdown: 'Haciendo rollback a la página de inicio en {s} segundos.',
+    stay: 'Quedarme aquí',
+    stayed: 'Rollback cancelado. Disfruta el vacío.',
   },
 };
 

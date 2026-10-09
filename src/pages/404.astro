@@ -1,50 +1,191 @@
 ---
+// Localized, playful 404. Both languages are in the HTML (readable without
+// JS); the script shows the visitor's language (/es/ paths or the browser
+// language) and rolls back to the matching home page after a countdown that
+// can be cancelled (WCAG 2.2.1).
+import Avatar from '../components/Avatar.astro';
 import Base from '../layouts/Base.astro';
-import { copy } from '../content/site';
-const en = copy.en.notFound;
-const es = copy.es.notFound;
+import { copy, homePath, locales } from '../content/site';
+const SECONDS = 10;
 ---
 
-<Base locale="en" title={`404 — ${en.title}`} description={en.body} noindex>
-  <main id="main" class="nf container">
+<Base locale="en" title={`404 — ${copy.en.notFound.title}`} description={copy.en.notFound.body} noindex>
+  <main id="main" class="nf container" data-nf data-seconds={SECONDS}>
     <p class="nf__code" aria-hidden="true">404</p>
-    <section aria-labelledby="nf-en">
-      <h1 id="nf-en" class="title">{en.title}</h1>
-      <p class="lead">{en.body}</p>
-      <a class="btn" href="/">{en.back}</a>
-    </section>
-    <section lang="es" aria-labelledby="nf-es">
-      <h2 id="nf-es" class="title nf__alt">{es.title}</h2>
-      <p class="lead">{es.body}</p>
-      <a class="btn btn--ghost" href="/es/" hreflang="es">{es.back}</a>
-    </section>
+    <div class="nf__avatar"><Avatar /></div>
+    <div class="nf__copy">
+      {
+        locales.map((locale) => {
+          const t = copy[locale].notFound;
+          // One <h1> per page: the default locale is the h1, the script promotes
+          // the heading of whichever language it shows.
+          const Heading = locale === 'en' ? 'h1' : 'h2';
+          return (
+            <section
+              class="nf__lang"
+              lang={locale}
+              aria-labelledby={`nf-title-${locale}`}
+              data-nf-lang={locale}
+              data-nf-title={`404 — ${t.title}`}
+              data-nf-home={homePath(locale)}
+            >
+              <p class="eyebrow">{t.eyebrow}</p>
+              <Heading id={`nf-title-${locale}`} class="title nf__title">
+                {t.title}
+              </Heading>
+              <p class="lead">{t.body}</p>
+              <p class="nf__countdown" data-nf-countdown hidden>
+                <span aria-hidden="true" data-nf-visible>
+                  {t.countdown.replace('{s}', String(SECONDS))}
+                </span>
+                <span class="visually-hidden" role="status" data-nf-status data-template={t.countdown} data-stayed={t.stayed} />
+              </p>
+              <div class="nf__actions">
+                <a class="btn" href={homePath(locale)} hreflang={locale}>
+                  {t.back}
+                </a>
+                <button type="button" class="btn btn--ghost" data-nf-stay hidden>
+                  {t.stay}
+                </button>
+              </div>
+            </section>
+          );
+        })
+      }
+    </div>
   </main>
 </Base>
 
+<script>
+  const root = document.querySelector<HTMLElement>('[data-nf]');
+  if (root) {
+    const sections = [...root.querySelectorAll<HTMLElement>('[data-nf-lang]')];
+    const fromPath = location.pathname === '/es' || location.pathname.startsWith('/es/') ? 'es' : undefined;
+    const fromBrowser = (navigator.languages ?? [navigator.language])
+      .map((l) => l.slice(0, 2).toLowerCase())
+      .find((l) => sections.some((s) => s.dataset.nfLang === l));
+    const preferred = fromPath ?? fromBrowser ?? 'en';
+    const active = sections.find((s) => s.dataset.nfLang === preferred) ?? sections[0]!;
+    for (const s of sections) s.hidden = s !== active;
+    const heading = active.querySelector('.nf__title');
+    if (heading && heading.tagName !== 'H1') {
+      for (const h1 of root.querySelectorAll('h1')) {
+        const h2 = document.createElement('h2');
+        h2.append(...h1.childNodes);
+        for (const { name, value } of h1.attributes) h2.setAttribute(name, value);
+        h1.replaceWith(h2);
+      }
+      const h1 = document.createElement('h1');
+      h1.append(...heading.childNodes);
+      for (const { name, value } of heading.attributes) h1.setAttribute(name, value);
+      heading.replaceWith(h1);
+    }
+    document.documentElement.lang = active.dataset.nfLang ?? 'en';
+    document.title = active.dataset.nfTitle ?? document.title;
+
+    const countdown = active.querySelector<HTMLElement>('[data-nf-countdown]')!;
+    const visible = active.querySelector<HTMLElement>('[data-nf-visible]')!;
+    const status = active.querySelector<HTMLElement>('[data-nf-status]')!;
+    const stay = active.querySelector<HTMLButtonElement>('[data-nf-stay]')!;
+    const template = status.dataset.template ?? '';
+    let left = Number(root.dataset.seconds ?? 10);
+    const render = () => (visible.textContent = template.replace('{s}', String(left)));
+
+    countdown.hidden = false;
+    stay.hidden = false;
+    render();
+    // Announce once; the per-second number is visual only, to avoid chatter.
+    status.textContent = template.replace('{s}', String(left));
+
+    const timer = window.setInterval(() => {
+      left -= 1;
+      if (left <= 0) {
+        window.clearInterval(timer);
+        location.assign(active.dataset.nfHome ?? '/');
+        return;
+      }
+      render();
+    }, 1000);
+
+    stay.addEventListener('click', () => {
+      window.clearInterval(timer);
+      const done = status.dataset.stayed ?? '';
+      visible.textContent = done;
+      status.textContent = done;
+      stay.hidden = true;
+    });
+  }
+</script>
+
 <style>
   .nf {
+    position: relative;
     display: grid;
-    gap: 48px;
-    align-content: center;
+    grid-template-columns: minmax(120px, 200px) minmax(0, 1fr);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: center;
     min-height: 100svh;
     padding-block: 80px;
   }
 
-  .nf section {
+  .nf__code {
+    position: absolute;
+    inset: 6% 0 auto;
+    z-index: -1;
+    font-weight: 800;
+    font-size: clamp(8rem, 30vw, 22rem);
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+    text-align: center;
+    opacity: 0.07;
+  }
+
+  .nf__avatar {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .nf__copy {
+    display: grid;
+    gap: 56px;
+  }
+
+  .nf__lang {
     display: grid;
     gap: 16px;
     justify-items: start;
+    max-width: 640px;
   }
 
-  .nf__code {
-    font-weight: 800;
-    font-size: clamp(6rem, 22vw, 16rem);
-    line-height: 0.8;
-    letter-spacing: -0.06em;
-    opacity: 0.08;
+  .nf__lang[hidden],
+  .nf__actions [hidden] {
+    display: none;
   }
 
-  .nf__alt {
-    font-size: clamp(1.75rem, 4vw, 3rem);
+  .nf__title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .nf__countdown {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  @media (max-width: 720px) {
+    .nf {
+      grid-template-columns: 1fr;
+      align-content: center;
+    }
+
+    .nf__avatar {
+      max-width: 120px;
+    }
   }
 </style>
