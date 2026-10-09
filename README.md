@@ -2,6 +2,14 @@
 
 Source code for Gonzalo Ríos' personal website: a scroll-driven, voice-narrated CV.
 
+**Live:** [gonzalorios.cl](https://gonzalorios.cl) · [Español](https://gonzalorios.cl/es/)
+
+<p align="center">
+  <a href="https://gonzalorios.cl">
+    <img src=".github/readme/demo.gif" width="640" alt="Screen recording of gonzalorios.cl: the hero with the 3D avatar and the narrated intro with captions, the hanging ID badge flipping, the statement lighting up word by word, the periodic table of skills, the project deck, the experience timeline and the contact section." />
+  </a>
+</p>
+
 The site is bilingual (English at `/`, Spanish at `/es/`), fully usable with a screen reader and keyboard, and exposes a Markdown version of every page (`/index.md`, `/es/index.md`).
 
 ## Stack
