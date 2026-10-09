@@ -188,6 +188,7 @@ export interface Copy {
     copy: string;
     copied: string;
     copyFailed: string;
+    newTab: string;
     linkedin: string;
     location: string;
   };
@@ -541,6 +542,7 @@ const en: Copy = {
     copy: 'Copy email address',
     copied: 'Email address copied',
     copyFailed: 'Could not copy. Use the email link above.',
+    newTab: 'opens in a new tab',
     linkedin: 'LinkedIn',
     location: 'Barcelona · Central European Time',
   },
@@ -902,6 +904,7 @@ const es: Copy = {
     copy: 'Copiar dirección de email',
     copied: 'Dirección de email copiada',
     copyFailed: 'No se pudo copiar. Usa el enlace del email.',
+    newTab: 'se abre en una pestaña nueva',
     linkedin: 'LinkedIn',
     location: 'Barcelona · Hora de Europa Central',
   },

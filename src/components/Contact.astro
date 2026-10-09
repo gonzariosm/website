@@ -10,7 +10,6 @@ interface Props {
 const { locale } = Astro.props;
 const t = copy[locale];
 const c = t.contact;
-const newTab = locale === 'en' ? '(opens in a new tab)' : '(se abre en una pestaña nueva)';
 const cv = cvDownloads(locale);
 ---
 
@@ -40,7 +39,7 @@ const cv = cvDownloads(locale);
       <a class="contact__link" href={person.linkedin} rel="me noopener" target="_blank">
         {c.linkedin}
         <Icon name="arrow-up-right" />
-        <span class="visually-hidden">{newTab}</span>
+        <span class="visually-hidden">{` (${c.newTab})`}</span>
       </a>
       <p class="contact__location">{c.location}</p>
     </div>
@@ -73,9 +72,13 @@ const cv = cvDownloads(locale);
         </a>
         <p class="cv__alt">
           {t.cv.alsoAs}{' '}
-          <a href={cv.json} type="application/json">{t.cv.json}</a>
+          <a href={cv.json} type="application/json" target="_blank" rel="noopener">
+            {t.cv.json}<Icon name="arrow-up-right" /><span class="visually-hidden">{` (${c.newTab})`}</span>
+          </a>
           <span aria-hidden="true"> · </span>
-          <a href={cv.tex} type="text/x-tex">{t.cv.latex}</a>
+          <a href={cv.tex} type="text/x-tex" target="_blank" rel="noopener">
+            {t.cv.latex}<Icon name="arrow-up-right" /><span class="visually-hidden">{` (${c.newTab})`}</span>
+          </a>
         </p>
       </div>
     </article>
@@ -310,6 +313,13 @@ const cv = cvDownloads(locale);
 
   .cv__alt a:hover {
     color: var(--ink);
+  }
+
+  .cv__alt a :global(svg) {
+    width: 0.85em;
+    height: 0.85em;
+    margin-left: 0.15em;
+    vertical-align: -0.05em;
   }
 
   @media (max-width: 720px) {
