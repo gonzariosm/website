@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import ListenButton from './ListenButton.astro';
-import { copy, person, type Locale } from '../content/site';
+import { copy, person, shortLinks, type Locale } from '../content/site';
 import { cvDownloads } from '../lib/cv';
 
 interface Props {
@@ -36,7 +36,7 @@ const cv = cvDownloads(locale);
         <Icon name="copy" />
         <span data-copy-label>{c.copy}</span>
       </button>
-      <a class="contact__link" href={person.linkedin} rel="me noopener" target="_blank">
+      <a class="contact__link" href={shortLinks.linkedin} rel="me noopener" target="_blank">
         {c.linkedin}
         <Icon name="arrow-up-right" />
         <span class="visually-hidden">{` (${c.newTab})`}</span>

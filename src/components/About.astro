@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import ListenButton from './ListenButton.astro';
-import { copy, person, type Locale } from '../content/site';
+import { copy, person, shortLinks, type Locale } from '../content/site';
 
 interface Props {
   locale: Locale;
@@ -25,11 +25,11 @@ const bars = [3, 1, 2, 1, 3, 2, 1, 1, 3, 1, 2, 3, 1, 2, 1, 3, 1, 1, 2, 3, 1, 2, 
       {t.body.map((p) => <p class="lead about__p" data-reveal>{p}</p>)}
       <div class="about__actions" data-reveal>
         <ListenButton locale={locale} clip="about" sectionTitle={nav.about} />
-        <a class="btn btn--ghost" href={person.linkedin} rel="me noopener" target="_blank">
+        <a class="btn btn--ghost" href={shortLinks.linkedin} rel="me noopener" target="_blank">
           LinkedIn <Icon name="arrow-up-right" />
           <span class="visually-hidden">{` (${copy[locale].contact.newTab})`}</span>
         </a>
-        <a class="btn btn--ghost" href={person.github} rel="me noopener" target="_blank">
+        <a class="btn btn--ghost" href={shortLinks.github} rel="me noopener" target="_blank">
           GitHub <Icon name="arrow-up-right" />
           <span class="visually-hidden">{` (${copy[locale].contact.newTab})`}</span>
         </a>

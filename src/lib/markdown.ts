@@ -1,4 +1,4 @@
-import { copy, elements, familyIds, orgs, orgUrl, person, homePath, markdownPath, type Locale } from '../content/site';
+import { copy, elements, familyIds, orgs, orgUrl, person, shortLinks, homePath, markdownPath, type Locale } from '../content/site';
 import { cvFiles } from '../content/resume';
 
 /** Renders the full page content as Markdown, from the same source as the HTML. */
@@ -15,7 +15,7 @@ export function renderMarkdown(locale: Locale, site: URL): string {
     `> ${t.hero.titleLines.join(' ')} ${t.hero.lead}`,
     '',
     `- ${t.contact.email}: <mailto:${person.email}>`,
-    `- LinkedIn: <${person.linkedin}>`,
+    `- LinkedIn: <${shortLinks.linkedin}>`,
     `- HTML: <${url}>`,
     `- ${t.langSwitch.full}: <${new URL(markdownPath(other), site).href}>`,
     '',
@@ -50,13 +50,13 @@ export function renderMarkdown(locale: Locale, site: URL): string {
 
   push(`## ${t.nav.work}`, '', t.work.intro, '');
   for (const p of t.work.projects) {
-    const site = p.orgId ? ['', `[${orgs[p.orgId].domain}](${orgUrl(p.orgId, `markdown-work-${p.id}`)})`] : [];
+    const site = p.orgId ? ['', `[${orgs[p.orgId].domain}](${orgUrl(p.orgId)})`] : [];
     push(`### ${p.title}`, '', `*${p.kicker}*`, '', p.summary, '', ...p.points.map((pt) => `- ${pt}`), '', `${p.tags.join(' · ')}`, ...site, '');
   }
 
   push(`## ${t.nav.experience}`, '', t.experience.intro, '');
   for (const item of [...t.experience.items].reverse()) {
-    const org = item.orgId ? `[${item.org}](${orgUrl(item.orgId, 'markdown-experience')})` : item.org;
+    const org = item.orgId ? `[${item.org}](${orgUrl(item.orgId)})` : item.org;
     push(`### ${item.role} — ${org}`, '', `${item.period} · ${item.place} · ${item.kind}`, '', item.text, '');
   }
 
@@ -72,7 +72,7 @@ export function renderMarkdown(locale: Locale, site: URL): string {
   const abs = (p: string) => new URL(p, site).href;
   push('', `## ${t.cv.title}`, '', t.cv.lead, '', `- [${t.cv.pdfLink}](${abs(files.pdf)})`, `- [${t.cv.json}](${abs(files.json)})`, `- [${t.cv.latex}](${abs(files.tex)})`);
 
-  push('', `## ${t.nav.contact}`, '', `${t.contact.title} ${t.contact.accent}`, '', t.contact.body, '', `- <mailto:${person.email}>`, `- <${person.linkedin}>`, `- ${t.contact.location}`, '');
+  push('', `## ${t.nav.contact}`, '', `${t.contact.title} ${t.contact.accent}`, '', t.contact.body, '', `- <mailto:${person.email}>`, `- <${shortLinks.linkedin}>`, `- ${t.contact.location}`, '');
 
   return lines.join('\n');
 }

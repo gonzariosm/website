@@ -17,9 +17,25 @@ export const person = {
 };
 
 /** Text-to-speech provider behind the narration, credited in the player and footer. */
-export const voiceProvider = { name: 'ElevenLabs', url: 'https://try.elevenlabs.io/x8yskvshd2hd' };
+/**
+ * Branded short links (Rebrandly, workspace "Gonzalo Clicks", domain
+ * links.gonzalorios.cl) used for every outbound link a visitor clicks, so clicks
+ * are measured in one place. UTM parameters live in each link's destination.
+ * Structured data (JSON-LD, JSON Resume, LaTeX/PDF, llms.txt) keeps the
+ * canonical URLs instead.
+ */
+export const shortLinks = {
+  linkedin: 'https://links.gonzalorios.cl/linkedin',
+  github: 'https://links.gonzalorios.cl/github',
+  elevenlabs: 'https://links.gonzalorios.cl/elevenlabs',
+  rebrandly: 'https://links.gonzalorios.cl/rebrandly',
+  sitehost: 'https://links.gonzalorios.cl/sitehost',
+  silverhost: 'https://links.gonzalorios.cl/silverhost',
+} as const;
 
-/** Companies linked from the CV. Outbound links are nofollow and carry UTM parameters. */
+export const voiceProvider = { name: 'ElevenLabs', url: shortLinks.elevenlabs };
+
+/** Companies linked from the CV. `url` is canonical (structured data); visitors get the short link via orgUrl(). */
 export type OrgId = 'rebrandly' | 'sitehost' | 'silverhost';
 export const orgs: Record<OrgId, { name: string; url: string; domain: string }> = {
   rebrandly: { name: 'Rebrandly', url: 'https://www.rebrandly.com/', domain: 'rebrandly.com' },
@@ -27,14 +43,9 @@ export const orgs: Record<OrgId, { name: string; url: string; domain: string }> 
   silverhost: { name: 'Silverhost', url: 'https://www.silverhost.cl/', domain: 'silverhost.cl' },
 };
 
-/** Outbound URL for a company, tagged so the visit is attributed to this site. */
-export function orgUrl(id: OrgId, content: string): string {
-  const url = new URL(orgs[id].url);
-  url.searchParams.set('utm_source', 'gonzalorios.cl');
-  url.searchParams.set('utm_medium', 'referral');
-  url.searchParams.set('utm_campaign', 'portfolio');
-  url.searchParams.set('utm_content', content);
-  return url.toString();
+/** Outbound link for a company: its branded short link (UTMs are set in Rebrandly). */
+export function orgUrl(id: OrgId): string {
+  return shortLinks[id];
 }
 
 export type SectionId = 'about' | 'skills' | 'work' | 'experience' | 'achievements' | 'contact';

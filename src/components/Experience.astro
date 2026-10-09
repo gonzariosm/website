@@ -43,7 +43,7 @@ const items = e.items.map((item, i) => ({ ...item, showYear: i === 0 || e.items[
               <h3 class="timeline__role">{item.role}</h3>
               <p class="timeline__org">
                 {item.orgId ? (
-                  <ExternalLink href={orgUrl(item.orgId, 'experience')} locale={locale}>
+                  <ExternalLink href={orgUrl(item.orgId)} locale={locale}>
                     {item.org}
                   </ExternalLink>
                 ) : (
