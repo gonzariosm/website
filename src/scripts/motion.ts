@@ -5,6 +5,45 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// One-shot entrances use IntersectionObserver, not precomputed ScrollTrigger
+// positions: the browser reports real visibility, so jumps (nav links, fast
+// flicks on phones) and layout changes (opening a project, the skills list)
+// can never leave an element hidden. ScrollTrigger keeps the scrubbed effects.
+let observers: IntersectionObserver[] = [];
+
+function whenVisible(targets: Element[], play: (els: Element[]) => void, rootMargin = '0px 0px -10% 0px') {
+  if (!targets.length) return;
+  const io = new IntersectionObserver(
+    (entries) => {
+      const entering = entries.filter((e) => e.isIntersecting).map((e) => e.target);
+      if (!entering.length) return;
+      for (const el of entering) io.unobserve(el);
+      play(entering);
+    },
+    { rootMargin },
+  );
+  for (const t of targets) io.observe(t);
+  observers.push(io);
+}
+
+/** Scrubbed triggers depend on layout: recompute them when the page height changes. */
+function refreshOnLayoutChange() {
+  let timer = 0;
+  let lastHeight = document.documentElement.scrollHeight;
+  const ro = new ResizeObserver(() => {
+    const height = document.documentElement.scrollHeight;
+    if (height === lastHeight) return;
+    lastHeight = height;
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => ScrollTrigger.refresh(), 200);
+  });
+  ro.observe(document.body);
+  return () => {
+    ro.disconnect();
+    window.clearTimeout(timer);
+  };
+}
+
 export function initMotion() {
   const mm = gsap.matchMedia();
 
@@ -20,8 +59,15 @@ export function initMotion() {
     skillsTiles();
     timeline();
     counters();
-    // If the preference changes mid-visit, leave every counter at its final value.
-    return () => finalCounters();
+    const stopRefresh = refreshOnLayoutChange();
+    // If the preference changes mid-visit, stop observing and leave every
+    // counter at its final value.
+    return () => {
+      for (const o of observers) o.disconnect();
+      observers = [];
+      stopRefresh();
+      finalCounters();
+    };
   });
 
   mm.add('(prefers-reduced-motion: reduce)', () => {
@@ -43,12 +89,9 @@ function heroScroll() {
 }
 
 function reveals() {
-  ScrollTrigger.batch('[data-reveal]', {
-    start: 'top 88%',
-    once: true,
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.07, overwrite: true }),
-  });
+  whenVisible(gsap.utils.toArray<Element>('[data-reveal]'), (els) =>
+    gsap.to(els, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.07, overwrite: true }),
+  );
 }
 
 function statement() {
@@ -75,7 +118,7 @@ function badgeDrop() {
   const badge = document.querySelector<HTMLElement>('[data-badge]');
   const hang = badge?.querySelector('[data-badge-hang]');
   if (!badge || !hang) return;
-  gsap.fromTo(
+  const drop = gsap.fromTo(
     hang,
     { yPercent: -45, opacity: 0 },
     {
@@ -83,16 +126,17 @@ function badgeDrop() {
       opacity: 1,
       duration: 1.6,
       ease: 'back.out(1.4)',
-      scrollTrigger: { trigger: badge, start: 'top 80%', once: true },
+      paused: true,
       onStart: () => badge.dispatchEvent(new Event('badge:drop')),
     },
   );
+  whenVisible([badge], () => drop.play());
 }
 
 function skillsTiles() {
   const grid = document.querySelector('[data-skills-grid]');
   if (!grid) return;
-  gsap.fromTo(
+  const tiles = gsap.fromTo(
     grid.querySelectorAll('.tile'),
     { opacity: 0, y: 24, rotateX: -35 },
     {
@@ -103,9 +147,10 @@ function skillsTiles() {
       ease: 'expo.out',
       stagger: { each: 0.025, grid: 'auto', from: 'start' },
       clearProps: 'transform,opacity',
-      scrollTrigger: { trigger: grid, start: 'top 82%', once: true },
+      paused: true,
     },
   );
+  whenVisible([grid], () => tiles.play());
 }
 
 function timeline() {
@@ -121,10 +166,11 @@ function timeline() {
     const year = item.querySelector('.timeline__year:not(.is-repeat)');
     const card = item.querySelector('.timeline__card');
     const dot = item.querySelector('.timeline__dot');
-    const tl = gsap.timeline({ scrollTrigger: { trigger: item, start: 'top 80%', once: true } });
+    const tl = gsap.timeline({ paused: true });
     if (year) tl.fromTo(year, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, ease: 'expo.out' }, 0);
     if (card) tl.fromTo(card, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out' }, 0.08);
     if (dot) tl.fromTo(dot, { scale: 0 }, { scale: 1, duration: 0.8, ease: 'back.out(3)' }, 0.1);
+    whenVisible([item], () => tl.play());
   });
 }
 
@@ -140,14 +186,15 @@ function counters() {
     const nf = new Intl.NumberFormat(el.dataset.locale ?? 'en-US');
     const state = { v: 0 };
     el.textContent = nf.format(0);
-    gsap.to(state, {
+    const count = gsap.to(state, {
       v: target,
       duration: target > 100 ? 2.2 : 1.4,
       ease: 'expo.out',
-      scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+      paused: true,
       onUpdate: () => {
         el.textContent = nf.format(Math.round(state.v));
       },
     });
+    whenVisible([el], () => count.play());
   });
 }
