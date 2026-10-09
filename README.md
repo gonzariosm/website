@@ -40,6 +40,20 @@ Requires Node.js 22.12 or newer.
 | `src/content/resume.ts` | CV-only details (ISO dates, highlights, education) used by JSON Resume, LaTeX and PDF |
 | `public/cv/` | Compiled PDF CVs per locale and `manifest.json` (hash of the LaTeX each PDF came from) |
 
+## Deploy (Cloudflare Workers)
+
+The site is an assets-only Cloudflare Worker (`wrangler.jsonc`): Cloudflare serves `dist/` and applies `public/_headers` (security headers, UTF-8 content types, caching). There is no server code and no runtime secret.
+
+| Command | What it does |
+|---|---|
+| `npx wrangler login` | One-time browser login; the OAuth token stays in your user profile, never in the repo |
+| `npm run deploy` | Build and deploy to production |
+| `npm run deploy:preview` | Build and upload a preview version (preview URL, production untouched) |
+
+Production deploys are meant to come from **Workers Builds** (Cloudflare's Git integration) on every push to `main`, with build command `npm run build` and deploy command `npx wrangler deploy`, so no API token lives in GitHub.
+
+Security: `integrations/csp-headers.mjs` hashes every inline script and style after the build and appends a strict Content-Security-Policy header to `dist/_headers` (including `frame-ancestors 'none'`); `public/_headers` adds HSTS, Permissions-Policy, COOP, `X-Frame-Options` and nosniff. With npm 11+, `.npmrc` (`strict-allow-scripts`) and `allowScripts` in `package.json` let only `esbuild`, `workerd` and `fsevents` run install scripts; the Workers Builds image uses npm 10, where the lockfile and exact pins are the controls.
+
 ## Voice narration
 
 Audio files are generated outside this repo, so the ElevenLabs key never touches it. After changing `src/content/narration.json`, regenerate from the private workspace root:

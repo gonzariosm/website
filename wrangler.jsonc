@@ -1,0 +1,17 @@
+// Cloudflare Workers deployment: an assets-only Worker (no server code) that
+// serves the static Astro build. public/_headers (security headers, UTF-8
+// content types, caching) is honoured by Workers static assets.
+// See docs/adr/website/0007 in the private repo.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gonzalorios",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  "observability": { "enabled": false },
+  "workers_dev": true,
+  "preview_urls": true
+}

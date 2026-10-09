@@ -1,9 +1,14 @@
-# Response headers for static hosts that support this file (Cloudflare Pages,
-# Netlify). Astro's static build does not emit endpoint headers, so text
+# Response headers for static hosts that support this file (Cloudflare Workers
+# static assets, Cloudflare Pages, Netlify). Astro's static build does not emit endpoint headers, so text
 # formats need an explicit UTF-8 content type here.
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+  X-Frame-Options: DENY
+  # Content-Security-Policy is appended at build time by integrations/csp-headers.mjs
 
 /*.html
   Content-Type: text/html; charset=utf-8
@@ -31,6 +36,9 @@
 
 /sitemap.xml
   Content-Type: application/xml; charset=utf-8
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
 
 /audio/*
   Cache-Control: public, max-age=31536000, immutable

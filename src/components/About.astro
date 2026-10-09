@@ -76,7 +76,7 @@ const bars = [3, 1, 2, 1, 3, 2, 1, 1, 3, 1, 2, 3, 1, 2, 1, 3, 1, 1, 2, 3, 1, 2, 
               }
             </dl>
             <div class="badge__barcode" aria-hidden="true">
-              {bars.map((w) => <i style={`--w:${w}`}></i>)}
+              {bars.map((w) => <i data-w={w}></i>)}
             </div>
           </div>
           <div class="badge__face badge__face--back" data-badge-back>
@@ -370,9 +370,17 @@ const bars = [3, 1, 2, 1, 3, 2, 1, 1, 3, 1, 2, 3, 1, 2, 1, 3, 1, 1, 2, 3, 1, 2, 
   }
 
   .badge__barcode i {
-    flex: var(--w) 0 0;
+    flex: 1 0 0;
     background: var(--ink);
     opacity: 0.85;
+  }
+
+  .badge__barcode i[data-w='2'] {
+    flex-grow: 2;
+  }
+
+  .badge__barcode i[data-w='3'] {
+    flex-grow: 3;
   }
 
   .badge__back-title {

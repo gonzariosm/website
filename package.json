@@ -9,6 +9,8 @@
     "preview": "node scripts/preview.mjs",
     "check": "astro check",
     "cv": "astro build && node scripts/build-cv.mjs && astro build",
+    "deploy": "astro build && wrangler deploy",
+    "deploy:preview": "astro build && wrangler versions upload",
     "astro": "astro"
   },
   "dependencies": {
@@ -22,6 +24,12 @@
     "@astrojs/check": "^0.9.10",
     "@types/node": "^24.19.1",
     "axe-core": "^4.14.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wrangler": "4.147.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "workerd@1.20261001.1": true,
+    "fsevents@2.3.3": true
   }
 }

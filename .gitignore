@@ -19,3 +19,8 @@ build/
 
 # Astro
 .astro/
+
+# Cloudflare / Wrangler (local state, dev secrets)
+.wrangler/
+.dev.vars
+.dev.vars.*
