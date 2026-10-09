@@ -7,7 +7,9 @@ export default defineConfig({
   // that point at itself; production uses the real domain.
   site: process.env.SITE_URL ?? 'https://gonzalorios.cl',
   trailingSlash: 'ignore',
-  build: { format: 'directory' },
+  // Inline all CSS (≈15 KB): no render-blocking stylesheet requests, and the
+  // fonts are discovered with the HTML. The CSP integration hashes the <style>s.
+  build: { format: 'directory', inlineStylesheets: 'always' },
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'es'],

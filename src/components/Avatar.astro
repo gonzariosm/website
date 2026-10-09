@@ -7,7 +7,9 @@ interface Props {
   class?: string;
 }
 const { class: className } = Astro.props;
-const srcset = (layer: string) => `/avatar/${layer}-360.webp 360w, /avatar/${layer}-500.webp 500w`;
+// Widths match scripts/build-avatar.py; small ones cover phones (~150–230 CSS px).
+const srcset = (layer: string) =>
+  [180, 260, 360, 500].map((w) => `/avatar/${layer}-${w}.webp ${w}w`).join(', ');
 // Mirrors the .hero__stage widths in Hero.astro.
 const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900px) min(42vw, 200px), min(36vw, 160px)';
 ---

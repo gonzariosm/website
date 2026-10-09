@@ -14,39 +14,52 @@ export function initNav() {
     .filter((s): s is HTMLElement => Boolean(s));
   let active: string | null = null;
 
-  function moveIndicator(link: HTMLAnchorElement | undefined) {
+  // Every geometry read happens before any DOM write, so updates never force
+  // a synchronous reflow.
+  function measure(link: HTMLAnchorElement | undefined) {
+    if (!link) return null;
+    return {
+      width: link.offsetWidth,
+      left: link.offsetLeft,
+      overflow: pill ? pill.scrollWidth > pill.clientWidth : false,
+      pillWidth: pill?.clientWidth ?? 0,
+    };
+  }
+
+  function moveIndicator(m: ReturnType<typeof measure>) {
     if (!indicator) return;
-    if (!link) {
+    if (!m) {
       indicator.style.opacity = '0';
       return;
     }
     indicator.style.opacity = '1';
-    indicator.style.width = `${link.offsetWidth}px`;
-    indicator.style.transform = `translateX(${link.offsetLeft}px)`;
-    if (pill && pill.scrollWidth > pill.clientWidth) {
-      const target = link.offsetLeft - (pill.clientWidth - link.offsetWidth) / 2;
-      pill.scrollTo({ left: target, behavior: reducedMotion() ? 'auto' : 'smooth' });
+    indicator.style.width = `${m.width}px`;
+    indicator.style.transform = `translateX(${m.left}px)`;
+    if (pill && m.overflow) {
+      pill.scrollTo({ left: m.left - (m.pillWidth - m.width) / 2, behavior: reducedMotion() ? 'auto' : 'smooth' });
     }
   }
 
   function update() {
+    // Reads
     const y = window.innerHeight * 0.4;
     let current: string | null = null;
     for (const s of sections) {
       if (s.getBoundingClientRect().top <= y) current = s.id;
     }
-    if (current !== active) {
+    const changed = current !== active;
+    const metrics = changed ? measure(links.find((l) => l.dataset.navLink === current)) : null;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    // Writes
+    if (changed) {
       active = current;
       for (const l of links) {
         if (l.dataset.navLink === current) l.setAttribute('aria-current', 'true');
         else l.removeAttribute('aria-current');
       }
-      moveIndicator(links.find((l) => l.dataset.navLink === current));
+      moveIndicator(metrics);
     }
-    if (progress) {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
-    }
+    if (progress) progress.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
   }
 
   let ticking = false;
@@ -60,10 +73,11 @@ export function initNav() {
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', () => {
-    moveIndicator(links.find((l) => l.dataset.navLink === active));
+    moveIndicator(measure(links.find((l) => l.dataset.navLink === active)));
     update();
   });
-  update();
+  // First measurement on the next frame, once the browser has laid out the page.
+  requestAnimationFrame(update);
 }
 
 export function initSkills() {

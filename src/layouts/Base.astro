@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+// Same hashed file the CSS references: preloading it starts the hero font early.
+import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
 import { copy, person, homePath, markdownPath, htmlLang, ogLocale, type Locale } from '../content/site';
 
 interface Props {
@@ -76,6 +78,7 @@ const jsonLd = {
     <meta name="theme-color" content="#f3eee4" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0b0c10" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="profile" />
     <meta property="og:site_name" content={person.name} />
