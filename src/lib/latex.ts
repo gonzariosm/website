@@ -51,7 +51,7 @@ export function renderLatex(locale: Locale, resume: Resume): string {
     url(`mailto:${b.email}`, b.email),
     url(b.url, host(b.url)),
     ...b.profiles.map((p) => url(p.url, host(p.url))),
-  ].join(' \\quad{\\color{muted}·}\\quad ');
+  ].join(' \\cvsep ');
 
   const work = resume.work
     .map(
@@ -77,13 +77,26 @@ ${w.highlights.map((h) => `  \\item ${tex(h)}`).join('\n')}
 
   return `% ${b.name} — CV (${locale}). Generated from the website content
 % (src/content/site.ts and src/content/resume.ts); do not edit by hand.
-% Compile with Tectonic: tectonic gonzalo-rios-cv-${locale}.tex
+% Compiles with pdfLaTeX (Overleaf's default), XeLaTeX, LuaLaTeX or Tectonic:
+% the preamble detects the engine and loads the matching font and language setup.
 \\documentclass[10pt]{article}
 \\usepackage[a4paper,top=14mm,bottom=14mm,left=17mm,right=17mm]{geometry}
-\\usepackage{polyglossia}
-\\setmainlanguage{${locale === 'en' ? 'english' : 'spanish'}}
-\\usepackage{fontspec}
-\\setmainfont{texgyreheros}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold, ItalicFont=*-italic, BoldItalicFont=*-bolditalic]
+\\usepackage{iftex}
+\\ifPDFTeX
+  \\usepackage[T1]{fontenc}
+  \\usepackage[utf8]{inputenc}
+  \\usepackage{tgheros}
+  \\renewcommand{\\familydefault}{\\sfdefault}
+  \\usepackage[${locale === 'en' ? 'english' : 'spanish,es-noshorthands,es-nolayout'}]{babel}
+  \\usepackage[letterspace=80]{microtype}
+  \\newcommand{\\cvtracking}[1]{\\textls{#1}}
+\\else
+  \\usepackage{fontspec}
+  \\setmainfont{texgyreheros}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold, ItalicFont=*-italic, BoldItalicFont=*-bolditalic]
+  \\usepackage{polyglossia}
+  \\setmainlanguage{${locale === 'en' ? 'english' : 'spanish'}}
+  \\newcommand{\\cvtracking}[1]{{\\addfontfeatures{LetterSpace=8}#1}}
+\\fi
 \\usepackage{xcolor}
 \\definecolor{ink}{HTML}{161B28}
 \\definecolor{accent}{HTML}{1C2540}
@@ -96,7 +109,9 @@ ${w.highlights.map((h) => `  \\item ${tex(h)}`).join('\n')}
 \\setlength{\\parindent}{0pt}
 \\setlength{\\parskip}{0pt}
 \\linespread{1.08}
-\\newcommand{\\cvsection}[1]{\\vspace{9pt}{\\color{accent}\\bfseries\\small\\addfontfeatures{LetterSpace=8}\\MakeUppercase{#1}}\\par\\vspace{-4pt}{\\color{accent}\\rule{\\linewidth}{0.5pt}}\\par\\vspace{3pt}}
+\\newcommand{\\cvsection}[1]{\\vspace{9pt}{\\color{accent}\\bfseries\\small\\cvtracking{\\MakeUppercase{#1}}}\\par\\vspace{-4pt}{\\color{accent}\\rule{\\linewidth}{0.5pt}}\\par\\vspace{3pt}}
+% Breakable separator (stretchable glue) so the contact line wraps instead of overflowing.
+\\newcommand{\\cvsep}{\\unskip\\hspace{0.6em plus 0.3em}{\\color{muted}·}\\hspace{0.6em plus 0.3em}\\ignorespaces}
 % \\role{position}{organisation}{dates}{location}
 \\newcommand{\\role}[4]{{\\bfseries #1}\\,{\\color{muted}·}\\,#2\\hfill{\\color{muted}\\small #3}\\par{\\color{muted}\\small #4}\\par\\vspace{2pt}}
 
@@ -104,7 +119,7 @@ ${w.highlights.map((h) => `  \\item ${tex(h)}`).join('\n')}
 \\color{ink}
 {\\fontsize{24}{28}\\selectfont\\bfseries ${tex(b.name)}}\\par\\vspace{3pt}
 {\\color{accent}\\large ${tex(b.label)}}\\par\\vspace{5pt}
-{\\small ${contact}}\\par
+{\\raggedright\\small ${contact}\\par}
 
 \\cvsection{${tex(t.summary)}}
 ${tex(b.summary)}
