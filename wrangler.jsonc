@@ -18,7 +18,10 @@
     { "pattern": "gonzalorios.cl", "custom_domain": true },
     { "pattern": "www.gonzalorios.cl", "custom_domain": true }
   ],
-  "observability": { "enabled": false },
+  // Workers Logs (free plan: 200k events/day, 3-day retention). Static asset
+  // requests do not invoke the Worker, so they produce few or no logs; zone
+  // analytics in the dashboard cover traffic.
+  "observability": { "enabled": true, "head_sampling_rate": 1 },
   "workers_dev": true,
   "preview_urls": true
 }
