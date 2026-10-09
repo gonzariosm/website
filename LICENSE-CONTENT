@@ -1,0 +1,27 @@
+Personal content — All rights reserved
+
+Copyright (c) 2026 Gonzalo Ríos (https://gonzalorios.cl). All rights reserved.
+
+The MIT License in LICENSE applies to the source code only. The following
+personal content is NOT licensed for reuse, redistribution, modification or
+derivative works without prior written permission:
+
+- src/content/**        Texts, CV data and narration scripts
+- public/audio/**       Voice recordings (an AI clone of Gonzalo Ríos' voice)
+- public/avatar/**      Illustrated avatar of Gonzalo Ríos (his likeness)
+- public/og/**          Social preview images
+- public/cv/**          CV documents (PDF)
+- The generated CV files served by the site (JSON Resume, LaTeX)
+
+In particular, the voice recordings and the avatar must not be used to train,
+fine-tune or prompt voice, image or likeness models, nor to impersonate
+Gonzalo Ríos.
+
+Third-party marks and fonts keep their own terms: the Rebrandly logo is a
+trademark of its owner, and the bundled fonts are under their respective open
+licenses (see node_modules/@fontsource*).
+
+If you reuse the code, keep the copyright notice from LICENSE. A visible link
+back to https://gonzalorios.cl is appreciated.
+
+For permissions: contacto@gonzalorios.cl

@@ -70,3 +70,9 @@ Narration never autoplays: visitors start it from the "Hear my intro" or "Listen
 - **Accessibility:** WCAG 2.2 AA; zero axe-core violations in both languages and color schemes.
 - **Encoding:** UTF-8 everywhere. The static build does not carry response headers, so `public/_headers` declares UTF-8 content types for HTML, Markdown, `robots.txt`, `llms.txt` and the sitemap (honoured by Cloudflare Pages and Netlify). Any other host must be configured to send the same headers.
 - **SEO:** canonical URLs, `hreflang` (`en`, `es`, `x-default`), JSON-LD `Person`, `sitemap.xml`, `robots.txt`, `llms.txt`.
+
+## License
+
+- **Code:** [MIT](LICENSE). Reuse it freely, keeping the copyright notice (a link back to https://gonzalorios.cl is appreciated).
+- **Personal content:** all rights reserved, see [LICENSE-CONTENT](LICENSE-CONTENT). This covers the texts and CV (`src/content/`), the voice recordings (`public/audio/`), the avatar (`public/avatar/`), the social images (`public/og/`) and the CV files (`public/cv/`, JSON Resume, LaTeX). The voice and avatar must not be used to train models or to impersonate Gonzalo Ríos.
+
