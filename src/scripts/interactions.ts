@@ -251,18 +251,22 @@ export function initCopyEmail() {
   const original = label.textContent ?? '';
   button.hidden = false;
   let timer = 0;
+  const announce = (message: string, ms: number) => {
+    label.textContent = message;
+    if (status) status.textContent = message;
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      label.textContent = original;
+      if (status) status.textContent = '';
+    }, ms);
+  };
   button.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(button.dataset.copyEmail ?? '');
-      label.textContent = button.dataset.copiedLabel ?? '';
-      if (status) status.textContent = button.dataset.copiedLabel ?? '';
-      window.clearTimeout(timer);
-      timer = window.setTimeout(() => {
-        label.textContent = original;
-        if (status) status.textContent = '';
-      }, 2400);
+      announce(button.dataset.copiedLabel ?? '', 2400);
     } catch {
-      /* clipboard denied: the mailto link remains available */
+      // Clipboard denied: say so; the mailto link above still works.
+      announce(button.dataset.failedLabel ?? '', 4000);
     }
   });
 }

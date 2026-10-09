@@ -27,7 +27,7 @@ const year = new Date().getFullYear();
     </p>
     <ul role="list" class="footer__links">
       <li><a href={markdownPath(locale)} type="text/markdown">{t.footer.markdown}</a></li>
-      <li><a href={cvDownloads(locale).pdf} download type="application/pdf">{t.cv.pdf} (PDF)</a></li>
+      <li><a href={cvDownloads(locale).pdf} download type="application/pdf">{t.cv.pdfLink}</a></li>
       <li>
         <a href={homePath(other)} hreflang={other} lang={other}>{t.langSwitch.full}</a>
       </li>

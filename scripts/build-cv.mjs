@@ -35,7 +35,10 @@ try {
     await copyFile(join(tmp, `${name}.pdf`), pdf);
     await copyFile(pdf, join(distDir, `${name}.pdf`));
     const { size } = await stat(pdf);
-    manifest[locale] = { tex: createHash('sha256').update(tex).digest('hex'), bytes: size };
+    // XeTeX compresses the page tree, so take the page count from the log.
+    const log = await readFile(join(tmp, `${name}.log`), 'utf8');
+    const pages = Number(/\((\d+) pages?\b/.exec(log)?.[1] ?? 0);
+    manifest[locale] = { tex: createHash('sha256').update(tex).digest('hex'), bytes: size, pages };
     console.log(`wrote public/cv/${name}.pdf (${(size / 1024).toFixed(0)} KB)`);
   }
   await writeFile(join(publicDir, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');

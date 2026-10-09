@@ -187,6 +187,7 @@ export interface Copy {
     email: string;
     copy: string;
     copied: string;
+    copyFailed: string;
     linkedin: string;
     location: string;
   };
@@ -194,6 +195,10 @@ export interface Copy {
     title: string;
     lead: string;
     pdf: string;
+    /** Footer and Markdown link label. */
+    pdfLink: string;
+    pages: string;
+    alsoAs: string;
     json: string;
     latex: string;
     summary: string;
@@ -535,13 +540,17 @@ const en: Copy = {
     email: 'Write me an email',
     copy: 'Copy email address',
     copied: 'Email address copied',
+    copyFailed: 'Could not copy. Use the email link above.',
     linkedin: 'LinkedIn',
     location: 'Barcelona · Central European Time',
   },
   cv: {
     title: 'Take the CV with you',
     lead: 'The same CV as this page, in the format you need.',
-    pdf: 'Download CV',
+    pdf: 'Download PDF',
+    pdfLink: 'Download CV (PDF)',
+    pages: 'pages',
+    alsoAs: 'Also as',
     json: 'JSON Resume',
     latex: 'LaTeX source',
     summary: 'Summary',
@@ -892,13 +901,17 @@ const es: Copy = {
     email: 'Escríbeme un email',
     copy: 'Copiar dirección de email',
     copied: 'Dirección de email copiada',
+    copyFailed: 'No se pudo copiar. Usa el enlace del email.',
     linkedin: 'LinkedIn',
     location: 'Barcelona · Hora de Europa Central',
   },
   cv: {
     title: 'Llévate el CV',
     lead: 'El mismo CV de esta página, en el formato que necesites.',
-    pdf: 'Descargar CV',
+    pdf: 'Descargar PDF',
+    pdfLink: 'Descargar CV (PDF)',
+    pages: 'páginas',
+    alsoAs: 'También en',
     json: 'JSON Resume',
     latex: 'Fuente LaTeX',
     summary: 'Resumen',

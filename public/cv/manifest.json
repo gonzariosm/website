@@ -1,10 +1,12 @@
 {
   "en": {
     "tex": "323090239e20cd3606bb7ed751c647d5074197575a1a37791bf546358aae7281",
-    "bytes": 18201
+    "bytes": 18200,
+    "pages": 2
   },
   "es": {
     "tex": "e1b2d7e5884ef46196f897880fc4389dc03b41c64bffa4ad1f2eec8b23b05fb4",
-    "bytes": 18291
+    "bytes": 18291,
+    "pages": 2
   }
 }
