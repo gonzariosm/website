@@ -50,7 +50,7 @@ The site is an assets-only Cloudflare Worker (`wrangler.jsonc`): Cloudflare serv
 | `npm run deploy` | Build and deploy to production |
 | `npm run deploy:preview` | Build and upload a preview version (preview URL, production untouched) |
 
-Production deploys are meant to come from **Workers Builds** (Cloudflare's Git integration) on every push to `main`, with build command `npm run build` and deploy command `npx wrangler deploy`, so no API token lives in GitHub.
+Production deploys come from **Workers Builds** (Cloudflare's Git integration, connected 2026-10-09): every push to `main` runs `npm run build` and `npx wrangler deploy`; other branches get a preview with `npx wrangler preview`. The build token lives only in Cloudflare, never in GitHub. `npm run deploy` (or `scripts/cf deploy` from the private workspace) remains available for manual deploys.
 
 Security: `integrations/csp-headers.mjs` hashes every inline script and style after the build and appends a strict Content-Security-Policy header to `dist/_headers` (including `frame-ancestors 'none'`); `public/_headers` adds HSTS, Permissions-Policy, COOP, `X-Frame-Options` and nosniff. With npm 11+, `.npmrc` (`strict-allow-scripts`) and `allowScripts` in `package.json` let only `esbuild`, `workerd` and `fsevents` run install scripts; the Workers Builds image uses npm 10, where the lockfile and exact pins are the controls.
 
