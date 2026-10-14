@@ -5,31 +5,34 @@
 
 /* ---------- Tokens ---------- */
 :root {
+  /* Theme: "system" follows the OS; an explicit choice sets data-theme on
+     <html> (src/scripts/theme.ts). Every color token is light-dark(), so the
+     used color-scheme alone picks the palette, native controls included. */
   color-scheme: light dark;
 
   --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
   --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  /* Light: warm paper and deep ink */
-  --bg: #f3eee4;
-  --bg-2: #ebe4d6;
-  --surface: #fbf8f2;
-  --surface-2: #ffffff;
-  --ink: #161b28;
-  --ink-2: #3c4354;
-  --muted: #565c6e;
-  --faint: rgba(22, 27, 40, 0.06);
-  --line: rgba(22, 27, 40, 0.12);
-  --line-strong: rgba(22, 27, 40, 0.22);
-  --accent: #1c2540;
-  --accent-ink: #f7f3ea;
-  --glow: #f2dfa7;
-  --glow-2: #e9d3ff;
-  --signal: #2f8f5b;
-  --focus: #3b5bdb;
-  --shadow-1: 0 1px 2px rgba(22, 27, 40, 0.06), 0 8px 24px -12px rgba(22, 27, 40, 0.18);
-  --shadow-2: 0 2px 4px rgba(22, 27, 40, 0.06), 0 30px 60px -30px rgba(22, 27, 40, 0.35);
+  /* light-dark(light: warm paper and deep ink, dark: night and bone) */
+  --bg: light-dark(#f3eee4, #0b0c10);
+  --bg-2: light-dark(#ebe4d6, #111319);
+  --surface: light-dark(#fbf8f2, #15171e);
+  --surface-2: light-dark(#ffffff, #1b1e27);
+  --ink: light-dark(#161b28, #f2ede3);
+  --ink-2: light-dark(#3c4354, #cfc9bd);
+  --muted: light-dark(#565c6e, #a19b90);
+  --faint: light-dark(rgba(22, 27, 40, 0.06), rgba(242, 237, 227, 0.05));
+  --line: light-dark(rgba(22, 27, 40, 0.12), rgba(242, 237, 227, 0.12));
+  --line-strong: light-dark(rgba(22, 27, 40, 0.22), rgba(242, 237, 227, 0.24));
+  --accent: light-dark(#1c2540, #f2ede3);
+  --accent-ink: light-dark(#f7f3ea, #0b0c10);
+  --glow: light-dark(#f2dfa7, #5a4a1f);
+  --glow-2: light-dark(#e9d3ff, #3a2a5c);
+  --signal: light-dark(#2f8f5b, #5fd497);
+  --focus: light-dark(#3b5bdb, #9db4ff);
+  --shadow-1: 0 1px 2px light-dark(rgba(22, 27, 40, 0.06), rgba(0, 0, 0, 0.4)), 0 8px 24px -12px light-dark(rgba(22, 27, 40, 0.18), rgba(0, 0, 0, 0.6));
+  --shadow-2: 0 2px 4px light-dark(rgba(22, 27, 40, 0.06), rgba(0, 0, 0, 0.4)), 0 30px 60px -30px light-dark(rgba(22, 27, 40, 0.35), rgba(0, 0, 0, 0.8));
 
   --radius-s: 10px;
   --radius-m: 18px;
@@ -40,27 +43,12 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b0c10;
-    --bg-2: #111319;
-    --surface: #15171e;
-    --surface-2: #1b1e27;
-    --ink: #f2ede3;
-    --ink-2: #cfc9bd;
-    --muted: #a19b90;
-    --faint: rgba(242, 237, 227, 0.05);
-    --line: rgba(242, 237, 227, 0.12);
-    --line-strong: rgba(242, 237, 227, 0.24);
-    --accent: #f2ede3;
-    --accent-ink: #0b0c10;
-    --glow: #5a4a1f;
-    --glow-2: #3a2a5c;
-    --signal: #5fd497;
-    --focus: #9db4ff;
-    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
-    --shadow-2: 0 2px 4px rgba(0, 0, 0, 0.4), 0 30px 60px -30px rgba(0, 0, 0, 0.8);
-  }
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 /* ---------- Base ---------- */
@@ -447,4 +435,26 @@ button {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* ---------- Theme switch (src/scripts/theme.ts) ---------- */
+/* Crossfade the whole page, gradients and images included. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.6s;
+  animation-timing-function: var(--ease-in-out);
+}
+
+/* Fallback without View Transitions: tween colors for the same duration. */
+html.theme-fading,
+html.theme-fading *,
+html.theme-fading *::before,
+html.theme-fading *::after {
+  transition:
+    background-color 0.6s var(--ease-in-out),
+    color 0.6s var(--ease-in-out),
+    border-color 0.6s var(--ease-in-out),
+    box-shadow 0.6s var(--ease-in-out),
+    fill 0.6s var(--ease-in-out),
+    stroke 0.6s var(--ease-in-out) !important;
 }

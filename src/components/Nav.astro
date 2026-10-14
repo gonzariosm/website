@@ -33,6 +33,19 @@ const other: Locale = locale === 'en' ? 'es' : 'en';
       </div>
     </nav>
 
+    <div class="site-header__end">
+    <button
+      type="button"
+      class="theme"
+      data-theme-toggle
+      data-copy={JSON.stringify(t.theme)}
+      aria-label={t.theme.button.replace('{current}', t.theme.system).replace('{next}', t.theme.dark)}
+    >
+      <Icon name="monitor" class="theme__icon theme__icon--system" />
+      <Icon name="sun" class="theme__icon theme__icon--light" />
+      <Icon name="moon" class="theme__icon theme__icon--dark" />
+    </button>
+
     <a
       class="lang"
       href={homePath(other)}
@@ -44,7 +57,9 @@ const other: Locale = locale === 'en' ? 'es' : 'en';
       <Icon name="globe" />
       <span aria-hidden="true">{t.langSwitch.short}</span>
     </a>
+    </div>
   </div>
+  <p class="visually-hidden" role="status" data-theme-status></p>
   <div class="progress" aria-hidden="true"><span data-progress></span></div>
 </header>
 
@@ -67,6 +82,7 @@ const other: Locale = locale === 'en' ? 'es' : 'en';
   }
 
   .monogram,
+  .theme,
   .lang,
   .pill {
     pointer-events: auto;
@@ -151,6 +167,48 @@ const other: Locale = locale === 'en' ? 'es' : 'en';
       transform 0.5s var(--ease-out),
       width 0.5s var(--ease-out),
       opacity 0.3s var(--ease-out);
+  }
+
+  .site-header__end {
+    display: flex;
+    flex: none;
+    gap: 8px;
+  }
+
+  .theme {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    color: var(--ink);
+  }
+
+  /* The button needs JS; without it the OS theme applies. */
+  :global(html:not(.js)) .theme {
+    display: none;
+  }
+
+  /* One icon per preference, showing the current one. */
+  .theme :global(.theme__icon) {
+    grid-area: 1 / 1;
+    width: 18px;
+    height: 18px;
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+    transition:
+      transform 0.45s var(--ease-out),
+      opacity 0.3s var(--ease-out);
+  }
+
+  :global(:root:not([data-theme])) .theme :global(.theme__icon--system),
+  :global(:root[data-theme='light']) .theme :global(.theme__icon--light),
+  :global(:root[data-theme='dark']) .theme :global(.theme__icon--dark) {
+    opacity: 1;
+    transform: none;
   }
 
   .lang {

@@ -105,7 +105,7 @@ const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900p
     height: 3.5%;
     translate: -50% 0;
     border-radius: 50%;
-    background: radial-gradient(closest-side, color-mix(in srgb, var(--ink) 30%, transparent), transparent);
+    background: radial-gradient(closest-side, light-dark(color-mix(in srgb, var(--ink) 30%, transparent), rgba(0, 0, 0, 0.55)), transparent);
   }
 
   /* Voice rings centred on the head (coordinates of the cropped figure). */
@@ -126,12 +126,6 @@ const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900p
     width: 52%;
     opacity: calc(var(--talk) * (0.06 + var(--level) * 0.25));
     transform: scale(calc(0.94 + var(--level) * 0.16));
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .av-shadow {
-      background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent);
-    }
   }
 
   @media (prefers-reduced-motion: no-preference) {

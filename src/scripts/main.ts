@@ -1,4 +1,5 @@
 import { initVoice } from './voice';
+import { initTheme } from './theme';
 import { initNav, initSkills, initDeck, initBadge, initCopyEmail, initMagnetic, initAvatarGaze } from './interactions';
 
 declare global {
@@ -8,7 +9,7 @@ declare global {
 }
 
 // Interactions first: they must work even if the motion module fails.
-for (const init of [initNav, initSkills, initDeck, initBadge, initCopyEmail, initMagnetic, initAvatarGaze, initVoice]) {
+for (const init of [initTheme, initNav, initSkills, initDeck, initBadge, initCopyEmail, initMagnetic, initAvatarGaze, initVoice]) {
   try {
     init();
   } catch (err) {

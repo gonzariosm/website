@@ -126,6 +126,8 @@ export interface Copy {
   externalLink: string;
   nav: Record<SectionId, string> & { label: string; home: string };
   langSwitch: { label: string; short: string; full: string };
+  /** Theme button. `button` is the accessible name: {current} and {next} are option names. */
+  theme: { button: string; changed: string; system: string; light: string; dark: string };
   hero: {
     eyebrow: string;
     titleLines: [string, string];
@@ -270,6 +272,13 @@ const en: Copy = {
     contact: 'Contact',
   },
   langSwitch: { label: 'Leer en español', short: 'ES', full: 'Español' },
+  theme: {
+    button: 'Theme: {current}. Switch to {next}',
+    changed: 'Theme: {current}',
+    system: 'system',
+    light: 'light',
+    dark: 'dark',
+  },
   hero: {
     eyebrow: 'Gonzalo Ríos · aka Gonzalito',
     titleLines: ['Director of', 'AI Platform.'],
@@ -633,6 +642,13 @@ const es: Copy = {
     contact: 'Contacto',
   },
   langSwitch: { label: 'Read in English', short: 'EN', full: 'English' },
+  theme: {
+    button: 'Tema: {current}. Cambiar a {next}',
+    changed: 'Tema: {current}',
+    system: 'sistema',
+    light: 'claro',
+    dark: 'oscuro',
+  },
   hero: {
     eyebrow: 'Gonzalo Ríos · aka Gonzalito',
     titleLines: ['Director de', 'Plataforma IA.'],

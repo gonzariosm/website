@@ -75,8 +75,8 @@ const jsonLd = {
     {!noindex && alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     {!noindex && <link rel="alternate" type="text/markdown" href={markdownPath(locale)} title="Markdown" />}
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f3eee4" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0c10" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3eee4" media="(prefers-color-scheme: light)" data-light="#f3eee4" data-dark="#0b0c10" />
+    <meta name="theme-color" content="#0b0c10" media="(prefers-color-scheme: dark)" data-light="#f3eee4" data-dark="#0b0c10" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
 
@@ -102,6 +102,16 @@ const jsonLd = {
 
     <script is:inline>
       document.documentElement.classList.add('js');
+      // Explicit theme choice (src/scripts/theme.ts), applied before first paint.
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme === 'light' || theme === 'dark') {
+          document.documentElement.dataset.theme = theme;
+          document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
+            m.content = m.dataset[theme];
+          });
+        }
+      } catch (e) {}
       setTimeout(function () {
         if (!window.__motionReady) document.documentElement.classList.add('reveal-all');
       }, 3000);
