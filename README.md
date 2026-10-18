@@ -6,7 +6,7 @@ Source code for Gonzalo Ríos' personal website: a scroll-driven, voice-narrated
 
 <p align="center">
   <a href="https://gonzalorios.cl">
-    <img src=".github/readme/demo.gif" width="640" alt="Screen recording of gonzalorios.cl: the hero with the 3D avatar and the narrated intro with captions, the hanging ID badge flipping, the statement lighting up word by word, the periodic table of skills, the project deck, the experience timeline and the contact section." />
+    <img src=".github/readme/demo.gif" width="640" alt="Screen recording of gonzalorios.cl: the hero with the illustrated avatar lip-syncing the narrated intro with captions, the hanging ID badge flipping, the statement lighting up word by word, the periodic table of skills, the project deck, the experience timeline and the contact section." />
   </a>
 </p>
 
