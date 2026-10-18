@@ -255,7 +255,7 @@ const en: Copy = {
   meta: {
     title: 'Gonzalo Ríos — Director of AI Platform',
     ogTagline: 'I lead the platform that lets engineers ship AI-written code to production, safely.',
-    ogImageAlt: 'Illustrated 3D avatar of Gonzalo wearing a Rebrandly t-shirt. gonzalorios.cl, Barcelona.',
+    ogImageAlt: 'Flat illustrated avatar of Gonzalo wearing a Rebrandly t-shirt. gonzalorios.cl, Barcelona.',
     description:
       'Director of AI Platform at Rebrandly. I build the platform that lets engineers ship AI-written code to production safely, backed by 15 years in infrastructure.',
   },
@@ -625,7 +625,7 @@ const es: Copy = {
   meta: {
     title: 'Gonzalo Ríos — Director de Plataforma de IA',
     ogTagline: 'Lidero la plataforma que permite llevar a producción, de forma segura, el código creado con IA.',
-    ogImageAlt: 'Avatar 3D ilustrado de Gonzalo con una polera de Rebrandly. gonzalorios.cl, Barcelona.',
+    ogImageAlt: 'Avatar ilustrado en estilo plano de Gonzalo con una polera de Rebrandly. gonzalorios.cl, Barcelona.',
     description:
       'Director de Plataforma de IA en Rebrandly. Construyo la plataforma que permite llevar a producción, de forma segura, el código creado con IA. 15 años en infraestructura.',
   },

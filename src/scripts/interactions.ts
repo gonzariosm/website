@@ -316,7 +316,7 @@ export function initAvatarGaze() {
       raf = requestAnimationFrame(() => {
         const x = (e.clientX / window.innerWidth - 0.5) * 2;
         const y = (e.clientY / window.innerHeight - 0.5) * 2;
-        face.style.transform = `rotateY(${(x * 9).toFixed(2)}deg) rotateX(${(-y * 3).toFixed(2)}deg)`;
+        face.style.transform = `rotateY(${(x * 6).toFixed(2)}deg) rotateX(${(-y * 2).toFixed(2)}deg)`;
       });
     },
     { passive: true },

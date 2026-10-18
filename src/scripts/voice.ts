@@ -102,8 +102,9 @@ export function initVoice() {
 
   function readLevel(): number {
     if (!analyser || !samples) {
-      // Fallback: pseudo-random mouth movement while a word is being spoken.
-      return audio.paused ? 0 : 0.35 + Math.random() * 0.4;
+      // Fallback: the mouth flaps about four times a second, closed for half of
+      // each cycle so it crosses the talk layer's open/shut thresholds.
+      return audio.paused ? 0 : Math.max(0, Math.sin(audio.currentTime * 26)) * 0.6;
     }
     analyser.getByteTimeDomainData(samples);
     let sum = 0;

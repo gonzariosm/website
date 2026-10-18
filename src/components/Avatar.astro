@@ -1,8 +1,9 @@
 ---
-// Illustrated 3D avatar built from layered WebP images (see scripts/build-avatar.py
-// in the private repo). The figure breathes and tilts toward the pointer; the
-// blink layer flashes on a timer and the talk layer (mouth open) fades in with
-// the narration's amplitude via the --level / --talk custom properties.
+// Flat editorial illustration built from layered WebP images (see
+// scripts/build-avatar.py in the private repo). The figure breathes and tilts
+// toward the pointer; the blink layer flashes on an uneven timer and the talk
+// layer (mouth open) snaps in with the narration's amplitude via the --level /
+// --talk custom properties.
 interface Props {
   class?: string;
 }
@@ -25,8 +26,8 @@ const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900p
         src="/avatar/figure-360.webp"
         srcset={srcset('figure')}
         sizes={sizes}
-        width="501"
-        height="1486"
+        width="538"
+        height="1522"
         alt=""
         fetchpriority="high"
         decoding="async"
@@ -36,8 +37,8 @@ const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900p
         src="/avatar/blink-360.webp"
         srcset={srcset('blink')}
         sizes={sizes}
-        width="501"
-        height="1486"
+        width="538"
+        height="1522"
         alt=""
         decoding="async"
       />
@@ -46,8 +47,8 @@ const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900p
         src="/avatar/talk-360.webp"
         srcset={srcset('talk')}
         sizes={sizes}
-        width="501"
-        height="1486"
+        width="538"
+        height="1522"
         alt=""
         decoding="async"
       />
@@ -62,7 +63,7 @@ const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900p
     position: relative;
     display: block;
     width: 100%;
-    aspect-ratio: 501 / 1486;
+    aspect-ratio: 538 / 1522;
   }
 
   .av-body,
@@ -93,8 +94,10 @@ const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900p
     opacity: 0;
   }
 
+  /* A steep ramp so the mouth flaps open or shut like a cartoon instead of
+     crossfading, which leaves two half-visible mouths on screen. */
   .av-talk {
-    opacity: min(1, calc(var(--talk) * var(--level) * 1.8));
+    opacity: clamp(0, calc((var(--talk) * var(--level) - 0.15) * 8), 1);
   }
 
   .av-shadow {
@@ -111,7 +114,7 @@ const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900p
   /* Voice rings centred on the head (coordinates of the cropped figure). */
   .av-ring {
     position: absolute;
-    left: 48.3%;
+    left: 49.6%;
     top: 8%;
     width: 40%;
     aspect-ratio: 1;
@@ -134,7 +137,7 @@ const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900p
     }
 
     .av-blink {
-      animation: av-blink 6s infinite;
+      animation: av-blink 9.4s infinite;
     }
   }
 
@@ -148,15 +151,25 @@ const sizes = '(min-width: 961px) clamp(170px, 16.5vw, 240px), (min-height: 900p
     }
   }
 
+  /* Two blinks per cycle, one of them double, so the rhythm doesn't read
+     as a metronome. */
   @keyframes av-blink {
     0%,
-    46.5%,
-    49.5%,
+    31%,
+    33%,
+    84%,
+    85.6%,
+    86.8%,
+    88.4%,
     100% {
       opacity: 0;
     }
-    47.5%,
-    48.5% {
+    31.6%,
+    32.4%,
+    85%,
+    85.2%,
+    87.4%,
+    87.8% {
       opacity: 1;
     }
   }
