@@ -23,5 +23,9 @@
   // analytics in the dashboard cover traffic.
   "observability": { "enabled": true, "head_sampling_rate": 1 },
   "workers_dev": true,
-  "preview_urls": true
+  "preview_urls": true,
+  // Workers Builds deploys non-production branches with `wrangler preview`,
+  // which requires this block (it can stay empty: assets and compatibility
+  // settings are inherited from the top level).
+  "previews": {}
 }
