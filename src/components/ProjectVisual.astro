@@ -18,6 +18,16 @@ const tf = [
   '<span class="c">$ terraform apply</span>',
   '<span class="ok">Apply complete! Resources: 1 added.</span>',
 ].join('\n');
+const backfill = [
+  '<span class="c"># kafka → go → clickhouse</span>',
+  '<span class="k">topic</span>     clicks · billions/mo',
+  '<span class="k">backfill</span>  11.4B rows · <span class="ok">drift 0</span>',
+  '',
+  '<span class="c">$ lookup --rows 2B</span>',
+  '<span class="k">before</span>    106 s',
+  '<span class="k">after</span>     <span class="ok">0.46 s · 230×</span>',
+].join('\n');
+const code = { terraform: { file: 'main.tf', html: tf }, pipeline: { file: 'clicks.log', html: backfill } } as const;
 const bars = [62, 78, 54, 91, 70, 88, 96, 74, 83, 99, 87, 93];
 ---
 
@@ -92,15 +102,15 @@ const bars = [62, 78, 54, 91, 70, 88, 96, 74, 83, 99, 87, 93];
   }
 
   {
-    kind === 'terraform' && (
+    (kind === 'terraform' || kind === 'pipeline') && (
       <div class="pv-card pv-code">
         <div class="pv-code__bar">
           <i />
           <i />
           <i />
-          <span>main.tf</span>
+          <span>{code[kind].file}</span>
         </div>
-        <pre><code set:html={tf} /></pre>
+        <pre><code set:html={code[kind].html} /></pre>
       </div>
     )
   }
@@ -328,7 +338,7 @@ const bars = [62, 78, 54, 91, 70, 88, 96, 74, 83, 99, 87, 93];
     opacity: 0.25;
   }
 
-  /* terraform */
+  /* terraform, pipeline */
   .pv-code {
     padding: 0;
     overflow: hidden;
