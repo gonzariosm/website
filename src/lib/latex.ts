@@ -103,6 +103,7 @@ ${w.highlights.map((h) => `  \\item ${tex(h)}`).join('\n')}
 \\definecolor{muted}{HTML}{565C6E}
 \\usepackage{enumitem}
 \\setlist[itemize]{leftmargin=1.1em, label={\\color{muted}\\textbullet}, itemsep=1pt, topsep=2pt, parsep=0pt}
+\\usepackage{needspace}
 \\usepackage[hidelinks]{hyperref}
 \\hypersetup{pdftitle={${tex(b.name)} — CV}, pdfauthor={${tex(b.name)}}, pdfsubject={${tex(b.label)}}, pdflang={${locale}}, pdfkeywords={${tex(resume.skills.flatMap((s) => s.keywords).slice(0, 12).join(', '))}}}
 \\pagestyle{empty}
@@ -112,8 +113,8 @@ ${w.highlights.map((h) => `  \\item ${tex(h)}`).join('\n')}
 \\newcommand{\\cvsection}[1]{\\vspace{9pt}{\\color{accent}\\bfseries\\small\\cvtracking{\\MakeUppercase{#1}}}\\par\\vspace{-4pt}{\\color{accent}\\rule{\\linewidth}{0.5pt}}\\par\\vspace{3pt}}
 % Breakable separator (stretchable glue) so the contact line wraps instead of overflowing.
 \\newcommand{\\cvsep}{\\unskip\\hspace{0.6em plus 0.3em}{\\color{muted}·}\\hspace{0.6em plus 0.3em}\\ignorespaces}
-% \\role{position}{organisation}{dates}{location}
-\\newcommand{\\role}[4]{{\\bfseries #1}\\,{\\color{muted}·}\\,#2\\hfill{\\color{muted}\\small #3}\\par{\\color{muted}\\small #4}\\par\\vspace{2pt}}
+% \\role{position}{organisation}{dates}{location}; never strands a heading without its first bullet.
+\\newcommand{\\role}[4]{\\needspace{4\\baselineskip}{\\bfseries #1}\\,{\\color{muted}·}\\,#2\\hfill{\\color{muted}\\small #3}\\par{\\color{muted}\\small #4}\\par\\vspace{2pt}}
 
 \\begin{document}
 \\color{ink}
